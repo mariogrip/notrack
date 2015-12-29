@@ -158,7 +158,7 @@ i=0
 echo "Processing Tracker List"
 echo "#Tracker Blocklist last updated $(date)" > $TrackerListFile
 echo "#Don't make any changes to this file, use $TrackerBlackList and $TrackerWhiteList instead" >> $TrackerListFile
-echo "" > $TrackerQuickList
+cat /dev/null > $TrackerQuickList
 
 awk 'NR==FNR{A[$1]; next}!($1 in A)' $TrackerWhiteList /tmp/combined.txt | while read Line; do
   if [ $i == 100 ]; then                         #Display some progress ..
@@ -185,7 +185,7 @@ cat /etc/notrack/domains.txt $DomainBlackList > /tmp/combined.txt
 #Merge Whitelist with above two lists to remove duplicates-----------
 echo "#Domain Blocklist last updated $(date)" > $DomainListFile
 echo "#Don't make any changes to this file, use $DomainBlackList and $DomainWhiteList instead" >> $DomainListFile
-echo "" > $DomainQuickList
+cat /dev/null > $DomainQuickList
 
 awk 'NR==FNR{A[$1]; next}!($1 in A)' $DomainWhiteList /tmp/combined.txt | while read Line; do
   if [[ ! $Line =~ ^\ *# && -n $Line ]]; then 
