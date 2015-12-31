@@ -1,0 +1,13 @@
+#Malicious Domains last updated 15 Dec 2015 
+.cc #Cocos Islands 
+.cf #Central African Republic
+.cricket
+.country
+.gq #Equatorial Guinea
+.kim
+.link
+.party
+.review
+.science
+.work
+.xyz
