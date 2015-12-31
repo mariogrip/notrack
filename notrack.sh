@@ -2,15 +2,13 @@
 #Title : NoTrack
 #Description : This script will download latest Adblock Domain block files from quidsup.net, then parse them into Dnsmasq.
 #Author : QuidsUp
-#Date : 2015-12-28
-#Version : 0.1
+#Date : 2015-12-31
+#Version : 0.4
 #Usage : sudo bash notrack.sh
-#Version History: 
-#0.1    2015-12-28    Created
 
 #IP Version number for Localhost (4 or 6)
 IPVersion="4"
-TrackerSource="http://quidsup.net/adsites.txt" 
+TrackerSource="http://quidsup.net/trackers.txt" 
 TrackerListFile="/etc/dnsmasq.d/adsites.list" 
 TrackerQuickList="/etc/notrack/tracker-quick.list"
 TrackerBlackList="/etc/notrack/blacklist.txt"
