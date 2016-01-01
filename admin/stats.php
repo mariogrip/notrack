@@ -15,7 +15,8 @@ echo "<h1>Domain Stats</h1>\n";
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
-
+$CommonSites = array("googleusercontent","akamaiedge");
+//CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 //HTTP GET Variables-------------------------------------------------
 $SortCol = 0;
 if ($_GET['sort']) {
@@ -35,41 +36,54 @@ if ($_GET['dir']) {
 
 $StartPoint = 1;				 //Start point
 if ($_GET['start']) {
-  if ($_GET['start'] >= 1) {		         //Check Numeric value is above zero
-    $StartPoint = $_GET['start'];
+  if (is_numeric($_GET['start'])) {
+    if ($_GET['start'] >= 1) {		         //Check Numeric value is above zero
+      $StartPoint = $_GET['start'];
+    }
   }
 }
 $ItemsPerPage = 200;				 //Rows per page
 if ($_GET['count']) {
-  if ($_GET['count'] >= 2) {			 //Check Numeric value is above 2
-    $ItemsPerPage = $_GET['count'];		
+  if (is_numeric($_GET['count'])) {
+    if ($_GET['count'] >= 2) {			 //Check Numeric value is above 2
+      $ItemsPerPage = $_GET['count'];
+    }
   }
 }
 
 //-------------------------------------------------------------------
 function ReturnURL($Str) {
+  global $CommonSites;
   $Split = explode(".", $Str);
-  $c = count($Split);
+  $c = count($Split) - 1;
   
-  if ($Split[$c - 2] == "co") {
-    $Split[$c - 2] = 'co.' . $Split[$c - 1];    
+  if ($Split[$c - 1] == "co") {
+    $Split[$c - 1] = 'co.' . $Split[$c];    
     $c--;    
   }
-  elseif ($Split[$c - 2] == "com") {
-    $Split[$c - 2] = 'com.' . $Split[$c - 1];    
+  elseif ($Split[$c - 1] == "com") {
+    $Split[$c - 1] = 'com.' . $Split[$c];
+    $c--;
+  }
+  elseif ($Split[$c - 1] == "net") {
+    $Split[$c - 1] = 'net.' . $Split[$c]; 
     $c--;    
   }
   
-  if ($c == 1) return $Split[0];
-  if ($c == 2) return $Split[0] . '.' . $Split[1];
-  if ($c == 3) {
+  if ($c == 0) return $Split[0];
+  if ($c == 1) return $Split[0] . '.' . $Split[1];
+  if ($c == 2) {
     if ($Split[0] == "www") return $Split[1] . '.' . $Split[2];
-    else return $Split[0] . '.' . $Split[1] . '.' . $Split[2];
-    
+    else {
+      if (in_array($Split[$c - 1], $CommonSites)) return '*.'.$Split[$c - 1].'.'.$Split[$c];
+      else return $Split[0] . '.' . $Split[1] . '.' . $Split[2];
+    }
   }
-  if ($c >= 3) {
-    return $Split[$c - 3] . '.' . $Split[$c - 2] . '.' . $Split[$c - 1];
-  }  
+  if ($c >= 2) {
+    if (in_array($Split[$c - 1], $CommonSites)) return '*.'.$Split[$c - 1].'.'.$Split[$c];
+    else return $Split[$c - 2] . '.' . $Split[$c - 1] . '.' . $Split[$c];
+  }
+  return "Error in URL String";
 }
 //WriteLI Function for Pagination Boxes-------------------------------
 function WriteLI($Character, $Start, $Active) {
@@ -97,7 +111,12 @@ $Dedup = "";
 $FileHandle= fopen("/var/log/pihole.log", "r") or die("Error unable to open /var/log/pihole.log");
 while (!feof($FileHandle)) {
   $Line = fgets($FileHandle);                    //Read Line of LogFile
-  $Seg = explode(" ", $Line);                    //Split Line into segments
+  if (substr($Line, 4, 1) == " ") {              //dnsmasq puts a double space for single digit dates
+    $Seg = explode(" ", str_replace("  ", " ", $Line));
+  }
+  else {  
+    $Seg = explode(" ", $Line);                  //Split Line into segments
+  }
   //0 - Month
   //1 - Day
   //2 - Time
@@ -239,6 +258,7 @@ echo "</tr>\n";
 
 //Draw Table Cells---------------------------------------------------
 $i = 1;
+
 foreach ($SortedDomainList as $Site => $Value) {
   if ($i >= $StartPoint) {
     if ($i >= $StartPoint + $ItemsPerPage) break;
