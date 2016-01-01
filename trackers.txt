@@ -14,6 +14,7 @@
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
 a2dfp.net
 a9.com
+abmr.net
 abtasty.com
 acxiom-online.com
 acuityplatform.com
@@ -35,6 +36,7 @@ adip.ly
 adition.com
 adixo.com
 adizio.com
+adjug.com
 adjust.com
 adlooxtracking.com
 admantx.com
@@ -146,6 +148,7 @@ celtra.com
 ceros.com
 certona.net
 cetrk.com
+chango.com
 chartbeat.com
 chartbeat.net
 clear-reports.com
@@ -177,6 +180,7 @@ creatormail.co.uk
 criteo.com
 crowdignite.com
 crwdcntrl.net
+ctasnet.com
 ctnsnet.com
 cxense.com
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
@@ -322,6 +326,7 @@ intelligencefocus.com
 intellitxt.com
 intentiq.com
 intentmedia.net
+interclick.com
 intercom.io
 intercomassets.com
 instinctiveads.com
@@ -361,6 +366,7 @@ liveadexchanger.com
 liverail.com
 liveperson.net
 lpsnmedia.net
+lucidmedia.com
 lypn.com
 #M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M
 madisonlogic.com
@@ -8160,6 +8166,7 @@ securestudies.com
 sellathon.com
 semasio.net
 sendgrid.me
+sensic.net
 sentifi.com
 servebom.com
 servedby-buysellads.com
