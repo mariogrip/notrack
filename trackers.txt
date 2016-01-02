@@ -5,6 +5,14 @@
 254a.com
 2mdn.net
 2o7.net
+302br.net
+303br.net
+304br.net
+305br.net
+306br.net
+307br.net
+308br.net
+309br.net
 33across.com
 360yield.com
 3lift.com
@@ -24,6 +32,7 @@ adalyser.com
 adalyser.net
 adap.tv
 adblade.com
+adbrn.com
 adbutler-tachyon.com
 addeluxe.jp
 addnow.com
@@ -41,6 +50,7 @@ adjust.com
 adlooxtracking.com
 admantx.com
 admarketplace.net
+admaym.com
 admedo.com
 admized.com
 adlegend.com
@@ -56,6 +66,7 @@ ads-creativesyndicator.com
 adsafeprotected.com
 adscale.de
 adsensecustomsearchads.com
+adsfac.eu
 adspdbl.com
 adspeed.net
 adsonar.com
@@ -71,6 +82,7 @@ adversal.com
 advertising.com
 advertserve.com
 adviva.net
+adxpose.com
 adzerk.net
 adzhub.com
 aegdigitalgroup.com
@@ -114,6 +126,7 @@ bidswitch.net
 bizible.com
 bizographics.com
 bkrtx.com
+blinkx.com
 blogherads.com
 bluebillywig.com
 bluekai.com
@@ -130,6 +143,7 @@ brightedge.com
 brighteroption.com
 brilig.com
 btrll.com
+btstatic.com
 bugherd.com
 builfico.de
 burstnet.com
@@ -185,8 +199,9 @@ ctnsnet.com
 cxense.com
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
 da-ads.com
-dartsearch.net
+daphnecm.com
 dapxl.com
+dartsearch.net
 datacaciques.com
 dcoengine.com
 declaredthoughtfulness.co
@@ -194,6 +209,7 @@ demandbase.com
 demdex.net
 deployads.com
 dianomi.com
+displaymarketplace.com
 dl-rms.com
 dlqm.net
 dmtracker.com
@@ -253,6 +269,7 @@ fetchback.com
 fidelity-media.com
 flashtalking.com
 flite.com
+flexlinks.com
 flx1.com
 followistic.com
 footprint.net
@@ -312,6 +329,9 @@ idgknowledgehub.com
 idgpublishing.com
 igsonar.com
 imiclk.com
+impact-ad.com
+impact-ad.jp
+impact-ad.net
 impdesk.com
 impressiondesk.com
 imrworldwide.com
@@ -343,6 +363,7 @@ justpremium.com
 jwpltx.com
 #K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K
 kastatic.com
+kau.li
 kiosked.com
 kissmetrics.com
 komoona.com
@@ -384,6 +405,8 @@ mediaplex.com
 mediavoice.com
 merchenta.com
 metalyzer.com
+meteora.co
+meteora.us
 metrics.nt.vc
 mgid.com
 mgsvc.com
@@ -8084,6 +8107,7 @@ pardot.com
 parsely.com
 passionfruitads.com
 peer39.net
+pepperjamnetwork.com
 pingdom.net
 pixfuture.net
 plymedia.com
@@ -8104,6 +8128,7 @@ pubmatic.com
 pubmine.com
 pubnation.com #Not sure
 pubsqrd.com
+pubexchange.com
 pulsemgr.com
 pump.to
 pwrads.net
@@ -8177,6 +8202,7 @@ sex-affiliation.com
 sharethis.com
 sharethrough.com
 shoppingshadow.com
+sid-ads.com
 silkenthreadiness.info
 silverpop.com
 simplereach.com
@@ -8200,6 +8226,7 @@ sortable.com
 sovrn.com
 specificclick.net
 speedshiftmedia.com
+spongecell.com
 spopessentials3.com
 spoteffects.com
 spoteffects.net
@@ -8223,6 +8250,7 @@ sumome.com
 switchadhub.com
 switchads.com
 swoop.com
+symcb.com
 symcd.com
 #T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
 taboola.com
@@ -8351,8 +8379,11 @@ metrics.barclays.co.uk
 stats.bbc.co.uk
 advertising.bbcworldwide.com
 medals.bizrate.com #TBC
+pixel.brit.co
 dw.cbsimg.net
 d3ujids68p6xmp.cloudfront.net
+data.coremetrics.com
+testdata.coremetrics.com
 metrics.ctvdigital.net
 ads.ebay.com
 stats.ebay.com
