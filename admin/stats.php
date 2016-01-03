@@ -15,7 +15,7 @@ echo "<h1>Domain Stats</h1>\n";
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
-$CommonSites = array("googleusercontent","akamaiedge");
+$CommonSites = array("googleusercontent.com","googlevideo.com","akamaiedge.com");
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 //HTTP GET Variables-------------------------------------------------
 $SortCol = 0;
@@ -75,12 +75,12 @@ function ReturnURL($Str) {
   if ($c == 2) {
     if ($Split[0] == "www") return $Split[1] . '.' . $Split[2];
     else {
-      if (in_array($Split[$c - 1], $CommonSites)) return '*.'.$Split[$c - 1].'.'.$Split[$c];
+      if (in_array($Split[$c - 1].'.'.$Split[$c], $CommonSites)) return '*.'.$Split[$c - 1].'.'.$Split[$c];
       else return $Split[0] . '.' . $Split[1] . '.' . $Split[2];
     }
   }
   if ($c >= 2) {
-    if (in_array($Split[$c - 1], $CommonSites)) return '*.'.$Split[$c - 1].'.'.$Split[$c];
+    if (in_array($Split[$c - 1].'.'.$Split[$c], $CommonSites)) return '*.'.$Split[$c - 1].'.'.$Split[$c];
     else return $Split[$c - 2] . '.' . $Split[$c - 1] . '.' . $Split[$c];
   }
   return "Error in URL String";
