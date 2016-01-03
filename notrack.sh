@@ -6,8 +6,11 @@
 #Version : 0.4
 #Usage : sudo bash notrack.sh
 
+#User configurable variables-----------------------------------------
 #IP Version number for Localhost (4 or 6)
 IPVersion="4"
+
+#System Variables----------------------------------------------------
 TrackerSource="http://quidsup.net/trackers.txt" 
 TrackerListFile="/etc/dnsmasq.d/adsites.list" 
 TrackerQuickList="/etc/notrack/tracker-quick.list"
@@ -22,12 +25,14 @@ DomainQuickList="/etc/notrack/domain-quick.list"
 #Check /etc/notrack folder exists
 if [ ! -d "/etc/notrack" ]; then
   echo "Creating notrack folder under /etc"
+  echo
   mkdir "/etc/notrack"
 fi
 
 #Check if Blacklist exists
 if [ ! -e $TrackerBlackList ]; then
   echo "Creating blacklist"
+  echo
   touch $TrackerBlackList
   echo "# Use this file to add additional websites to be blocked, e.g." >> $TrackerBlackList
   echo "#doubleclick.net" >> $TrackerBlackList
@@ -39,6 +44,7 @@ fi
 #Check if Whitelist exists
 if [ ! -e $TrackerWhiteList ]; then
   echo "Creating whitelist"
+  echo
   touch $TrackerWhiteList
   echo "# Use this file to remove files from blocklist, e.g." >> $TrackerWhiteList
   echo "#doubleclick.net" >> $TrackerWhiteList
@@ -85,13 +91,13 @@ if [ ! -e $DomainBlackList ]; then
   echo "#.tt #Trinidad and Tobago" >> $DomainBlackList
   echo "#.tv #Tuvalu" >> $DomainBlackList
   echo "#.vn #Vietnam" >> $DomainBlackList
-  echo "#.ws #Western Samoa" >> $DomainBlackList
-  #echo "#" >> $DomainBlackList
+  echo "#.ws #Western Samoa" >> $DomainBlackList  
 fi
 
 #Check if Domain Whitelist exists
 if [ ! -e $DomainWhiteList ]; then
   echo "Creating Domain whitelist"
+  echo
   touch $DomainWhiteList
   echo "# Use this file to remove files malicious domains from blocklist" >> $DomainWhiteList
 fi
@@ -110,7 +116,7 @@ else
   echo "Unknown IP Version" 1>&2
   exit 1
 fi
-
+echo
 
 #Download Lists from Website-----------------------------------------
 echo "Downloading Tracker Site List from: $TrackerSource"
@@ -194,7 +200,7 @@ awk 'NR==FNR{A[$1]; next}!($1 in A)' $DomainWhiteList /tmp/combined.txt | while 
   fi
 done
 
-echo "Imported $(wc -l $DomainQuickList | cut -d' ' -f1) Malicious Domains into block list"
+echo "Imported $(wc -l $DomainQuickList | cut -d' ' -f1) Malicious Domains into TLD block list"
 
 #Clear up
 echo "Removing temporary files"

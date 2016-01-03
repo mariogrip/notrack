@@ -12,6 +12,7 @@
 $CurTopMenu = 'stats';
 include('topmenu.html');
 echo "<h1>Domain Stats</h1>\n";
+echo "<br />\n";
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
@@ -37,16 +38,17 @@ if (isset($_GET['dir'])) {
 $StartPoint = 1;				 //Start point
 if (isset($_GET['start'])) {
   if (is_numeric($_GET['start'])) {
-    if ($_GET['start'] >= 1) {		         //Check Numeric value is above zero
+    if (($_GET['start'] >= 1) && ($_GET['count'] < PHP_INT_MAX - 2)) {	         
       $StartPoint = intval($_GET['start']);
     }
   }
 }
+
 $ItemsPerPage = 200;				 //Rows per page
 if (isset($_GET['count'])) {
   if (is_numeric($_GET['count'])) {
-    if (($_GET['count'] >= 2) && ($_GET['count' < PHP_INT_MAX])) {
-      $ItemsPerPage = $_GET['count'];
+    if (($_GET['count'] >= 2) && ($_GET['count'] < PHP_INT_MAX)) {
+      $ItemsPerPage = intval($_GET['count']);
     }
   }
 }
@@ -104,19 +106,19 @@ function ReturnURL($Str) {
 }
 //WriteLI Function for Pagination Boxes-------------------------------
 function WriteLI($Character, $Start, $Active) {
-  global $ItemsPerPage, $SortCol, $SortDir;
+  global $ItemsPerPage, $SortCol, $SortDir, $View;
   if ($Active) {
     echo '<li class="active"><a href="?start='.$Start.'&amp;count='.$ItemsPerPage.'&amp;sort='.$SortCol.'&amp;dir='.$SortDir.'&amp;v='.$View.'">';
   }
-  else {$
+  else {
     echo '<li><a href="?start='.$Start.'&amp;count='.$ItemsPerPage.'&amp;sort='.$SortCol.'&amp;dir='.$SortDir.'&amp;v='.$View.'">';
   }  
-  echo "$Character $StartPoint</a></li>\n";  
+  echo "$Character</a></li>\n";  
   return null;
 }
 //WriteTH Function for Table Header----------------------------------- 
 function WriteTH($Sort, $Dir, $Str) {
-  global $ItemsPerPage, $StartPoint;
+  global $ItemsPerPage, $StartPoint, $View;
   echo '<th><a href="?start='.$StartPoint.'&amp;count='.$ItemsPerPage.'&amp;sort='.$Sort.'&amp;dir='.$Dir.'&amp;v='.$View.'">'.$Str.'</a></th>';
   return null;
 }
@@ -124,33 +126,66 @@ function WriteTH($Sort, $Dir, $Str) {
 //Main---------------------------------------------------------------
 
 //Open Log File------------------------------------------------------
-$Dedup = "";
+//Dnsmasq log line consists of:
+//0 - Month
+//1 - Day
+//2 - Time
+//3 - dnsmasq[pid]
+//4 - Function (query, forwarded, reply, cached, config)
+//5 - Website Requested
+//6 - "is"
+//7 - IP Returned
+$Dedup = "";                                     //To prevent duplication
 $FileHandle= fopen("/var/log/pihole.log", "r") or die("Error unable to open /var/log/pihole.log");
-while (!feof($FileHandle)) {
-  $Line = fgets($FileHandle);                    //Read Line of LogFile
-  if (substr($Line, 4, 1) == " ") {              //dnsmasq puts a double space for single digit dates
-    $Seg = explode(" ", str_replace("  ", " ", $Line));
-  }
-  else {  
-    $Seg = explode(" ", $Line);                  //Split Line into segments
-  }
-  //0 - Month
-  //1 - Day
-  //2 - Time
-  //3 - dnsmasq[pid]
-  //4 - Function (query, forwarded, reply, cached, config)
-  //5 - Website Requested
-  //6 - "is"
-  //7 - IP Returned
-  if ($Seg[4] == "reply" && $Seg[5] != $Dedup) {
-    $DomainList[] = ReturnURL($Seg[5]) . '+';
-    $Dedup = $Seg[5];
-  }
-  elseif ($Seg[4] == "config" && $Seg[5] != $Dedup) {
-    $DomainList[] = ReturnURL($Seg[5]) . '-';
-    $Dedup = $Seg[5];
+//These while loops are replicated to reduce the number of if statements inside the loop, as this section is very CPU intensive and RPi struggles
+if ($View == 1) {				 //Read both Allow & Block
+  while (!feof($FileHandle)) {
+    $Line = fgets($FileHandle);                  //Read Line of LogFile
+    if (substr($Line, 4, 1) == " ") {            //dnsmasq puts a double space for single digit dates
+      $Seg = explode(" ", str_replace("  ", " ", $Line));
+    }
+    else $Seg = explode(" ", $Line);             //Split Line into segments
+    
+    if ($Seg[4] == "reply" && $Seg[5] != $Dedup) {
+      $DomainList[] = ReturnURL($Seg[5]) . '+';
+      $Dedup = $Seg[5];
+    }
+    elseif ($Seg[4] == "config" && $Seg[5] != $Dedup) {
+      $DomainList[] = ReturnURL($Seg[5]) . '-';
+      $Dedup = $Seg[5];
+    }
   }
 }
+elseif ($View == 2) {				 //Read both Allowed only
+  while (!feof($FileHandle)) {
+    $Line = fgets($FileHandle);                  //Read Line of LogFile
+    if (substr($Line, 4, 1) == " ") {            //dnsmasq puts a double space for single digit dates
+      $Seg = explode(" ", str_replace("  ", " ", $Line));
+    }
+    else $Seg = explode(" ", $Line);             //Split Line into segments
+    
+    if ($Seg[4] == "reply" && $Seg[5] != $Dedup) {
+      $DomainList[] = ReturnURL($Seg[5]) . '+';
+      $Dedup = $Seg[5];
+    }    
+  }
+}
+if ($View == 3) {				 //Read both Blocked only
+  while (!feof($FileHandle)) {
+    $Line = fgets($FileHandle);                  //Read Line of LogFile
+    if (substr($Line, 4, 1) == " ") {            //dnsmasq puts a double space for single digit dates
+      $Seg = explode(" ", str_replace("  ", " ", $Line));
+    }
+    else $Seg = explode(" ", $Line);             //Split Line into segments
+    
+    if ($Seg[4] == "config" && $Seg[5] != $Dedup) {
+      $DomainList[] = ReturnURL($Seg[5]) . '-';
+      $Dedup = $Seg[5];
+    }
+  }
+}
+
+
 fclose($FileHandle);
 
 //Read Malicious TLD List--------------------------------------------
@@ -171,7 +206,8 @@ else {
   else asort($SortedDomainList);
 }
 
-$SortedDomainList = array_slice($SortedDomainList, $StartPoint, $ItemsPerPage);
+$ListSize = count($SortedDomainList);
+//$SortedDomainList = array_slice($SortedDomainList, $StartPoint, $ItemsPerPage);
 //Draw Filter Dropdown list------------------------------------------
 echo '<form action="?" method="get">';
 echo '<input type="hidden" name="sort" value="'.$SortCol.'" />'; //Parse other GET variables as hidden form values
@@ -220,8 +256,7 @@ else {
 echo "</tr>\n";
 
 //Draw Table Cells---------------------------------------------------
-/*$i = 1;
-
+$i = 1;
 foreach ($SortedDomainList as $Site => $Value) {
   if ($i >= $StartPoint) {
     if ($i >= $StartPoint + $ItemsPerPage) break;
@@ -249,74 +284,13 @@ foreach ($SortedDomainList as $Site => $Value) {
   }
   
   $i++;
-}*/
-$i = $StartPoint;
-
-//These foreach loops are replicated to reduce the number of if statements inside the loop
-if ($View == 1) {                                //Show both allowed and blocked domains
-  foreach ($SortedDomainList as $Site => $Value) {
-    $Action = substr($Site,-1,1);                  //Last character tells us whether URL was blocked or not
-    if ($Action == '+') {				 //+ = Allowed
-      if ($i & 1) echo '<tr class="odd">';
-      else echo '<tr class="even">';
-      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1) . '</td><td>' . $Value . '</td>';
-    }
-    elseif ($Action == '-') {
-      echo '<tr class="blocked">';
-      $SplitURL = explode(".", substr($Site, 0, -1));
-      $CountSubDomains = count($SplitURL);  
-      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1); 
-      if ($CountSubDomains <= 1) {                 
-        echo '<p class="small">Invalid domain</p>';     
-      }
-      elseif (in_array('.' . $SplitURL[$CountSubDomains -1] . ' ', $TLDBlockList)) {
-        echo '<p class="small">.' . $SplitURL[$CountSubDomains -1] . ' Blocked by Top Level Domain List</p>';           
-      }
-      else echo '<p class="small">Blocked by Tracker List</p>';
-      echo '</td><td>' . $Value . '</td>';
-    }
-    echo "</tr>\n";
-    $i++;
-  }
-}
-elseif ($View == 2) {                                //Show both allowed domains only
-  foreach ($SortedDomainList as $Site => $Value) {
-    $Action = substr($Site,-1,1);                  //Last character tells us whether URL was blocked or not
-    if ($Action == '+') {				 //+ = Allowed
-      if ($i & 1) echo '<tr class="odd">';
-      else echo '<tr class="even">';
-      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1) . '</td><td>' . $Value . '</td>';
-      echo "</tr>\n";
-      $i++;
-    }
-  }
-}
-elseif ($View == 3) {                                //Show blocked domains only
-  foreach ($SortedDomainList as $Site => $Value) {
-    $Action = substr($Site,-1,1);                  //Last character tells us whether URL was blocked or not
-    if ($Action == '-') {
-      echo '<tr class="blocked">';
-      $SplitURL = explode(".", substr($Site, 0, -1));
-      $CountSubDomains = count($SplitURL);  
-      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1); 
-      if ($CountSubDomains <= 1) {                 
-        echo '<p class="small">Invalid domain</p>';     
-      }
-      elseif (in_array('.' . $SplitURL[$CountSubDomains -1] . ' ', $TLDBlockList)) {
-        echo '<p class="small">.' . $SplitURL[$CountSubDomains -1] . ' Blocked by Top Level Domain List</p>';           
-      }
-      else echo '<p class="small">Blocked by Tracker List</p>';
-      echo '</td><td>' . $Value . '</td>';
-      echo "</tr>\n";
-      $i++;
-    }
-  }
 }
 
 echo "</table></div>\n";
+echo '<div class="row"><br /></div>';
+
 
 //Pagination---------------------------------------------------------
-$ListSize = count($SortedDomainList);
 if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
   $ListSize = ceil($ListSize / $ItemsPerPage);   //Calculate List Size
   $CurPos = 0;
@@ -392,6 +366,6 @@ if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
 }
 
 ?>
-</div></div>
+</div>
 </body>
 </html>
