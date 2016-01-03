@@ -19,7 +19,7 @@ $CommonSites = array("googleusercontent.com","googlevideo.com","akamaiedge.com")
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 //HTTP GET Variables-------------------------------------------------
 $SortCol = 0;
-if ($_GET['sort']) {
+if (isset($_GET['sort'])) {
   switch ($_GET['sort']) {
     case 0: $SortCol = 0; break;                 //Requests
     case 1: $SortCol = 1; break;                 //Name
@@ -28,31 +28,48 @@ if ($_GET['sort']) {
 
 //Direction: 0 = Ascending, 1 = Descending
 $SortDir = 0;
-if ($_GET['dir']) {
-  if ($_GET['dir'] == 1) {
+if (isset($_GET['dir'])) {
+  if ($_GET['dir'] == "1") {
     $SortDir = 1;
   }  
 }
 
 $StartPoint = 1;				 //Start point
-if ($_GET['start']) {
+if (isset($_GET['start'])) {
   if (is_numeric($_GET['start'])) {
     if ($_GET['start'] >= 1) {		         //Check Numeric value is above zero
-      $StartPoint = $_GET['start'];
+      $StartPoint = intval($_GET['start']);
     }
   }
 }
 $ItemsPerPage = 200;				 //Rows per page
-if ($_GET['count']) {
+if (isset($_GET['count'])) {
   if (is_numeric($_GET['count'])) {
-    if ($_GET['count'] >= 2) {			 //Check Numeric value is above 2
+    if (($_GET['count'] >= 2) && ($_GET['count' < PHP_INT_MAX])) {
       $ItemsPerPage = $_GET['count'];
     }
   }
 }
 
-//-------------------------------------------------------------------
+$View = 1;
+if (isset($_GET['v'])) {
+  switch ($_GET['v']) {
+    case "1": $View = 1; break;                 //Show All
+    case "2": $View = 2; break;                 //Allowed only
+    case "3": $View = 3; break;                 //Blocked only
+  }  
+}
+
+//ReturnURL - Gives a simplier formatted URL for displaying----------
 function ReturnURL($Str) {
+  //Conditions:
+  //1: Drop www (its unnecessary and not all websites use it now)
+  //2: Combine .co.xx, com.xx, .net.xx into one string. Otherwise .uk would be TLD and .co the website. 
+  //   .co.uk is the top level domain
+  //3: Only return as far back as one subdomain. a.b.c.d.somesite.com is a bit excessive 
+  //   "d.somesite.com" will suffice
+  //4: Try and combine well used sites $CommonSites which use a lot of different subdomains into "*"
+  //   Its tempting to increase the list, however there is a processing limitation on a RaspberryPi
   global $CommonSites;
   $Split = explode(".", $Str);
   $c = count($Split) - 1;
@@ -89,18 +106,18 @@ function ReturnURL($Str) {
 function WriteLI($Character, $Start, $Active) {
   global $ItemsPerPage, $SortCol, $SortDir;
   if ($Active) {
-    echo '<li class="active"><a href="?start='.$Start.'&amp;count='.$ItemsPerPage.'&amp;sort='.$SortCol.'&amp;dir='.$SortDir.'">';
+    echo '<li class="active"><a href="?start='.$Start.'&amp;count='.$ItemsPerPage.'&amp;sort='.$SortCol.'&amp;dir='.$SortDir.'&amp;v='.$View.'">';
   }
-  else {
-    echo '<li><a href="?start='.$Start.'&amp;count='.$ItemsPerPage.'&amp;sort='.$SortCol.'&amp;dir='.$SortDir.'">';
+  else {$
+    echo '<li><a href="?start='.$Start.'&amp;count='.$ItemsPerPage.'&amp;sort='.$SortCol.'&amp;dir='.$SortDir.'&amp;v='.$View.'">';
   }  
   echo "$Character $StartPoint</a></li>\n";  
   return null;
 }
-
+//WriteTH Function for Table Header----------------------------------- 
 function WriteTH($Sort, $Dir, $Str) {
   global $ItemsPerPage, $StartPoint;
-  echo '<th><a href="?start='.$StartPoint.'&amp;count='.$ItemsPerPage.'&amp;sort='.$Sort.'&amp;dir='.$Dir.'">'.$Str.'</a></th>';
+  echo '<th><a href="?start='.$StartPoint.'&amp;count='.$ItemsPerPage.'&amp;sort='.$Sort.'&amp;dir='.$Dir.'&amp;v='.$View.'">'.$Str.'</a></th>';
   return null;
 }
 
@@ -133,11 +150,6 @@ while (!feof($FileHandle)) {
     $DomainList[] = ReturnURL($Seg[5]) . '-';
     $Dedup = $Seg[5];
   }
-  /*else {
-  echo $Seg[4] . ' ' . $Seg[5];
-  echo "<br/>\n";
-  }*/
-  
 }
 fclose($FileHandle);
 
@@ -158,6 +170,150 @@ else {
   if ($SortDir == 0) arsort($SortedDomainList);			 //Sort array by highest number of hits
   else asort($SortedDomainList);
 }
+
+$SortedDomainList = array_slice($SortedDomainList, $StartPoint, $ItemsPerPage);
+//Draw Filter Dropdown list------------------------------------------
+echo '<form action="?" method="get">';
+echo '<input type="hidden" name="sort" value="'.$SortCol.'" />'; //Parse other GET variables as hidden form values
+echo '<input type="hidden" name="dir" value="'.$SortDir.'" />';  
+echo '<input type="hidden" name="start" value="'.$StartPoint.'" />';
+echo '<input type="hidden" name="count" value="'.$ItemsPerPage.'" />';
+echo '<Label><b>Filter:</b> View  <select name="v" onchange="submit()">';
+switch ($View) {                                                //First item is unselectable, therefore we need to
+  case 1:                                                       //give a different selection for each value of $View
+    echo '<option value="1">All Requests</option>';
+    echo '<option value="2">Only requests that were allowed</option>';
+    echo '<option value="3">Only requests that were blocked</option>';
+  break;
+  case 2:
+    echo '<option value="2">Only requests that were allowed</option>';
+    echo '<option value="1">All Requests</option>';
+    echo '<option value="3">Only requests that were blocked</option>';
+  break;
+  case 3:
+    echo '<option value="3">Only requests that were blocked</option>';
+    echo '<option value="1">All Requests</option>';
+    echo '<option value="2">Only requests that were allowed</option>';
+  break;
+}
+echo '</select></label></form>';
+
+//Draw Table Headers-------------------------------------------------
+echo '<div class="row"><br />';
+echo '<table class="domain-table">';             //Table Start
+echo "<tr>\n";
+echo "<th>#</th>\n";
+if ($SortCol == 1) {
+  if ($SortDir == 0) WriteTH(1, 1, "Domain&#x25B4;");
+  else WriteTH(1, 0, "Domain&#x25BE;");
+}
+else {
+  WriteTH(1, $SortDir, "Domain");
+}
+if ($SortCol == 0) {
+  if ($SortDir == 0) WriteTH(0, 1, "Requests&#x25BE;");
+  else WriteTH(0, 0, "Requests&#x25B4;");      
+}
+else {
+  WriteTH(0, $SortDir, "Requests");
+}
+echo "</tr>\n";
+
+//Draw Table Cells---------------------------------------------------
+/*$i = 1;
+
+foreach ($SortedDomainList as $Site => $Value) {
+  if ($i >= $StartPoint) {
+    if ($i >= $StartPoint + $ItemsPerPage) break;
+    $Action = substr($Site,-1,1);                  //Last character tells us whether URL was blocked or not
+    if ($Action == '+') {				 //+ = Allowed
+      if ($i & 1) echo '<tr class="odd">';
+      else echo '<tr class="even">';
+      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1) . '</td><td>' . $Value . '</td>';
+    }
+    elseif ($Action == '-') {
+      echo '<tr class="blocked">';
+      $SplitURL = explode(".", substr($Site, 0, -1));
+      $CountSubDomains = count($SplitURL);  
+      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1); 
+      if ($CountSubDomains <= 1) {                 
+        echo '<p class="small">Invalid domain</p>';     
+      }
+      elseif (in_array('.' . $SplitURL[$CountSubDomains -1] . ' ', $TLDBlockList)) {
+        echo '<p class="small">.' . $SplitURL[$CountSubDomains -1] . ' Blocked by Top Level Domain List</p>';           
+      }
+      else echo '<p class="small">Blocked by Tracker List</p>';
+      echo '</td><td>' . $Value . '</td>';
+    }
+    echo "</tr>\n";
+  }
+  
+  $i++;
+}*/
+$i = $StartPoint;
+
+//These foreach loops are replicated to reduce the number of if statements inside the loop
+if ($View == 1) {                                //Show both allowed and blocked domains
+  foreach ($SortedDomainList as $Site => $Value) {
+    $Action = substr($Site,-1,1);                  //Last character tells us whether URL was blocked or not
+    if ($Action == '+') {				 //+ = Allowed
+      if ($i & 1) echo '<tr class="odd">';
+      else echo '<tr class="even">';
+      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1) . '</td><td>' . $Value . '</td>';
+    }
+    elseif ($Action == '-') {
+      echo '<tr class="blocked">';
+      $SplitURL = explode(".", substr($Site, 0, -1));
+      $CountSubDomains = count($SplitURL);  
+      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1); 
+      if ($CountSubDomains <= 1) {                 
+        echo '<p class="small">Invalid domain</p>';     
+      }
+      elseif (in_array('.' . $SplitURL[$CountSubDomains -1] . ' ', $TLDBlockList)) {
+        echo '<p class="small">.' . $SplitURL[$CountSubDomains -1] . ' Blocked by Top Level Domain List</p>';           
+      }
+      else echo '<p class="small">Blocked by Tracker List</p>';
+      echo '</td><td>' . $Value . '</td>';
+    }
+    echo "</tr>\n";
+    $i++;
+  }
+}
+elseif ($View == 2) {                                //Show both allowed domains only
+  foreach ($SortedDomainList as $Site => $Value) {
+    $Action = substr($Site,-1,1);                  //Last character tells us whether URL was blocked or not
+    if ($Action == '+') {				 //+ = Allowed
+      if ($i & 1) echo '<tr class="odd">';
+      else echo '<tr class="even">';
+      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1) . '</td><td>' . $Value . '</td>';
+      echo "</tr>\n";
+      $i++;
+    }
+  }
+}
+elseif ($View == 3) {                                //Show blocked domains only
+  foreach ($SortedDomainList as $Site => $Value) {
+    $Action = substr($Site,-1,1);                  //Last character tells us whether URL was blocked or not
+    if ($Action == '-') {
+      echo '<tr class="blocked">';
+      $SplitURL = explode(".", substr($Site, 0, -1));
+      $CountSubDomains = count($SplitURL);  
+      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1); 
+      if ($CountSubDomains <= 1) {                 
+        echo '<p class="small">Invalid domain</p>';     
+      }
+      elseif (in_array('.' . $SplitURL[$CountSubDomains -1] . ' ', $TLDBlockList)) {
+        echo '<p class="small">.' . $SplitURL[$CountSubDomains -1] . ' Blocked by Top Level Domain List</p>';           
+      }
+      else echo '<p class="small">Blocked by Tracker List</p>';
+      echo '</td><td>' . $Value . '</td>';
+      echo "</tr>\n";
+      $i++;
+    }
+  }
+}
+
+echo "</table></div>\n";
 
 //Pagination---------------------------------------------------------
 $ListSize = count($SortedDomainList);
@@ -235,60 +391,6 @@ if ($ListSize > $ItemsPerPage) {                 //Is Pagination needed
   echo "</ul></div>\n";  
 }
 
-//Draw Table Headers-------------------------------------------------
-echo '<div class="row"><br />';
-echo '<table class="domain-table">';             //Table Start
-echo "<tr>\n";
-echo "<th>#</th>\n";
-if ($SortCol == 1) {
-  if ($SortDir == 0) WriteTH(1, 1, "Domain&#x25B4;");
-  else WriteTH(1, 0, "Domain&#x25BE;");
-}
-else {
-  WriteTH(1, $SortDir, "Domain");
-}
-if ($SortCol == 0) {
-  if ($SortDir == 0) WriteTH(0, 1, "Requests&#x25BE;");
-  else WriteTH(0, 0, "Requests&#x25B4;");      
-}
-else {
-  WriteTH(0, $SortDir, "Requests");
-}
-echo "</tr>\n";
-
-//Draw Table Cells---------------------------------------------------
-$i = 1;
-
-foreach ($SortedDomainList as $Site => $Value) {
-  if ($i >= $StartPoint) {
-    if ($i >= $StartPoint + $ItemsPerPage) break;
-    $Action = substr($Site,-1,1);                  //Action last character
-    if ($Action == '+') {				 //+ = Allowed
-      if ($i & 1) echo '<tr class="odd">';
-      else echo '<tr class="even">';
-      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1) . '</td><td>' . $Value . '</td>';
-    }
-    elseif ($Action == '-') {
-      echo '<tr class="blocked">';
-      $SplitURL = explode(".", substr($Site, 0, -1));
-      $CountSubDomains = count($SplitURL);  
-      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1); 
-      if ($CountSubDomains <= 1) {                 
-        echo '<p class="small">Invalid domain</p>';     
-      }
-      elseif (in_array('.' . $SplitURL[$CountSubDomains -1] . ' ', $TLDBlockList)) {
-        echo '<p class="small">.' . $SplitURL[$CountSubDomains -1] . ' Blocked by Top Level Domain List</p>';           
-      }
-      else echo '<p class="small">Blocked by Tracker List</p>';
-      echo '</td><td>' . $Value . '</td>';
-    }
-    echo "</tr>\n";
-  }
-  
-  $i++;
-}
-
-echo "</table>\n";
 ?>
 </div></div>
 </body>
