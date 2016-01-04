@@ -16,7 +16,7 @@ echo "<br />\n";
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
-$CommonSites = array("googleusercontent.com","googlevideo.com","akamaiedge.com");
+$CommonSites = array("cloudfront.net","googleusercontent.com","googlevideo.com","akamaiedge.com");
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 //HTTP GET Variables-------------------------------------------------
 $SortCol = 0;

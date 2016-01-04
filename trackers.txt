@@ -1,5 +1,6 @@
 #List of Ad files last updated 01 Jan 2016
 103bees.com
+10cms.com
 206ads.com
 247realmedia.com
 254a.com
@@ -42,6 +43,7 @@ adgenie.co.uk
 adglare.net
 adgrx.com
 adip.ly
+adis.ws
 adition.com
 adixo.com
 adizio.com
@@ -92,6 +94,7 @@ afy11.net
 agilone.com
 agkn.net
 agm1.us
+ahalogy.com
 aimatch.com
 akadns.net
 alertbot.co.uk
@@ -99,6 +102,7 @@ aliunicorn.com
 alnisrgroup.com
 amazon-adsystem.com
 amgdgt.com
+amplience.com
 amplitude.com
 amung.us #TBC
 analytics-egain.com
@@ -109,6 +113,7 @@ atdmt.com
 atemda.com
 atgsvcs.com
 ati-host.net
+attraqt.com
 atwola.com
 audienceiq.com
 auditude.com
@@ -117,10 +122,12 @@ aweber.com
 awin1.com
 awltovhc.com
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
-#bazaarvoice.com Reviews on various shopping websites
+baynote.net
+#bazaarvoice.com Reviews on various shopping websites. Not sure if its a tracker
 beanstock.com
 begun.ru
 betrad.com
+bevyup.com
 bidr.io
 bidswitch.net
 bizible.com
@@ -157,12 +164,14 @@ cap-mii.net
 captifymedia.com
 carambo.la
 casalemedia.com
+cdngc.net
 cedexis-radar.net
 celtra.com
 ceros.com
 certona.net
 cetrk.com
 chango.com
+channeladvisor.com
 chartbeat.com
 chartbeat.net
 clear-reports.com
@@ -184,8 +193,8 @@ contentfeed.net
 contentquery.net
 contextweb.com
 convertro.com
-#coremetrics.com #Some shopping websites rely on this tracker for pagination functionality. 
 conyak.com
+coremetrics.eu
 cq.io
 crazyegg.com
 crealytics.com
@@ -196,6 +205,7 @@ crowdignite.com
 crwdcntrl.net
 ctasnet.com
 ctnsnet.com
+ctscdn.com
 cxense.com
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
 da-ads.com
@@ -205,6 +215,7 @@ dartsearch.net
 datacaciques.com
 dcoengine.com
 declaredthoughtfulness.co
+deltacdn.net #Markmonitor
 demandbase.com
 demdex.net
 deployads.com
@@ -221,8 +232,11 @@ doubleverify.com
 dowjoneson.com
 dpmsrv.com
 dqna.net
+dressipi.com #Style website that offers analytics for other retailers
 dsply.com
 dtscout.com
+duba.com
+duba.net
 dwin1.com
 dynamicyield.com
 dyncdn.me
@@ -267,6 +281,7 @@ feedmagnet.com
 feedsportal.com
 fetchback.com
 fidelity-media.com
+fits.me
 flashtalking.com
 flite.com
 flexlinks.com
@@ -281,6 +296,7 @@ frantro.de
 freeskreen.com
 fresh8.co
 frm.li
+froo.com
 futureusmedia.com
 fwmrm.net
 fyre.co
@@ -311,6 +327,7 @@ gssprt.jp
 gumgum.com
 gvt1.com
 #H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H
+hanapinmarketing.com
 heapanalytics.com
 heias.com
 histats.com
@@ -414,7 +431,7 @@ mgsvc.com
 micpn.com
 millennialmedia.com
 mixpanel.com
-mkt101.com
+mkt101.com #Markmonitor
 mkt101.net
 mkt102.com
 mkt103.com
@@ -8059,12 +8076,15 @@ mytrafficvalue.com
 #N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N
 nanigans.com
 netcommunities.com
+netdna-cdn.com #Markmonitor
 netmng.com
 netseer.com
 netshelter.net
 newrelic.com
 nexac.com
 nextplatform.com
+nmgcdn.com
+nsatc.net #Markmonitor
 nster.net
 nr-data.net
 nsatc.net
@@ -8108,7 +8128,9 @@ pardot.com
 parsely.com
 passionfruitads.com
 peer39.net
+peerius.com
 pepperjamnetwork.com
+phicdn.net #Markmonitor
 pingdom.net
 pixfuture.net
 plymedia.com
@@ -8120,6 +8142,7 @@ popads.net
 popularix.com
 postrelease.com
 pow7.com
+ppchero.com
 ppjol.net
 prnx.net
 pro-market.net
@@ -8143,7 +8166,10 @@ questionmarket.com
 #R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R
 r42tag.com
 raasnet.com
+reactful.com
 redirecting2.net
+redeye.international
+redstar.co.uk
 refinedads.com
 relestar.com
 res-x.com
@@ -8183,6 +8209,7 @@ sailthru.com
 sascdn.com
 saymedia.com
 sayutracking.co.uk
+scarabresearch.com
 scorecardresearch.com
 scoutanalytics.net
 searchmarketing.com
@@ -8258,6 +8285,7 @@ taboola.com
 taboolasyndication.com
 tacoda.net
 tagcommander.com
+taggstar.com
 tagsrvcs.com
 tangiblee.com
 tapad.com
@@ -8307,7 +8335,9 @@ uniqodo.com
 univide.com
 uobsoe.com
 upsellit.com
+upsiloncdn.net #Markmonitor
 #V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V
+v2cdn.net #Markmonitor
 vdna-assets.com
 veille-referencement.com
 veoxa.com
@@ -8328,12 +8358,14 @@ vizu.com
 voicefive.com
 #W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W
 w55c.net
+walkme.com
 webgains.com
 webmd.com
 webtrekk.com
 webtrekk.net
 webtrends.com
 webtrendslive.com
+webvitality.me
 whoisvisiting.com
 wickhillnews.com
 wikia-beacon.com
@@ -8375,15 +8407,18 @@ zqtk.net
 #Analytics Domains
 affiliate-program.amazon.co.uk
 device-metrics-us.amazon.com
+metric.asos.com
 website-performance-beacon.autotrader.co.uk
 metrics.barclays.co.uk
 stats.bbc.co.uk
 advertising.bbcworldwide.com
+bat.bing.com
 medals.bizrate.com #TBC
 pixel.brit.co
 dw.cbsimg.net
 d3ujids68p6xmp.cloudfront.net
 data.coremetrics.com
+de.coremetrics.com
 testdata.coremetrics.com
 metrics.ctvdigital.net
 ads.ebay.com
@@ -8396,6 +8431,7 @@ partner-ts.groupon.co.uk
 beacon.guim.co.uk
 ads.hearstmags.com
 metrics.ikea.com
+bingads.microsoft.com
 asset.pagefair.com
 stats.pagefair.com
 asset.pagefair.net

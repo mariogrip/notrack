@@ -10,11 +10,16 @@
 <div id="main">
 <?php
 include('topmenu.html');
-echo "<h1>NoTrack</h1>\n"; 
+echo "<h1>NoTrack Admin</h1>\n"; 
+
+echo '<h3><a href="../admin/stats.php">Stats</a></h3>';
+echo '<h3><a href="../admin/blocklist.php">Blocklist</a></h3>';
+echo '<h3><a href="../admin/tldblocklist.php">TLD Blocklist</a></h3>';
+echo '<h3>Domains in Tracker Blocklist: '.number_format(floatval(exec('wc -l /etc/notrack/tracker-quick.list | cut -d\  -f 1'))).'</h3>';
+echo '<h3>Top Level Domains in Blocklist: '.number_format(floatval(exec('wc -l /etc/notrack/domain-quick.list | cut -d\  -f 1'))).'</h3>';
+echo '<h3>DNS Queries made today: '.number_format(floatval(exec('wc -l /var/log/pihole.log | cut -d\  -f 1'))).'</h3>';;
+
 ?>
-<h3><a href="../admin/stats.php">Stats</a></h3>
-<h3><a href="../admin/blocklist.php">Blocklist</a></h3>
-<h3><a href="../admin/tldblocklist.php">TLD Blocklist</a></h3>
 </div>
 </body>
 </html>
