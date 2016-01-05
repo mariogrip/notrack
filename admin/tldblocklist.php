@@ -1,31 +1,34 @@
- 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <link href="master.css" rel="stylesheet" type="text/css" />    
-    <title>NoTrack Stats</title>
+  <meta charset="UTF-8" />
+  <link href="master.css" rel="stylesheet" type="text/css" />    
+  <title>NoTrack TLD Blocklist</title>
 </head>
 
 <body>
 <div id="main">
 <?php
-$TLDBlockList = array();
-$TrackerBlockList = array();
+$CurTopMenu = 'tldblocklist';
+include('topmenu.html');
+echo "<h1>Top Level Domain Blocklist</h1>\n";
 
-//Read Malicious TLD List------------------------
-$FileHandle= fopen("/etc/dnsmasq.d/malicious-domains.list", "r") or die("Error unable to open /etc/dnsmasq.d/malicious-domains.list");
+$TLDBlockList = array();
+
+//Read Malicious TLD List--------------------------------------------
+$FileHandle = fopen('/etc/notrack/domain-quick.list', 'r') or die('Error unable to open /etc/notrack/domain-quick.list');
 while (!feof($FileHandle)) {
-  $Line = fgets($FileHandle);                    //Read Line of TLD List
-  if (substr($Line, 0, 1) != "#") {		 //Disregard comment line
-    
-    $TLDBlockList[] = trim(explode("/", $Line)[1]);
-    echo trim(explode("/", $Line)[1]);
-    echo "<br />\n";
-  }
+  $TLDBlockList[]= trim(fgets($FileHandle));  
 }
 fclose($FileHandle);
+asort($TLDBlockList);
 
+//Display List-------------------------------------------------------
+echo '<div class="row-padded"><br />'."\n";
+foreach($TLDBlockList as $Site) {
+  echo $Site."<br />\n";
+}
+echo "</div>\n";
 ?> 
 </div>
 </body>
