@@ -2,8 +2,7 @@
 #Title : NoTrack
 #Description : This script will download latest Adblock Domain block files from quidsup.net, then parse them into Dnsmasq.
 #Author : QuidsUp
-#Date : 2015-12-31
-#Version : 0.4
+#Date : 2015-01-05
 #Usage : sudo bash notrack.sh
 
 #User configurable variables-----------------------------------------
@@ -103,7 +102,6 @@ if [ ! -e $DomainWhiteList ]; then
 fi
 
 #Get IP Address of System--------------------------------------------
-IPVersion="4"
 if [ "$IPVersion" = "4" ]; then
   echo "Reading IPv4 Address"
   IPAddr=$( ip addr list eth0 |grep "inet " |cut -d' ' -f6|cut -d/ -f1 )
