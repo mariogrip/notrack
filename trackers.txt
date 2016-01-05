@@ -1,4 +1,4 @@
-#List of Ad files last updated 01 Jan 2016
+#List of Ad files last updated 05 Jan 2016
 103bees.com
 10cms.com
 206ads.com
@@ -174,6 +174,7 @@ chango.com
 channeladvisor.com
 chartbeat.com
 chartbeat.net
+chicdn.net
 clear-reports.com
 clickfuse.com
 clickshift.com

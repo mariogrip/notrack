@@ -1,4 +1,4 @@
-#Malicious Domains last updated 15 Dec 2015 
+#Malicious Domains last updated 05 Jan 2015 
 .cc #Cocos Islands 
 .cf #Central African Republic
 .cricket
@@ -7,6 +7,7 @@
 .kim
 .link
 .party
+.pink
 .review
 .science
 .work

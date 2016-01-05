@@ -16,7 +16,7 @@ echo "<br />\n";
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
-$CommonSites = array("cloudfront.net","googleusercontent.com","googlevideo.com","akamaiedge.com");
+$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','akamaiedge.com');
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 //HTTP GET Variables-------------------------------------------------
 $SortCol = 0;
@@ -56,9 +56,9 @@ if (isset($_GET['count'])) {
 $View = 1;
 if (isset($_GET['v'])) {
   switch ($_GET['v']) {
-    case "1": $View = 1; break;                 //Show All
-    case "2": $View = 2; break;                 //Allowed only
-    case "3": $View = 3; break;                 //Blocked only
+    case '1': $View = 1; break;                 //Show All
+    case '2': $View = 2; break;                 //Allowed only
+    case '3': $View = 3; break;                 //Blocked only
   }  
 }
 
@@ -73,18 +73,18 @@ function ReturnURL($Str) {
   //4: Try and combine well used sites $CommonSites which use a lot of different subdomains into "*"
   //   Its tempting to increase the list, however there is a processing limitation on a RaspberryPi
   global $CommonSites;
-  $Split = explode(".", $Str);
+  $Split = explode('.', $Str);
   $c = count($Split) - 1;
   
-  if ($Split[$c - 1] == "co") {
+  if ($Split[$c - 1] == 'co') {
     $Split[$c - 1] = 'co.' . $Split[$c];    
     $c--;    
   }
-  elseif ($Split[$c - 1] == "com") {
+  elseif ($Split[$c - 1] == 'com') {
     $Split[$c - 1] = 'com.' . $Split[$c];
     $c--;
   }
-  elseif ($Split[$c - 1] == "net") {
+  elseif ($Split[$c - 1] == 'net') {
     $Split[$c - 1] = 'net.' . $Split[$c]; 
     $c--;    
   }
@@ -92,7 +92,7 @@ function ReturnURL($Str) {
   if ($c == 0) return $Split[0];
   if ($c == 1) return $Split[0] . '.' . $Split[1];
   if ($c == 2) {
-    if ($Split[0] == "www") return $Split[1] . '.' . $Split[2];
+    if ($Split[0] == 'www') return $Split[1] . '.' . $Split[2];
     else {
       if (in_array($Split[$c - 1].'.'.$Split[$c], $CommonSites)) return '*.'.$Split[$c - 1].'.'.$Split[$c];
       else return $Split[0] . '.' . $Split[1] . '.' . $Split[2];
@@ -102,7 +102,7 @@ function ReturnURL($Str) {
     if (in_array($Split[$c - 1].'.'.$Split[$c], $CommonSites)) return '*.'.$Split[$c - 1].'.'.$Split[$c];
     else return $Split[$c - 2] . '.' . $Split[$c - 1] . '.' . $Split[$c];
   }
-  return "Error in URL String";
+  return 'Error in URL String';
 }
 //WriteLI Function for Pagination Boxes-------------------------------
 function WriteLI($Character, $Start, $Active) {
@@ -136,35 +136,40 @@ function WriteTH($Sort, $Dir, $Str) {
 //6 - "is"
 //7 - IP Returned
 $Dedup = "";                                     //To prevent duplication
-$FileHandle= fopen("/var/log/pihole.log", "r") or die("Error unable to open /var/log/pihole.log");
+$FileHandle= fopen('/var/log/pihole.log', 'r') or die('Error unable to open /var/log/pihole.log');
 //These while loops are replicated to reduce the number of if statements inside the loop, as this section is very CPU intensive and RPi struggles
 if ($View == 1) {				 //Read both Allow & Block
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
-    if (substr($Line, 4, 1) == " ") {            //dnsmasq puts a double space for single digit dates
-      $Seg = explode(" ", str_replace("  ", " ", $Line));
+    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
+      $Seg = explode(' ', str_replace('  ', ' ', $Line));
     }
-    else $Seg = explode(" ", $Line);             //Split Line into segments
+    else $Seg = explode(' ', $Line);             //Split Line into segments
     
-    if ($Seg[4] == "reply" && $Seg[5] != $Dedup) {
+    if (($Seg[4] == 'reply') && ($Seg[5] != $Dedup)) {
       $DomainList[] = ReturnURL($Seg[5]) . '+';
       $Dedup = $Seg[5];
     }
-    elseif ($Seg[4] == "config" && $Seg[5] != $Dedup) {
+    elseif (($Seg[4] == 'config') && ($Seg[5] != $Dedup)) {
       $DomainList[] = ReturnURL($Seg[5]) . '-';
       $Dedup = $Seg[5];
     }
+    elseif (($Seg[4] == '/etc/localhosts.list') && (substr($Seg[5], 0, 1) != '1')) {
+      //!= "1" negates Reverse DNS calls. If RFC 1918 is obeyed 10.0.0.0, 172.31, 192.168 all start with "1"
+      $DomainList[] = ReturnURL($Seg[5]) . '1';
+      //$Dedup = $Seg[5];
+    }    
   }
 }
 elseif ($View == 2) {				 //Read both Allowed only
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
-    if (substr($Line, 4, 1) == " ") {            //dnsmasq puts a double space for single digit dates
-      $Seg = explode(" ", str_replace("  ", " ", $Line));
+    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
+      $Seg = explode(' ', str_replace('  ', ' ', $Line));
     }
-    else $Seg = explode(" ", $Line);             //Split Line into segments
+    else $Seg = explode(' ', $Line);             //Split Line into segments
     
-    if ($Seg[4] == "reply" && $Seg[5] != $Dedup) {
+    if ($Seg[4] == 'reply' && $Seg[5] != $Dedup) {
       $DomainList[] = ReturnURL($Seg[5]) . '+';
       $Dedup = $Seg[5];
     }    
@@ -173,12 +178,12 @@ elseif ($View == 2) {				 //Read both Allowed only
 if ($View == 3) {				 //Read both Blocked only
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
-    if (substr($Line, 4, 1) == " ") {            //dnsmasq puts a double space for single digit dates
-      $Seg = explode(" ", str_replace("  ", " ", $Line));
+    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
+      $Seg = explode(' ', str_replace('  ', ' ', $Line));
     }
-    else $Seg = explode(" ", $Line);             //Split Line into segments
+    else $Seg = explode(' ', $Line);             //Split Line into segments
     
-    if ($Seg[4] == "config" && $Seg[5] != $Dedup) {
+    if ($Seg[4] == 'config' && $Seg[5] != $Dedup) {
       $DomainList[] = ReturnURL($Seg[5]) . '-';
       $Dedup = $Seg[5];
     }
@@ -189,7 +194,7 @@ if ($View == 3) {				 //Read both Blocked only
 fclose($FileHandle);
 
 //Read Malicious TLD List--------------------------------------------
-$FileHandle = fopen("/etc/notrack/domain-quick.list", "r") or die("Error unable to open /etc/notrack/domain-quick.list");
+$FileHandle = fopen('/etc/notrack/domain-quick.list', 'r') or die('Error unable to open /etc/notrack/domain-quick.list');
 while (!feof($FileHandle)) {
   $TLDBlockList[] = trim(fgets($FileHandle));
 }
@@ -240,18 +245,18 @@ echo '<table class="domain-table">';             //Table Start
 echo "<tr>\n";
 echo "<th>#</th>\n";
 if ($SortCol == 1) {
-  if ($SortDir == 0) WriteTH(1, 1, "Domain&#x25B4;");
-  else WriteTH(1, 0, "Domain&#x25BE;");
+  if ($SortDir == 0) WriteTH(1, 1, 'Domain&#x25B4;');
+  else WriteTH(1, 0, 'Domain&#x25BE;');
 }
 else {
-  WriteTH(1, $SortDir, "Domain");
+  WriteTH(1, $SortDir, 'Domain');
 }
 if ($SortCol == 0) {
-  if ($SortDir == 0) WriteTH(0, 1, "Requests&#x25BE;");
-  else WriteTH(0, 0, "Requests&#x25B4;");      
+  if ($SortDir == 0) WriteTH(0, 1, 'Requests&#x25BE;');
+  else WriteTH(0, 0, 'Requests&#x25B4;');
 }
 else {
-  WriteTH(0, $SortDir, "Requests");
+  WriteTH(0, $SortDir, 'Requests');
 }
 echo "</tr>\n";
 
@@ -260,29 +265,32 @@ $i = 1;
 foreach ($SortedDomainList as $Site => $Value) {
   if ($i >= $StartPoint) {
     if ($i >= $StartPoint + $ItemsPerPage) break;
-    $Action = substr($Site,-1,1);                  //Last character tells us whether URL was blocked or not
-    if ($Action == '+') {				 //+ = Allowed
+    $Action = substr($Site,-1,1);                //Last character tells us whether URL was blocked or not
+    if ($Action == '+') {                        //+ = Allowed
       if ($i & 1) echo '<tr class="odd">';
       else echo '<tr class="even">';
-      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1) . '</td><td>' . $Value . '</td>';
+      echo '<td>'. $i.'</td><td>'.substr($Site, 0, -1).'</td><td>'.$Value.'</td>';
     }
-    elseif ($Action == '-') {
+    elseif ($Action == '-') {                    //- = Blocked
+      $SplitURL = explode('.', substr($Site, 0, -1));
+      $CountSubDomains = count($SplitURL);      
       echo '<tr class="blocked">';
-      $SplitURL = explode(".", substr($Site, 0, -1));
-      $CountSubDomains = count($SplitURL);  
       echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1); 
       if ($CountSubDomains <= 1) {                 
         echo '<p class="small">Invalid domain</p>';     
       }
-      elseif (in_array('.' . $SplitURL[$CountSubDomains -1] . ' ', $TLDBlockList)) {
-        echo '<p class="small">.' . $SplitURL[$CountSubDomains -1] . ' Blocked by Top Level Domain List</p>';           
+      elseif (in_array('.'.$SplitURL[$CountSubDomains-1], $TLDBlockList)) {
+        echo '<p class="small">.'.$SplitURL[$CountSubDomains -1].' Blocked by Top Level Domain List</p>';           
       }
       else echo '<p class="small">Blocked by Tracker List</p>';
       echo '</td><td>' . $Value . '</td>';
     }
+    elseif ($Action == '1') {                    //1 = Local lookup
+      echo '<tr class="local">';
+      echo '<td>'.$i.'</td><td>'.substr($Site, 0, -1).'</td><td>'.$Value.'</td>';
+    }      
     echo "</tr>\n";
-  }
-  
+  }  
   $i++;
 }
 

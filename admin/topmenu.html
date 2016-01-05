@@ -1,17 +1,13 @@
 <nav>
-<div tabindex="0" id="main-menu-back">
-  <div id="main-menu-icon">
-    <div class="hamburger"></div>
-    <div class="hamburger"></div>
-    <div class="hamburger"></div>
-  </div>
+<div tabindex="0" id="main-menu-back">  
   <div id="qlogo">
     <a href="../admin"><img alt="QuidsUp" src="../admin/images/qlogo.png" title="Home" /></a>
   </div>
   <div id="main-menu">  
     <ul> 
       <li><a<?php if ($CurTopMenu == 'stats') echo ' class="active"';?> href="../admin/stats.php" title="Domain Stats"><span>Domain Stats</span></a></li>
-      <li><a<?php if ($CurTopMenu == 'blocklist') echo ' class="active"';?> href="../admin/blocklist.php" title="Block List"><span>Block List</span></a></li>      
+      <li><a<?php if ($CurTopMenu == 'blocklist') echo ' class="active"';?> href="../admin/blocklist.php" title="Block List"><span>Block List</span></a></li>
+      <li><a<?php if ($CurTopMenu == 'dhcp') echo ' class="active"';?> href="../admin/dhcpleases.php" title="DHCP Leases"><span>DHCP Leases</span></a></li>      
     </ul>
   </div>
   <div id="main-menu-line">

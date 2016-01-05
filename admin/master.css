@@ -193,18 +193,17 @@ div.centered {
 .pag-nav li:hover > ul {
   visibility: visible;
 }
-table {
-  margin: 5px 30px;
+table {  
   border: 1px dotted grey;
   border-spacing: 1px;  
+  table-layout: fixed;
 }
 td, th {
   border: 1px dotted grey;
   overflow: auto;  
   padding: 2px 3px;  
 }
-table.domain-table {
-  table-layout: fixed;
+table.domain-table {  
   width: 90%;
   margin: 0px auto;
   font-size:1.1em; 
@@ -220,8 +219,31 @@ table.domain-table {
   width: 25%;  
   text-align: center;
 }
+table.dhcp-table {  
+  width: 90%;
+  margin: 0px auto;
+  font-size:1.1em; 
+}
+.dhcp-table td:nth-child(1), .dhcp-table th:nth-child(1) {
+  width: 15%;
+  text-align: center;  
+}
+.dhcp-table td:nth-child(2), .dhcp-table th:nth-child(2) {
+  width: 35%;
+}
+.dhcp-table td:nth-child(3), .dhcp-table th:nth-child(3) {
+  width: 22%;  
+  text-align: center;
+}
+.dhcp-table td:nth-child(4), .dhcp-table th:nth-child(4) {
+  width: 22%;  
+  text-align: center;
+}
 .blocked {
   background: #EB5D66;
+}
+.local {
+  background: #93A0FF;
 }
 .odd {
   background: #FBFBFB;
