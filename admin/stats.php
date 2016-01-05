@@ -212,6 +212,7 @@ else {
 }
 
 $ListSize = count($SortedDomainList);
+if ($StartPoint >= $ListSize) $StartPoint = 1;
 //$SortedDomainList = array_slice($SortedDomainList, $StartPoint, $ItemsPerPage);
 //Draw Filter Dropdown list------------------------------------------
 echo '<form action="?" method="get">';
