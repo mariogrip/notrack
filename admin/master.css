@@ -88,10 +88,10 @@ pre {
   float: left;
   display: inline;
 }
-.row-mobile {
+.row-padded {
   width: 100%;
-  float: left;
-  display: none;
+  float: left;  
+  padding: 0em 1em;
 }
 .splitrow {
   width:100%;
@@ -99,6 +99,7 @@ pre {
   border-bottom: 2px solid #DFDFDF;
   margin: 0 0 5px 0;
 }
+
 #main {
   max-width: 1920px;
   margin:0 auto;
@@ -355,8 +356,4 @@ table.dhcp-table {
   .row-large {
     display: none;
   }
-  .row-mobile {
-    display: inline;
-  }
-
 }
