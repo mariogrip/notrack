@@ -136,7 +136,7 @@ function WriteTH($Sort, $Dir, $Str) {
 //6 - "is"
 //7 - IP Returned
 $Dedup = "";                                     //To prevent duplication
-$FileHandle= fopen('/var/log/pihole.log', 'r') or die('Error unable to open /var/log/pihole.log');
+$FileHandle= fopen('/var/log/notrack.log', 'r') or die('Error unable to open /var/log/notrack.log');
 //These while loops are replicated to reduce the number of if statements inside the loop, as this section is very CPU intensive and RPi struggles
 if ($View == 1) {				 //Read both Allow & Block
   while (!feof($FileHandle)) {

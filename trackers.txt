@@ -1,4 +1,4 @@
-#List of Ad files last updated 05 Jan 2016
+#List of Ad files last updated 07 Jan 2016
 103bees.com
 10cms.com
 206ads.com
@@ -247,6 +247,7 @@ ebayenterprise.com
 ebaypartnernetwork.com
 ebz.io
 ecustomeropinions.com
+edigitalresearch.com
 edigitalsurvey.com
 edgekey.net
 effectivemeasure.net

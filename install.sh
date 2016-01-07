@@ -20,8 +20,6 @@ DNSChoice1=""
 DNSChoice2=""
 
 
-# Divide by two so the dialogs take up half of the screen, which looks nice.
-
 #Welcome Dialog------------------------------------------------------
 Show_Welcome() {
   whiptail --msgbox --title "Welcome" "This installer will transform your Raspberry Pi into a network-wide Tracker Blocker!" $Height $Width
@@ -124,12 +122,15 @@ Install_Apps() {
   sudo apt-get update
   echo
   echo "Installing dependencies"
+  sleep 2s
   sudo apt-get -y install unzip
   echo
   echo "Installing Dnsmasq"
+  sleep 2s
   sudo apt-get -y install dnsmasq
   echo
   echo "Installing Lighttpd and PHP5"
+  sleep 2s
   sudo apt-get -y install lighttpd php5-cgi
   echo
 }
@@ -167,6 +168,7 @@ Download_NoTrack() {
 
   unzip -oq /tmp/notrack-master.zip -d /tmp
   mv /tmp/notrack-master ~/NoTrack
+  sudo chown $( whoami ):$( whoami ) -hR ~/NoTrack
   rm /tmp/notrack-master.zip                     #Cleanup
   
 }
@@ -218,14 +220,14 @@ Setup_NoTrack() {
 Show_Welcome
 
 Ask_IPVersion
-echo "IPVersion set to: "$IPVersion
+echo "IPVersion set to: $IPVersion"
 echo
 
 Ask_DNSServer
-echo "Primary DNS Server set to: "$DNSChoice1
-echo "Secondary DNS Server set to: "$DNSChoice2
+echo "Primary DNS Server set to: $DNSChoice1"
+echo "Secondary DNS Server set to: $DNSChoice2"
 echo 
-sleep 10s
+sleep 5s
 
 #Install Applications
 Install_Apps
