@@ -106,7 +106,7 @@ if [ "$IPVersion" = "4" ]; then
   echo "Reading IPv4 Address"
   IPAddr=$( ip addr list eth0 |grep "inet " |cut -d' ' -f6|cut -d/ -f1 )
   echo "System IP Address $IPAddr"
-elif [ “$IPVersion” = "6" ]; then
+elif [ "$IPVersion" = "6" ]; then
   echo "Reading IPv6 Address"
   IPAddr=$( ip addr list eth0 |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1 )
   echo "System IP Address $IPAddr"
