@@ -1,0 +1,10 @@
+/var/log/notrack.log
+{
+        daily
+        nocompress
+        missingok
+        copytruncate
+        postrotate
+        mv /var/log/notrack.log.1 /var/log/notrack/$dns-(date +%F).log
+        endscript
+}
