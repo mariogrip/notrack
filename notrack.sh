@@ -10,6 +10,7 @@
 IPVersion="4"
 
 #System Variables----------------------------------------------------
+NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
 TrackerSource="http://quidsup.net/trackers.txt" 
 TrackerListFile="/etc/dnsmasq.d/adsites.list" 
 TrackerQuickList="/etc/notrack/tracker-quick.list"
@@ -20,6 +21,7 @@ DomainListFile="/etc/dnsmasq.d/malicious-domains.list"
 DomainBlackList="/etc/notrack/domain-blacklist.txt"
 DomainWhiteList="/etc/notrack/domain-whitelist.txt"
 DomainQuickList="/etc/notrack/domain-quick.list"
+
 
 #Check /etc/notrack folder exists
 if [ ! -d "/etc/notrack" ]; then
@@ -103,12 +105,12 @@ fi
 
 #Get IP Address of System--------------------------------------------
 if [ "$IPVersion" = "4" ]; then
-  echo "Reading IPv4 Address"
-  IPAddr=$( ip addr list eth0 |grep "inet " |cut -d' ' -f6|cut -d/ -f1 )
+  echo "Reading IPv4 Address from $NetDev."
+  IPAddr=$( ip addr list $NetDev |grep "inet " |cut -d' ' -f6|cut -d/ -f1 )
   echo "System IP Address $IPAddr"
 elif [ "$IPVersion" = "6" ]; then
   echo "Reading IPv6 Address"
-  IPAddr=$( ip addr list eth0 |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1 )
+  IPAddr=$( ip addr list $NetDev |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1 )
   echo "System IP Address $IPAddr"
 else
   echo "Unknown IP Version" 1>&2

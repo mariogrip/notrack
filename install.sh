@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #Title : NoTrack Installer
-#Description : This script will install NoTrack and then configure dnsmasq and lightpd
+#Description : This script will install NoTrack and then configure dnsmasq and lighttpd
 #Author : QuidsUp
 #Date : 2016-01-03
 #Usage : bash install.sh
@@ -10,7 +10,7 @@
 
 #Settings------------------------------------------------------------
 Version="0.1"
-ConfLoc="~/.NoTrack/"
+NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
 Height=$(tput lines)
 Width=$(tput cols)
 Height=$(($Height / 2))
@@ -129,7 +129,7 @@ Install_Apps() {
   echo "Installing Dnsmasq"
   sudo apt-get -y install dnsmasq
   echo
-  echo "Installing Lightpd and PHP5"
+  echo "Installing Lighttpd and PHP5"
   sudo apt-get -y install lighttpd php5-cgi
   echo
 }
@@ -180,7 +180,8 @@ Setup_NoTrack() {
   
   #Finish configuration of dnsmasq
   sudo sed -i "s/server=changeme1/server=$DNSChoice1/" /etc/dnsmasq.conf
-  sudo sed -i "s/server=changeme2/server=$DNSChoice2/" /etc/dnsmasq.conf 
+  sudo sed -i "s/server=changeme2/server=$DNSChoice2/" /etc/dnsmasq.conf
+  sudo sed -i "s/interface=eth0/interface=$NetDev/" /etc/dnsmasq.conf 
   sudo touch /etc/localhosts.list
   
   #Setup Log rotation for dnsmasq
@@ -188,8 +189,8 @@ Setup_NoTrack() {
   sudo mkdir /var/log/notrack/
   echo
   
-  #Configure lightpd
-  echo "Configuring Lightpd"
+  #Configure lighttpd
+  echo "Configuring Lighttpd"
   sudo usermod -a -G www-data $(whoami)          #Add www-data group rights to current user
   sudo lighty-enable-mod fastcgi fastcgi-php
   sudo chmod 775 /var/www/html                   #Give read/write privilages to Web folder
@@ -197,10 +198,14 @@ Setup_NoTrack() {
   sudo ln -s ~/NoTrack/sink /var/www/html/sink   #Setup symlinks for Web folders
   sudo ln -s ~/NoTrack/admin/ /var/www/html/admin
   echo
+  echo "Restarting Lighttpd"
+  sudo service lighttpd restart
+  echo
   
   #Setup Tracker list downloader
   echo "Setting up Tracker list downloader"
-  sudo cp ~/NoTrack/notrack.sh /usr/local/sbin/notrack
+  sudo cp ~/NoTrack/notrack.sh /usr/local/sbin/
+  sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack
   sudo chmod +x /usr/local/sbin/notrack
   sudo ln -s /usr/local/sbin/notrack /etc/cron.daily/notrack
   echo  
@@ -220,6 +225,7 @@ Ask_DNSServer
 echo "Primary DNS Server set to: "$DNSChoice1
 echo "Secondary DNS Server set to: "$DNSChoice2
 echo 
+sleep 10s
 
 #Install Applications
 Install_Apps
