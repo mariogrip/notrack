@@ -33,6 +33,11 @@ Show_Welcome() {
   fi
 }
 
+#Finish Dialog-------------------------------------------------------
+Show_Finish() {
+  whiptail --msgbox --title "Install Complete" "NoTrack has been installed" $Height $Width
+}
+
 #Ask user which IP Version they are using on their network-----------
 Ask_IPVersion() {
   Fun=$(whiptail --title "IP Version" --radiolist "Select IP Version being used" $Height $Width 2 --ok-button Select \
@@ -171,24 +176,43 @@ Setup_NoTrack() {
   echo "Copying config files from ~/NoTrack to /etc/"
   sudo cp ~/NoTrack/conf/dnsmasq.conf /etc/dnsmasq.conf
   sudo cp ~/NoTrack/conf/lighttpd.conf /etc/lighttpd/lighttpd.conf
+  echo
   
   #Finish configuration of dnsmasq
   sudo sed -i "s/server=changeme1/server=$DNSChoice1/" /etc/dnsmasq.conf
   sudo sed -i "s/server=changeme2/server=$DNSChoice2/" /etc/dnsmasq.conf 
+  sudo touch /etc/localhosts.list
+  
+  #Setup Log rotation for dnsmasq
+  sudo cp ~/NoTrack/conf /etc/logrotate.d/notrack
+  sudo mkdir /var/log/notrack/
+  echo
   
   #Configure lightpd
+  echo "Configuring Lightpd"
   sudo usermod -a -G www-data $(whoami)          #Add www-data group rights to current user
   sudo lighty-enable-mod fastcgi fastcgi-php
   sudo chmod 775 /var/www/html                   #Give read/write privilages to Web folder
   
   sudo ln -s ~/NoTrack/sink /var/www/html/sink   #Setup symlinks for Web folders
   sudo ln -s ~/NoTrack/admin/ /var/www/html/admin
+  echo
+  
+  #Setup Tracker list downloader
+  echo "Setting up Tracker list downloader"
+  sudo cp ~/NoTrack/notrack.sh /usr/local/sbin/notrack
+  sudo chmod +x /usr/local/sbin/notrack
+  sudo ln -s /usr/local/sbin/notrack /etc/cron.daily/notrack
+  echo  
+  
+  echo "Setup of NoTrack complete"
+  echo
 }
 #Main----------------------------------------------------------------
 
-#Show_Welcome
+Show_Welcome
 
-#Ask_IPVersion
+Ask_IPVersion
 echo "IPVersion set to: "$IPVersion
 echo
 
@@ -198,14 +222,16 @@ echo "Secondary DNS Server set to: "$DNSChoice2
 echo 
 
 #Install Applications
-#Install_Apps
+Install_Apps
 
 #Backup old config files
-#Backup_Conf
+Backup_Conf
 
-#Download_NoTrack
+Download_NoTrack
 
+Setup_NoTrack
 
-#Setup_NoTrack
+echo "Downloading List of Trackers"
+sudo /usr/local/sbin/notrack
 
-#touch /etc/localhosts.list
+Show_Finish
