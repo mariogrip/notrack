@@ -13,8 +13,8 @@ $CurTopMenu = 'dhcp';
 include('topmenu.html');
 echo "<h1>DHCP Leases</h1>\n";
 
-if (file_exists("/tmp/dnsmasq.leases")) {
-  $FileHandle= fopen('/tmp/dnsmasq.leases', 'r') or die("Error unable to open /tmp/dnsmasq.leases");
+if (file_exists('/var/lib/misc/dnsmasq.leases')) {
+  $FileHandle= fopen('/var/lib/misc/dnsmasq.leases', 'r') or die("Error unable to open /var/lib/misc/dnsmasq.leases");
   echo '<div class="row"><br />'."\n";
   echo '<table class="dhcp-table"><tr>';
   echo '<th>Date of Request</th><th>Device Name</th><th>MAC Address</th><th>IP Allocated</th>'."\n";
