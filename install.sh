@@ -31,6 +31,12 @@ Show_Welcome() {
   fi
 }
 
+#Root Warning (Incase user executes this script as root)-------------
+Show_RootWarning() {
+  whiptail --msgbox --title "Error" "Do not run this script as Root!\nExecute with: bash install.sh" $Height $Width
+  exit 1
+}
+
 #Finish Dialog-------------------------------------------------------
 Show_Finish() {
   whiptail --msgbox --title "Install Complete" "NoTrack has been installed" $Height $Width
@@ -195,10 +201,10 @@ Setup_NoTrack() {
   echo "Configuring Lighttpd"
   sudo usermod -a -G www-data $(whoami)          #Add www-data group rights to current user
   sudo lighty-enable-mod fastcgi fastcgi-php
-  sudo chmod 775 /var/www/html                   #Give read/write privilages to Web folder
-  
+    
   sudo ln -s ~/NoTrack/sink /var/www/html/sink   #Setup symlinks for Web folders
   sudo ln -s ~/NoTrack/admin/ /var/www/html/admin
+  sudo chmod 775 /var/www/html                   #Give read/write/execute privilages to Web folder
   echo
   echo "Restarting Lighttpd"
   sudo service lighttpd restart
@@ -216,6 +222,11 @@ Setup_NoTrack() {
   echo
 }
 #Main----------------------------------------------------------------
+
+if [ "$(id -u)" == "0" ]; then                   #Check if running as root
+   Show_RootWarning                              #Running as root screws up lighttpd webpages
+   exit 1
+fi
 
 Show_Welcome
 
