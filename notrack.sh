@@ -1,13 +1,10 @@
 #!/bin/bash
 #Title : NoTrack
 #Description : This script will download latest Adblock Domain block files from quidsup.net, then parse them into Dnsmasq.
+#              Script will also create quick.lists for use by stats.php web page
 #Author : QuidsUp
-#Date : 2015-01-05
+#Date : 2015-01-08
 #Usage : sudo bash notrack.sh
-
-#User configurable variables-----------------------------------------
-#IP Version number for Localhost (4 or 6)
-IPVersion="4"
 
 #System Variables----------------------------------------------------
 NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
@@ -21,16 +18,34 @@ DomainListFile="/etc/dnsmasq.d/malicious-domains.list"
 DomainBlackList="/etc/notrack/domain-blacklist.txt"
 DomainWhiteList="/etc/notrack/domain-whitelist.txt"
 DomainQuickList="/etc/notrack/domain-quick.list"
+ConfigFile="/etc/notrack/notrack.conf"
+IPVersion=""
 
 
-#Check /etc/notrack folder exists
+#Check /etc/notrack folder exists------------------------------------
 if [ ! -d "/etc/notrack" ]; then
   echo "Creating notrack folder under /etc"
   echo
   mkdir "/etc/notrack"
 fi
 
-#Check if Blacklist exists
+#Read IP Version from config-----------------------------------------
+if [ ! -e $ConfFile ]; then
+  echo "Creating config file"
+  touch $ConfFile                                     #Create Config file
+  $IPVersion="IPv4"                                   #Default to IPv4
+  echo "IPVersion = IPv4" << $ConfFile
+  echo
+else 
+  IPVersion=$(cat $ConfFile | grep "IPVersion" | cut " = " -f 2 )
+  if [ $IPVersion == ""]; then                        #Check If Config is line missing
+    $IPVersion="IPv4"                                 #default to IPv4
+    echo "IPVersion = IPv4" << $ConfFile
+  fi
+fi
+echo "IP Version: $IPVersion"
+
+#Check if Blacklist exists-------------------------------------------
 if [ ! -e $TrackerBlackList ]; then
   echo "Creating blacklist"
   echo
@@ -104,11 +119,11 @@ if [ ! -e $DomainWhiteList ]; then
 fi
 
 #Get IP Address of System--------------------------------------------
-if [ "$IPVersion" = "4" ]; then
+if [ "$IPVersion" == "IPv4" ]; then
   echo "Reading IPv4 Address from $NetDev."
   IPAddr=$( ip addr list $NetDev |grep "inet " |cut -d' ' -f6|cut -d/ -f1 )
   echo "System IP Address $IPAddr"
-elif [ "$IPVersion" = "6" ]; then
+elif [ "$IPVersion" == "IPv6" ]; then
   echo "Reading IPv6 Address"
   IPAddr=$( ip addr list $NetDev |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1 )
   echo "System IP Address $IPAddr"
@@ -130,12 +145,12 @@ wget -O /etc/notrack/domains.txt $DomainSource
 #Check if lists have been downloaded successfully 
 if [ ! -e /etc/notrack/adsites.txt ]; then
   echo "Error Ad Site List not downloaded"
-  exit 1
+  exit 2
 fi
 
 if [ ! -e /etc/notrack/domains.txt ]; then
   echo "Error Domain List not downloaded"
-  exit 1
+  exit 2
 fi
 
 
