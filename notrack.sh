@@ -30,18 +30,18 @@ if [ ! -d "/etc/notrack" ]; then
 fi
 
 #Read IP Version from config-----------------------------------------
-if [ ! -e $ConfFile ]; then
+if [ ! -e $ConfigFile ]; then
   echo "Creating config file"
-  touch $ConfFile                                     #Create Config file
-  $IPVersion="IPv4"                                   #Default to IPv4
-  echo "IPVersion = IPv4" << $ConfFile
+  touch $ConfigFile                              #Create Config file
+  IPVersion="IPv4"                               #Default to IPv4
+  echo "IPVersion = IPv4" >> $ConfigFile
   echo
 else 
-  IPVersion=$(cat $ConfFile | grep "IPVersion" | cut " = " -f 2 )
-  if [ $IPVersion == ""]; then                        #Check If Config is line missing
-    $IPVersion="IPv4"                                 #default to IPv4
-    echo "IPVersion = IPv4" << $ConfFile
-  fi
+  IPVersion=$(cat $ConfigFile | grep "IPVersion" | cut -d "=" -f 2 | tr -d [[:space:]])
+  if [ $IPVersion == "" ]; then                  #Check If Config is line missing
+    $IPVersion="IPv4"                            #default to IPv4
+    echo "IPVersion = IPv4" >> $ConfigFile
+  fi  
 fi
 echo "IP Version: $IPVersion"
 
