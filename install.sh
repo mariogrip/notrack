@@ -5,10 +5,7 @@
 #Date : 2016-01-03
 #Usage : bash install.sh
 
-#User configurable variables-----------------------------------------
-
-
-#Settings------------------------------------------------------------
+#Program Settings----------------------------------------------------
 Version="0.1"
 NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
 Height=$(tput lines)
@@ -27,19 +24,19 @@ Show_Welcome() {
   whiptail --title "Initating Network Interface" --yesno "NoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly." --yes-button "Ok" --no-button "Abort" $Height $Width
   if (( $? == 1)) ; then                           #Abort install if user selected no
     echo "Aborting Install"
-    exit 4
+    exit 1
   fi
 }
 
 #Root Warning (Incase user executes this script as root)-------------
 Show_RootWarning() {
-  whiptail --msgbox --title "Error" "Do not run this script as Root!\nExecute with: bash install.sh" $Height $Width
-  exit 1
+  whiptail --msgbox --title "Error" "Do not run this script as Root!\nExecute with: bash install.sh" 10 $Width
+  exit 2
 }
 
 #Finish Dialog-------------------------------------------------------
 Show_Finish() {
-  whiptail --msgbox --title "Install Complete" "NoTrack has been installed" $Height $Width
+  whiptail --msgbox --title "Install Complete" "NoTrack has been installed" 10 $Width
 }
 
 #Ask user which IP Version they are using on their network-----------
@@ -52,7 +49,7 @@ Ask_IPVersion() {
     
   if [ $Ret -eq 1 ]; then
     echo "Aborting Install"
-    exit 4
+    exit 1
   elif [ $Ret -eq 0 ]; then
     case "$Fun" in
       "IPv4") IPVersion="IPv4" ;;
@@ -77,7 +74,7 @@ Ask_DNSServer() {
     
   if [ $Ret -eq 1 ]; then
     echo "Aborting Install"
-    exit 4
+    exit 1
   elif [ $Ret -eq 0 ]; then
     case "$Fun" in
       "OpenDNS") 
@@ -169,63 +166,85 @@ Download_NoTrack() {
   
   if [ ! -e /tmp/notrack-master.zip ]; then      #Check if download was successful
     echo "Error Download from github has failed"
-    exit 1                                       #Abort we can't go any further without any code from git
+    exit 2                                       #Abort we can't go any further without any code from git
   fi
 
   unzip -oq /tmp/notrack-master.zip -d /tmp
   mv /tmp/notrack-master ~/NoTrack
-  sudo chown $( whoami ):$( whoami ) -hR ~/NoTrack
+  sudo chown $(whoami):$(whoami) -hR ~/NoTrack
   rm /tmp/notrack-master.zip                     #Cleanup
   
 }
-#Setup---------------------------------------------------------------
-Setup_NoTrack() {
+
+#Setup Dnsmasq-------------------------------------------------------
+Setup_Dnsmasq() {
   #Copy config files modified for NoTrack
   echo "Copying config files from ~/NoTrack to /etc/"
   sudo cp ~/NoTrack/conf/dnsmasq.conf /etc/dnsmasq.conf
   sudo cp ~/NoTrack/conf/lighttpd.conf /etc/lighttpd/lighttpd.conf
   echo
   
-  #Finish configuration of dnsmasq
+  #Finish configuration of dnsmasq config
   sudo sed -i "s/server=changeme1/server=$DNSChoice1/" /etc/dnsmasq.conf
   sudo sed -i "s/server=changeme2/server=$DNSChoice2/" /etc/dnsmasq.conf
   sudo sed -i "s/interface=eth0/interface=$NetDev/" /etc/dnsmasq.conf 
-  sudo touch /etc/localhosts.list
+  sudo touch /etc/localhosts.list               #File for user to add DNS entries for their network
   
   #Setup Log rotation for dnsmasq
   sudo cp ~/NoTrack/conf /etc/logrotate.d/notrack
   sudo mkdir /var/log/notrack/
   echo
-  
-  #Configure lighttpd
+}
+
+#Setup Lighttpd------------------------------------------------------
+Setup_Lighttpd() {
   echo "Configuring Lighttpd"
   sudo usermod -a -G www-data $(whoami)          #Add www-data group rights to current user
   sudo lighty-enable-mod fastcgi fastcgi-php
+  
+  if [ ! -d /var/www/html ]; then                #www/html folder will get created by Lighttpd install
+    echo "Creating Web folder /var/www/html"
+    sudo mkdir -p /var/www/html                  #Create the folder for now incase installer failed
+  fi
     
-  sudo ln -s ~/NoTrack/sink /var/www/html/sink   #Setup symlinks for Web folders
-  sudo ln -s ~/NoTrack/admin/ /var/www/html/admin
+  sudo ln -sf ~/NoTrack/sink /var/www/html/sink  #Setup symlinks for Web folders
+  sudo ln -sf ~/NoTrack/admin/ /var/www/html/admin
   sudo chmod 775 /var/www/html                   #Give read/write/execute privilages to Web folder
   echo
   echo "Restarting Lighttpd"
   sudo service lighttpd restart
   echo
-  
+}
+
+#Setup Notrack-------------------------------------------------------
+Setup_NoTrack() {
   #Setup Tracker list downloader
   echo "Setting up Tracker list downloader"
   sudo cp ~/NoTrack/notrack.sh /usr/local/sbin/
-  sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack
-  sudo chmod +x /usr/local/sbin/notrack
+  sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack #Cron jobs will only execute on files Without extensions
+  sudo chmod +x /usr/local/sbin/notrack          #Make NoTrack Script executable
   sudo ln -s /usr/local/sbin/notrack /etc/cron.daily/notrack
-  echo  
+  echo
+  
+  if [ ! -d "/etc/notrack" ]; then              #Check /etc/notrack folder exists
+    echo "Creating notrack folder under /etc"
+    echo
+    sudo mkdir "/etc/notrack"
+  fi
+  
+  sudo touch /etc/notrack/notrack.conf          #Create Config file
+  sudo echo "IPVersion = $IPVersion" > /etc/notrack/notrack.conf
+  sudo echo "AppVersion = $Version" >> /etc/notrack/notrack.conf
   
   echo "Setup of NoTrack complete"
   echo
 }
-#Main----------------------------------------------------------------
 
+#NoTrack 
+
+#Main----------------------------------------------------------------
 if [ "$(id -u)" == "0" ]; then                   #Check if running as root
    Show_RootWarning                              #Running as root screws up lighttpd webpages
-   exit 1
 fi
 
 Show_Welcome
@@ -240,14 +259,14 @@ echo "Secondary DNS Server set to: $DNSChoice2"
 echo 
 sleep 5s
 
-#Install Applications
-Install_Apps
+Install_Apps                                     #Install Applications
 
-#Backup old config files
-Backup_Conf
+Backup_Conf                                      #Backup old config files
 
 Download_NoTrack
 
+Setup_Dnsmasq
+Setup_Lighttpd
 Setup_NoTrack
 
 echo "Downloading List of Trackers"
