@@ -191,8 +191,11 @@ Setup_Dnsmasq() {
   sudo touch /etc/localhosts.list               #File for user to add DNS entries for their network
   
   #Setup Log rotation for dnsmasq
-  sudo cp ~/NoTrack/conf /etc/logrotate.d/notrack
+  sudo cp ~/NoTrack/conf/logrotate.txt /etc/logrotate.d/logrotate.txt
+  sudo mv /etc/logrotate.d/logrotate.txt /etc/logrotate.d/notrack
   sudo mkdir /var/log/notrack/
+  sudo touch /var/log/notrack.log                #Create log file for Dnsmasq
+  sudo chmod 664 /var/log/notrack.log            #Dnsmasq sometimes defaults to permissions 774
   echo
 }
 

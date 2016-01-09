@@ -5,6 +5,7 @@
         missingok
         copytruncate
         postrotate
-        mv /var/log/notrack.log.1 /var/log/notrack/$dns-(date +%F).log
+        chmod 644 /var/log/notrack.log.1
+        mv /var/log/notrack.log.1 /var/log/notrack/dns-$(date +%F).log
         endscript
 }
