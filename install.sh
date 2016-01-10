@@ -177,7 +177,15 @@ Download_NoTrack() {
 Setup_Dnsmasq() {
   #Copy config files modified for NoTrack
   echo "Copying config files from ~/NoTrack to /etc/"
+  if [ ! -e ~/NoTrack/conf/dnsmasq.conf ]; then 
+    echo "Error file ~/NoTrack/conf/dnsmasq.conf is missing.  Aborting."
+    exit 2
+  fi
   sudo cp ~/NoTrack/conf/dnsmasq.conf /etc/dnsmasq.conf
+  if [ ! -e ~/NoTrack/conf/lighttpd.conf ]; then 
+    echo "Error file ~/NoTrack/conf/lighttpd.conf is missing.  Aborting."
+    exit 2
+  fi
   sudo cp ~/NoTrack/conf/lighttpd.conf /etc/lighttpd/lighttpd.conf
   echo
   
@@ -188,6 +196,10 @@ Setup_Dnsmasq() {
   sudo touch /etc/localhosts.list               #File for user to add DNS entries for their network
   
   #Setup Log rotation for dnsmasq
+  if [ ! -e ~/NoTrack/conf/logrotate.txt]; then 
+    echo "Error file ~/NoTrack/conf/logrotate.txt is missing.  Aborting."
+    exit 2
+  fi
   sudo cp ~/NoTrack/conf/logrotate.txt /etc/logrotate.d/logrotate.txt
   sudo mv /etc/logrotate.d/logrotate.txt /etc/logrotate.d/notrack
   sudo mkdir /var/log/notrack/
@@ -206,7 +218,7 @@ Setup_Lighttpd() {
     echo "Creating Web folder /var/www/html"
     sudo mkdir -p /var/www/html                  #Create the folder for now incase installer failed
   fi
-    
+  
   sudo ln -sf ~/NoTrack/sink /var/www/html/sink  #Setup symlinks for Web folders
   sudo ln -sf ~/NoTrack/admin /var/www/html/admin
   sudo chmod 775 /var/www/html                   #Give read/write/execute privilages to Web folder
@@ -220,6 +232,10 @@ Setup_Lighttpd() {
 Setup_NoTrack() {
   #Setup Tracker list downloader
   echo "Setting up Tracker list downloader"
+  if [ ! -e ~/NoTrack/notrack.sh ]; then 
+    echo "Error file ~/NoTrack/notrack.sh is missing.  Aborting."
+    exit 2
+  fi
   sudo cp ~/NoTrack/notrack.sh /usr/local/sbin/
   sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack #Cron jobs will only execute on files Without extensions
   sudo chmod +x /usr/local/sbin/notrack          #Make NoTrack Script executable
