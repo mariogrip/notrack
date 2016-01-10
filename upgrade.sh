@@ -6,6 +6,7 @@
 #Usage : bash upgrade.sh (Can also be run from /admin/upgrade web interface)
 
 #Program Settings----------------------------------------------------
+NewVer="0.3"                                    #Need something more automated
 
 #Main----------------------------------------------------------------
 if [ "$(id -u)" == "0" ]; then                   #Check if running as root
@@ -14,9 +15,8 @@ if [ "$(id -u)" == "0" ]; then                   #Check if running as root
    exit 2
 fi
 
-if [ -d ~/NoTrack ]; then                      #Check if NoTrack folder exists
-if [ -e ~/NoTrack/conf/dnsmasq.conf ] && [ -e ~/NoTrack/conf/lighttpd.conf ]
-  if [ -d ~/NoTrack-old ]; then                #Delete NoTrack-old folder if it exists
+if [ -d ~/NoTrack ]; then                        #Check if NoTrack folder exists
+  if [ -d ~/NoTrack-old ]; then                  #Delete NoTrack-old folder if it exists
     echo "Removing old NoTrack folder"
     echo
     rm -r ~/NoTrack-old
@@ -26,7 +26,7 @@ if [ -e ~/NoTrack/conf/dnsmasq.conf ] && [ -e ~/NoTrack/conf/lighttpd.conf ]
   mv ~/NoTrack ~/NoTrack-old
 fi
 
-wget "https://github.com/quidsup/notrack/archive/v$Version.zip" -O /tmp/notrack-master.zip
+wget "https://github.com/quidsup/notrack/archive/v$NewVer.zip" -O /tmp/notrack-master.zip
 if [ ! -e /tmp/notrack-master.zip ]; then      #Check if download was successful
   echo "Unable to download https://github.com/quidsup/notrack/archive/v$Version.zip"
   echo "Falling back to master version instead"
@@ -36,3 +36,5 @@ if [ ! -e /tmp/notrack-master.zip ]; then      #Check if download was successful
     exit 2                                     #Abort we can't go any further without any code from git
   fi
 fi
+
+echo "Upgrade complete"
