@@ -39,7 +39,7 @@ if [ ! -e $ConfigFile ]; then
 else 
   IPVersion=$(cat $ConfigFile | grep "IPVersion" | cut -d "=" -f 2 | tr -d [[:space:]])
   if [ $IPVersion == "" ]; then                  #Check If Config is line missing
-    $IPVersion="IPv4"                            #default to IPv4
+    IPVersion="IPv4"                             #default to IPv4
     echo "IPVersion = IPv4" >> $ConfigFile
   fi  
 fi
@@ -121,11 +121,11 @@ fi
 #Get IP Address of System--------------------------------------------
 if [ "$IPVersion" == "IPv4" ]; then
   echo "Reading IPv4 Address from $NetDev."
-  IPAddr=$( ip addr list $NetDev |grep "inet " |cut -d' ' -f6|cut -d/ -f1 )
+  IPAddr=$( ip addr list "$NetDev" |grep "inet " |cut -d' ' -f6|cut -d/ -f1 )
   echo "System IP Address $IPAddr"
 elif [ "$IPVersion" == "IPv6" ]; then
   echo "Reading IPv6 Address"
-  IPAddr=$( ip addr list $NetDev |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1 )
+  IPAddr=$( ip addr list "$NetDev" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1 )
   echo "System IP Address $IPAddr"
 else
   echo "Unknown IP Version" 1>&2
@@ -161,8 +161,8 @@ fi
 if [ ! -e $TrackerQuickList ]; then
   touch $TrackerQuickList
 fi
-if [ ! -e $DomainSourceFile ]; then
-  touch $DomainSourceFile
+if [ ! -e $DomainListFile ]; then
+  touch $DomainListFile
 fi
 if [ ! -e $DomainQuickList ]; then
   touch $DomainQuickList
@@ -188,7 +188,7 @@ awk 'NR==FNR{A[$1]; next}!($1 in A)' $TrackerWhiteList /tmp/combined.txt | while
     Line="${Line%%\#*}"  # Del in line right comments
     Line="${Line%%*( )}" # Del trailing spaces
     echo "address=/$Line/$IPAddr" >> $TrackerListFile
-    echo $Line >> $TrackerQuickList
+    echo "$Line" >> $TrackerQuickList
   fi
   ((i++))
 done
@@ -211,7 +211,7 @@ awk 'NR==FNR{A[$1]; next}!($1 in A)' $DomainWhiteList /tmp/combined.txt | while 
     Line="${Line%%\#*}"  # Del in line right comments
     Line="${Line%%*( )}" # Del trailing spaces 
     echo "address=/$Line/$IPAddr" >> $DomainListFile
-    echo $Line >> $DomainQuickList
+    echo "$Line" >> $DomainQuickList
   fi
 done
 
