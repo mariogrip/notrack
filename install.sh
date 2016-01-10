@@ -3,24 +3,22 @@
 #Description : This script will install NoTrack and then configure dnsmasq and lighttpd
 #Author : QuidsUp
 #Date : 2016-01-10
-#Version : v0.1
 #Usage : bash install.sh
 
 #Program Settings----------------------------------------------------
-
+Version="v0.2"
 NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
 Height=$(tput lines)
 Width=$(tput cols)
-Height=$(($Height / 2))
-Width=$((($Width * 2) / 3))
+Height=$((Height / 2))
+Width=$(((Width * 2) / 3))
 IPVersion=""
 DNSChoice1=""
 DNSChoice2=""
 
-
 #Welcome Dialog------------------------------------------------------
 Show_Welcome() {
-  whiptail --msgbox --title "Welcome" "This installer will transform your Raspberry Pi into a network-wide Tracker Blocker!" $Height $Width
+  whiptail --msgbox --title "Welcome to NoTrack $Version" "This installer will transform your Raspberry Pi into a network-wide Tracker Blocker!" $Height $Width
 
   whiptail --title "Initating Network Interface" --yesno "NoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly." --yes-button "Ok" --no-button "Abort" $Height $Width
   if (( $? == 1)) ; then                           #Abort install if user selected no
@@ -151,30 +149,28 @@ Backup_Conf() {
 
 #Download------------------------------------------------------------
 Download_NoTrack() {
-  if [ -d ~/NoTrack ]; then                      #Move NoTrack folder if it exists
-    if [ -d ~/NoTrack-old ]; then                #Delete NoTrack-old folder if it exists
-      echo "Removing old NoTrack folder"
-      echo
-      rm -r ~/NoTrack-old
+  if [ -d ~/NoTrack ]; then                      #Check if NoTrack folder exists
+    echo "NoTrack folder exists. Skipping download"
+  else
+    echo "Downloading NoTrack $Version from github"
+    wget "https://github.com/quidsup/notrack/archive/v$Version.zip" -O /tmp/notrack-master.zip
+  
+    if [ ! -e /tmp/notrack-master.zip ]; then    #Check if download was successful
+      echo "Unable to download https://github.com/quidsup/notrack/archive/v$Version.zip"
+      echo "Falling back to master version instead"
+      wget https://github.com/quidsup/notrack/archive/master.zip -O /tmp/notrack-master.zip
+      if [ ! -e /tmp/notrack-master.zip ]; then  #Check again to see if download was successful
+        echo "Error Download from github has failed"
+        exit 2                                   #Abort we can't go any further without any code from git
+      fi
     fi
-    echo "Moving ~/NoTrack folder to ~/NoTrack-old"
-    echo
-    mv ~/NoTrack ~/NoTrack-old
-  fi
 
-  echo "Downloading NoTrack v0.1 from github"
-  wget https://github.com/quidsup/notrack/archive/v0.1.zip -O /tmp/notrack-master.zip
-  
-  if [ ! -e /tmp/notrack-master.zip ]; then      #Check if download was successful
-    echo "Error Download from github has failed"
-    exit 2                                       #Abort we can't go any further without any code from git
+    unzip -oq /tmp/notrack-master.zip -d /tmp
+    mv /tmp/notrack-master ~/NoTrack
+    rm /tmp/notrack-master.zip                  #Cleanup
   fi
-
-  unzip -oq /tmp/notrack-master.zip -d /tmp
-  mv /tmp/notrack-master ~/NoTrack
-  sudo chown $(whoami):$(whoami) -hR ~/NoTrack
-  rm /tmp/notrack-master.zip                     #Cleanup
   
+  sudo chown "$(whoami)":"$(whoami)" -hR ~/NoTrack
 }
 
 #Setup Dnsmasq-------------------------------------------------------
@@ -203,7 +199,7 @@ Setup_Dnsmasq() {
 #Setup Lighttpd------------------------------------------------------
 Setup_Lighttpd() {
   echo "Configuring Lighttpd"
-  sudo usermod -a -G www-data $(whoami)          #Add www-data group rights to current user
+  sudo usermod -a -G www-data "$(whoami)"        #Add www-data group rights to current user
   sudo lighty-enable-mod fastcgi fastcgi-php
   
   if [ ! -d /var/www/html ]; then                #www/html folder will get created by Lighttpd install
@@ -212,7 +208,7 @@ Setup_Lighttpd() {
   fi
     
   sudo ln -sf ~/NoTrack/sink /var/www/html/sink  #Setup symlinks for Web folders
-  sudo ln -sf ~/NoTrack/admin/ /var/www/html/admin
+  sudo ln -sf ~/NoTrack/admin /var/www/html/admin
   sudo chmod 775 /var/www/html                   #Give read/write/execute privilages to Web folder
   echo
   echo "Restarting Lighttpd"
@@ -237,13 +233,11 @@ Setup_NoTrack() {
   fi
   
   sudo touch /etc/notrack/notrack.conf          #Create Config file
-  sudo echo "IPVersion = $IPVersion" > /etc/notrack/notrack.conf
+  echo "IPVersion = $IPVersion" | sudo tee /etc/notrack/notrack.conf
   
   echo "Setup of NoTrack complete"
   echo
 }
-
-#NoTrack 
 
 #Main----------------------------------------------------------------
 if [ "$(id -u)" == "0" ]; then                   #Check if running as root
