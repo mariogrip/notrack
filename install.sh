@@ -2,11 +2,12 @@
 #Title : NoTrack Installer
 #Description : This script will install NoTrack and then configure dnsmasq and lighttpd
 #Author : QuidsUp
-#Date : 2016-01-03
+#Date : 2016-01-10
+#Version : v0.1
 #Usage : bash install.sh
 
 #Program Settings----------------------------------------------------
-Version="0.1"
+
 NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
 Height=$(tput lines)
 Width=$(tput cols)
@@ -161,8 +162,8 @@ Download_NoTrack() {
     mv ~/NoTrack ~/NoTrack-old
   fi
 
-  echo "Downloading latest code from github"
-  wget https://github.com/quidsup/notrack/archive/master.zip -O /tmp/notrack-master.zip
+  echo "Downloading NoTrack v0.1 from github"
+  wget https://github.com/quidsup/notrack/archive/v0.1.zip -O /tmp/notrack-master.zip
   
   if [ ! -e /tmp/notrack-master.zip ]; then      #Check if download was successful
     echo "Error Download from github has failed"
@@ -237,7 +238,6 @@ Setup_NoTrack() {
   
   sudo touch /etc/notrack/notrack.conf          #Create Config file
   sudo echo "IPVersion = $IPVersion" > /etc/notrack/notrack.conf
-  sudo echo "AppVersion = $Version" >> /etc/notrack/notrack.conf
   
   echo "Setup of NoTrack complete"
   echo
