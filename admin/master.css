@@ -10,7 +10,7 @@ body {
   height: 100%;
   color: #00000A;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.2em;
+  font-size: 1.1em;
   background-color:#fbfbfb;
 }
 a:link, a:visited  { 
@@ -23,7 +23,6 @@ a:hover {
 }
 p {
   margin: 0.5em 0.5em 0em 1em;
-  font-size: 1rem;  
 }
 p.bold {
   font-weight:bold;  
@@ -50,10 +49,15 @@ img.dl-icon {
   margin: 1px 0.5em 0 2px;
 }
 h1 {
-  font-size: 1.5em;
-  font-weight: 400;
-  margin: 0.4em 0 0 0;
-  text-align: center
+  font-size: 2.1em;
+  font-weight: bold;
+  text-align: center;
+  color: #d9d9d9;
+  background-color: #6BA7D9; 
+  margin: 1em 0; 
+  padding: 1.5rem;  
+  text-shadow: 3px 2px #222;
+  letter-spacing: 0.2rem;
 }
 h2 {
   font-size:1.2em;
@@ -99,10 +103,8 @@ pre {
   border-bottom: 2px solid #DFDFDF;
   margin: 0 0 5px 0;
 }
-
 #main {
-  max-width: 1920px;
-  margin:0 auto;
+  max-width: 100%;
 } 
 
 a.linkbutton {
