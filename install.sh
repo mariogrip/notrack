@@ -196,7 +196,7 @@ Setup_Dnsmasq() {
   sudo touch /etc/localhosts.list               #File for user to add DNS entries for their network
   
   #Setup Log rotation for dnsmasq
-  if [ ! -e ~/NoTrack/conf/logrotate.txt]; then 
+  if [ ! -e ~/NoTrack/conf/logrotate.txt ]; then 
     echo "Error file ~/NoTrack/conf/logrotate.txt is missing.  Aborting."
     exit 2
   fi
@@ -270,6 +270,7 @@ Ask_DNSServer
 echo "Primary DNS Server set to: $DNSChoice1"
 echo "Secondary DNS Server set to: $DNSChoice2"
 echo 
+echo "Preparing to Install..."
 sleep 5s
 
 Install_Apps                                     #Install Applications

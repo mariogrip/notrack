@@ -83,7 +83,7 @@ sudo cp ~/server.pem /etc/lighttpd/server.pem
 echo
 
 echo "Restarting Lighttpd"
-sudo service lighttpd force-restart
+sudo service lighttpd force-reload
 echo
 
 if [ -z "$(pgrep lighttpd)" ]; then                #Check if lighttpd restart has been successful
@@ -92,14 +92,14 @@ if [ -z "$(pgrep lighttpd)" ]; then                #Check if lighttpd restart ha
     echo "Something may have gone wrong with the certificate settings."
     echo "Try and re-run this script"
     echo "If you want to try and manually fix the Lighttpd config you'll find it in /etc/lighttpd"
-    echo "Restart the service with: sudo service lighttpd force-restart"
+    echo "Restart the service with: sudo service lighttpd force-reload"
     exit 1
   fi
   
   echo "Disabling Lighttpd SSL Module"
   sudo lighty-disable-mod ssl                      #Disable SSL Module
   echo "Restarting Lighttpd"
-  sudo service lighttpd force-restart
+  sudo service lighttpd force-reload
   echo
   
   if [ -z "$(pgrep lighttpd)" ]; then              #Check if lighttpd restart has now been successful

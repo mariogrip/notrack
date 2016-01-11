@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8" />
     <link href="master.css" rel="stylesheet" type="text/css" />    
-    <title>NoTrack Stats</title>
+    <title>NoTrack Upgrade</title>
 </head>
 
 <body>
 <div id="main">
 <?php
-$CurTopMenu = 'stats';
+$CurTopMenu = 'upgrade';
 include('topmenu.html');
-echo "<h1>Domain Stats</h1>\n";
-echo "<br />\n";
 echo "<h1>NoTrack Upgrade</h1>\n";
-echo  "<br /><br />\n";
+echo  "<br />\n";
 $Version=0.0;
 
 if (isset($_GET['u'])) {                        //Check if we are running upgrade or displaying status
   if ($_GET['u'] == '1') {                      //Doing the upgrade
     echo '<p>Upgrading NoTrack</p>';
-	  echo '<pre>';
-	  passthru('~/NoTrack/upgrade.sh');
-	  echo "</pre>\n";
-	  echo "<br />\n";
-	  echo '<h2><a class="linkbutton" href="./admin">Back</a></h2>';
+    echo '<pre>';
+    passthru('~/NoTrack/upgrade.sh');
+    echo "</pre>\n";
+    echo "<br />\n";
+    echo '<h2><a class="linkbutton" href="./admin">Back</a></h2>';
   }
 }
 else {                                           //Just displaying status
@@ -43,13 +41,14 @@ else {                                           //Just displaying status
     echo '<h2><a class="linkbutton" href="?u=1">Upgrade</a>&nbsp;<a class="linkbutton" href="./admin">Back</a></h2>';
   }
   elseif ($V == $Version) {
-	echo '<p>You&#39;re are running the latest version v'.$Version.'</p>';
-	echo '<h2><a class="linkbutton" href="./admin">Back</a></h2>';
+    echo '<p>You&#39;re are running the latest version v'.$Version.'</p>';
+    echo '<h2><a class="linkbutton" href="./admin">Back</a></h2>';
   }
   else {
-	echo '<p>You&#39;re are ahead of the latest release v'.$V.'</p>';
-	echo '<h2><a class="linkbutton" href="./admin">Back</a></h2>';
+    echo '<p>You&#39;re are ahead of the latest release v'.$V.'</p>';
+    echo '<h2><a class="linkbutton" href="./admin">Back</a></h2>';
   }
+}
 ?> 
 </div>
 </body>
