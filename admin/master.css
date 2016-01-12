@@ -353,6 +353,73 @@ table.dhcp-table {
     display: none;
   }
 }
+.home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y {
+  width: 20%;
+  margin: 1%;
+  float: left; 
+  border: 3px solid #111;
+  border-radius: 8px;
+  padding: 1em;
+  height: 10em;
+}
+.home-nav-r:hover, .home-nav-g:hover ,.home-nav-b:hover, .home-nav-y:hover {
+  border:3px solid #00EDFF;
+}
+h2.home-nav  {  
+  font-size: 2em;
+  color: #1973AF;
+  text-align: center;
+  padding-bottom: 0.5em;
+  letter-spacing: 0.2rem;
+  color: #d9d9d9;  
+}
+h3.home-nav {
+  font-size: 2.2em;
+  font-weight: bold;
+  color: #1973AF;
+  text-align: center;  
+  letter-spacing: 0.2rem;
+  color: #d9d9d9;  
+  margin: 0;
+  padding: 0;
+}
+.home-nav-r {
+  background-color: #A3000E;
+  background: linear-gradient(to bottom, #7A000A 0%, #A3000E 28%, #C70011 100%);
+}
+.home-nav-g {
+  background: #00CC03;
+  background: linear-gradient(to bottom, #00B330 0%, #00CC03 28%, #00CC03 100%);
+}
+.home-nav-b {
+  background: #00CCCC;
+  background: linear-gradient(to bottom, #0086B3 0%, #00CCCC 28%, #00CCCC 100%);  
+}
+.home-nav-y {
+  background: #EBDB00;
+  background: linear-gradient(to bottom, #A7CC00 0%, #EBDB00 28%, #EBDB00 100%);
+}
+.home-nav-left {
+  width: 60%;  
+  float: left;
+  display: block;	
+}
+.home-nav-right {
+  width: 35%;  
+  float: right;
+  display: block;	
+}
+@media only screen and (max-width: 1400px), only screen and (max-device-width: 1400px) {
+  .home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y {
+    width: 43%;	
+  }
+}
+@media only screen and (max-width: 640px), only screen and (max-device-width: 480px) {
+  .home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y {
+    width: 90%;	
+	margin: 2px;
+  }
+}
 
 @media only print {
   #main-menu-back {
