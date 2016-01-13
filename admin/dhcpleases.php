@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <link href="master.css" rel="stylesheet" type="text/css" />    
+    <link href="./css/master.css" rel="stylesheet" type="text/css" />    
     <title>DHCP Leases</title>
 </head>
 
