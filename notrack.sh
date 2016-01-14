@@ -256,7 +256,7 @@ Web_Upgrade() {
     fi
     echo "Moving $InstallLoc folder to $InstallLoc-old"
     echo
-    mv "$InstallLoc $InstallLoc-old"
+    mv "$InstallLoc" "$InstallLoc-old"
   fi
 
   echo "Downloading latest version of NoTrack from https://github.com/quidsup/notrack/archive/master.zip"
@@ -269,7 +269,7 @@ Web_Upgrade() {
   echo "Unzipping notrack-master.zip"
   unzip -oq /tmp/notrack-master.zip -d /tmp
   echo "Copying folder across to $InstallLoc"
-  mv /tmp/notrack-master $InstallLoc
+  mv /tmp/notrack-master "$InstallLoc"
   echo "Removing temporary files"
   rm /tmp/notrack-master.zip                  #Cleanup
 
@@ -285,7 +285,7 @@ Full_Upgrade() {
   InstallLoc=${InstallLoc/%\/admin/}             #Trim "/admin" from string
   
   Check_File_Exists "$InstallLoc/notrack.sh"
-  sudo cp "$InstallLoc/notrack.sh /usr/local/sbin/"
+  sudo cp "$InstallLoc/notrack.sh" /usr/local/sbin/
   sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack
   sudo chmod +x /usr/local/sbin/notrack
   

@@ -15,6 +15,7 @@ Width=$(((Width * 2) / 3))
 IPVersion=""
 DNSChoice1=""
 DNSChoice2=""
+InstallLoc="${HOME}/NoTrack"
 
 #Welcome Dialog------------------------------------------------------
 Show_Welcome() {
@@ -27,15 +28,9 @@ Show_Welcome() {
   fi
 }
 
-#Root Warning (Incase user executes this script as root)-------------
-Show_RootWarning() {
-  whiptail --msgbox --title "Error" "Do not run this script as Root!\nExecute with: bash install.sh" 10 $Width
-  exit 2
-}
-
 #Finish Dialog-------------------------------------------------------
 Show_Finish() {
-  whiptail --msgbox --title "Install Complete" "NoTrack has been installed" 10 $Width
+  whiptail --msgbox --title "Install Complete" "NoTrack has been installed\nAccess the admin console at http://$(hostname)/admin" 10 $Width
 }
 
 #Ask user which IP Version they are using on their network-----------
@@ -121,7 +116,7 @@ Ask_DNSServer() {
 
 #Check File Exists---------------------------------------------------
 Check_File_Exists() {
-  if [ ! -e $1 ]; then
+  if [ ! -e "$1" ]; then
     echo "Error file $1 is missing.  Aborting."
     exit 2
   fi
@@ -141,7 +136,7 @@ Install_Apps() {
   echo
   echo "Installing Lighttpd and PHP5"
   sleep 2s
-  sudo apt-get -y install lighttpd php5-cgi
+  sudo apt-get -y install lighttpd php5-cgi php5-curl
   echo
 }
 
@@ -157,7 +152,7 @@ Backup_Conf() {
 
 #Download------------------------------------------------------------
 Download_NoTrack() {
-  if [ -d ~/NoTrack ]; then                      #Check if NoTrack folder exists
+  if [ -d $InstallLoc ]; then                      #Check if NoTrack folder exists
     echo "NoTrack folder exists. Skipping download"
   else
     echo "Downloading latest version of NoTrack from github"
@@ -168,37 +163,46 @@ Download_NoTrack() {
     fi  
 
     unzip -oq /tmp/notrack-master.zip -d /tmp
-    mv /tmp/notrack-master ~/NoTrack
+    mv "/tmp/notrack-master $InstallLoc"
     rm /tmp/notrack-master.zip                  #Cleanup
   fi
   
-  sudo chown "$(whoami)":"$(whoami)" -hR ~/NoTrack
+  sudo chown "$(whoami)":"$(whoami)" -hR "$InstallLoc"
 }
 
 #Setup Dnsmasq-------------------------------------------------------
 Setup_Dnsmasq() {
   #Copy config files modified for NoTrack
-  echo "Copying config files from ~/NoTrack to /etc/"
-  Check_File_Exists "~/NoTrack/conf/dnsmasq.conf"
-  sudo cp ~/NoTrack/conf/dnsmasq.conf /etc/dnsmasq.conf
+  echo "Copying config files from $InstallLoc to /etc/"
+  Check_File_Exists "$InstallLoc/conf/dnsmasq.conf"
+  sudo cp "$InstallLoc/conf/dnsmasq.conf" /etc/dnsmasq.conf
   
-  Check_File_Exists "~/NoTrack/conf/lighttpd.conf"
-  sudo cp ~/NoTrack/conf/lighttpd.conf /etc/lighttpd/lighttpd.conf
-  echo
-  
+  Check_File_Exists "$InstallLoc/conf/lighttpd.conf"
+  sudo cp "$InstallLoc/conf/lighttpd.conf" /etc/lighttpd/lighttpd.conf
+    
   #Finish configuration of dnsmasq config
+  echo "Setting DNS Servers in /etc/dnsmasq.conf"
   sudo sed -i "s/server=changeme1/server=$DNSChoice1/" /etc/dnsmasq.conf
   sudo sed -i "s/server=changeme2/server=$DNSChoice2/" /etc/dnsmasq.conf
-  sudo sed -i "s/interface=eth0/interface=$NetDev/" /etc/dnsmasq.conf 
+  sudo sed -i "s/interface=eth0/interface=$NetDev/" /etc/dnsmasq.conf
+  echo "Creating file /etc/localhosts.list for Local Hosts"
+  echo "Start filling it out, and then enable by uncommenting"
+  echo "#addn-hosts=/etc/localhosts.list in /etc/dnsmasq.conf"
   sudo touch /etc/localhosts.list               #File for user to add DNS entries for their network
-  
+    
   #Setup Log rotation for dnsmasq
-  Check_File_Exists "~/NoTrack/conf/logrotate.txt"
-  sudo cp ~/NoTrack/conf/logrotate.txt /etc/logrotate.d/logrotate.txt
+  echo "Copying log rotation script for Dnsmasq"
+  Check_File_Exists "$InstallLoc/conf/logrotate.txt"
+  sudo cp "$InstallLoc/conf/logrotate.txt" /etc/logrotate.d/logrotate.txt
   sudo mv /etc/logrotate.d/logrotate.txt /etc/logrotate.d/notrack
-  sudo mkdir /var/log/notrack/
+  
+  if [ ! -d "/var/log/notrack/" ]; then          #Check /var/log/notrack/ folder
+    echo "Creating folder: /var/log/notrack/"
+    sudo mkdir /var/log/notrack/
+  fi
   sudo touch /var/log/notrack.log                #Create log file for Dnsmasq
   sudo chmod 664 /var/log/notrack.log            #Dnsmasq sometimes defaults to permissions 774
+  echo "Setup of Dnsmasq complete"
   echo
 }
 
@@ -209,16 +213,26 @@ Setup_Lighttpd() {
   sudo lighty-enable-mod fastcgi fastcgi-php
   
   if [ ! -d /var/www/html ]; then                #www/html folder will get created by Lighttpd install
-    echo "Creating Web folder /var/www/html"
+    echo "Creating Web folder: /var/www/html"
     sudo mkdir -p /var/www/html                  #Create the folder for now incase installer failed
   fi
   
-  sudo ln -sf ~/NoTrack/sink /var/www/html/sink  #Setup symlinks for Web folders
-  sudo ln -sf ~/NoTrack/admin /var/www/html/admin
+  if [ -e /var/www/html/sink ]; then             #Remove old symlinks
+    echo "Removing old file: /var/www/html/sink"
+    sudo rm /var/www/html/sink
+  fi
+  if [ -e /var/www/html/admin ]; then
+    echo "Removing old file: /var/www/html/admin"
+    sudo rm /var/www/html/admin
+  fi
+  echo "Creating symlink from $InstallLoc/sink to /var/www/html/sink"
+  sudo ln -s "$InstallLoc/sink" /var/www/html/sink #Setup symlinks for Web folders
+  echo "Creating symlink from $InstallLoc/admin to /var/www/html/admin"
+  sudo ln -s "$InstallLoc/admin" /var/www/html/admin
   sudo chmod 775 /var/www/html                   #Give read/write/execute privilages to Web folder
-  echo
   echo "Restarting Lighttpd"
   sudo service lighttpd restart
+  echo "Setup of Lighttpd complete"
   echo
 }
 
@@ -227,19 +241,27 @@ Setup_NoTrack() {
   #Setup Tracker list downloader
   echo "Setting up Tracker list downloader"
   
-  Check_File_Exists "~/NoTrack/notrack.sh"
-  sudo cp ~/NoTrack/notrack.sh /usr/local/sbin/
+  Check_File_Exists "$InstallLoc/notrack.sh"
+  sudo cp "$InstallLoc/notrack.sh" /usr/local/sbin/notrack.sh
   sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack #Cron jobs will only execute on files Without extensions
   sudo chmod +x /usr/local/sbin/notrack          #Make NoTrack Script executable
+  
+  echo "Creating daily cron job in /etc/cron.daily/"
+  if [ -e /etc/cron.daily/notrack ]; then        #Remove old symlink
+    echo "Removing old file: /etc/cron.daily/notrack"
+    sudo rm /etc/cron.daily/notrack
+  fi
+  #Create cron daily job with a symlink to notrack script
   sudo ln -s /usr/local/sbin/notrack /etc/cron.daily/notrack
   echo
   
-  if [ ! -d "/etc/notrack" ]; then              #Check /etc/notrack folder exists
-    echo "Creating notrack folder under /etc"
+  if [ ! -d "/etc/notrack" ]; then               #Check /etc/notrack folder exists
+    echo "Creating folder: /etc/notrack"
     echo
     sudo mkdir "/etc/notrack"
   fi
   
+  echo "Creating NoTrack config file: /etc/notrack/notrack.conf"
   sudo touch /etc/notrack/notrack.conf          #Create Config file
   echo "IPVersion = $IPVersion" | sudo tee /etc/notrack/notrack.conf
   
@@ -248,8 +270,8 @@ Setup_NoTrack() {
 }
 
 #Main----------------------------------------------------------------
-if [ "$(id -u)" == "0" ]; then                   #Check if running as root
-   Show_RootWarning                              #Running as root screws up lighttpd webpages
+if [ $InstallLoc == "/root/NoTrack" ]; then      #Change root folder to users folder
+  InstallLoc="$(getent passwd $SUDO_USER | cut -d: -f6)/NoTrack"
 fi
 
 Show_Welcome
