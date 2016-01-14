@@ -19,7 +19,9 @@ if (isset($_GET['u'])) {                        //Check if we are running upgrad
   if ($_GET['u'] == '1') {                      //Doing the upgrade
     echo '<p>Upgrading NoTrack</p>';
     echo '<pre>';
-    passthru('/usr/local/sbin/notrack -b');
+    //passthru('/usr/local/sbin/notrack -b');
+    echo "Upgrade not implemented in this version\n";
+    echo "Execute with: notrack -u";
     echo "</pre>\n";
     echo "<br />\n";
     echo '<h3><a class="linkbutton" href="./">Back</a></h3>';
