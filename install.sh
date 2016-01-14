@@ -163,7 +163,7 @@ Download_NoTrack() {
     fi  
 
     unzip -oq /tmp/notrack-master.zip -d /tmp
-    mv "/tmp/notrack-master $InstallLoc"
+    mv /tmp/notrack-master "$InstallLoc"
     rm /tmp/notrack-master.zip                  #Cleanup
   fi
   
