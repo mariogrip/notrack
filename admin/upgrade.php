@@ -44,11 +44,11 @@ else {                                           //Just displaying status
     echo '<h3><a class="linkbutton" href="?u=1">Upgrade</a>&nbsp;<a class="linkbutton" href="./">Back</a></h3>';
   }
   elseif ($V == $Version) {
-    echo '<p>You&#39;re are running the latest version v'.$Version.'</p>';
+    echo '<p>You&#39;re running the latest version v'.$Version.'</p>';
     echo '<h3><a class="linkbutton" href="./">Back</a></h3>';
   }
   else {
-    echo '<p>You&#39;re are ahead of the latest release v'.$V.'</p>';
+    echo '<p>You&#39;re ahead of the latest release v'.$V.'</p>';
     echo '<h3><a class="linkbutton" href="./">Back</a></h3>';
   }
 }
