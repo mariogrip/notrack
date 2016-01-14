@@ -119,6 +119,14 @@ Ask_DNSServer() {
   fi
 }
 
+#Check File Exists---------------------------------------------------
+Check_File_Exists() {
+  if [ ! -e $1 ]; then
+    echo "Error file $1 is missing.  Aborting."
+    exit 2
+  fi
+}
+
 #Install Applications------------------------------------------------
 Install_Apps() {
   sudo apt-get update
@@ -177,15 +185,10 @@ Download_NoTrack() {
 Setup_Dnsmasq() {
   #Copy config files modified for NoTrack
   echo "Copying config files from ~/NoTrack to /etc/"
-  if [ ! -e ~/NoTrack/conf/dnsmasq.conf ]; then 
-    echo "Error file ~/NoTrack/conf/dnsmasq.conf is missing.  Aborting."
-    exit 2
-  fi
+  Check_File_Exists "~/NoTrack/conf/dnsmasq.conf"
   sudo cp ~/NoTrack/conf/dnsmasq.conf /etc/dnsmasq.conf
-  if [ ! -e ~/NoTrack/conf/lighttpd.conf ]; then 
-    echo "Error file ~/NoTrack/conf/lighttpd.conf is missing.  Aborting."
-    exit 2
-  fi
+  
+  Check_File_Exists "~/NoTrack/conf/lighttpd.conf"
   sudo cp ~/NoTrack/conf/lighttpd.conf /etc/lighttpd/lighttpd.conf
   echo
   
@@ -196,10 +199,7 @@ Setup_Dnsmasq() {
   sudo touch /etc/localhosts.list               #File for user to add DNS entries for their network
   
   #Setup Log rotation for dnsmasq
-  if [ ! -e ~/NoTrack/conf/logrotate.txt ]; then 
-    echo "Error file ~/NoTrack/conf/logrotate.txt is missing.  Aborting."
-    exit 2
-  fi
+  Check_File_Exists "~/NoTrack/conf/logrotate.txt"
   sudo cp ~/NoTrack/conf/logrotate.txt /etc/logrotate.d/logrotate.txt
   sudo mv /etc/logrotate.d/logrotate.txt /etc/logrotate.d/notrack
   sudo mkdir /var/log/notrack/
@@ -232,10 +232,8 @@ Setup_Lighttpd() {
 Setup_NoTrack() {
   #Setup Tracker list downloader
   echo "Setting up Tracker list downloader"
-  if [ ! -e ~/NoTrack/notrack.sh ]; then 
-    echo "Error file ~/NoTrack/notrack.sh is missing.  Aborting."
-    exit 2
-  fi
+  
+  Check_File_Exists "~/NoTrack/notrack.sh"
   sudo cp ~/NoTrack/notrack.sh /usr/local/sbin/
   sudo mv /usr/local/sbin/notrack.sh /usr/local/sbin/notrack #Cron jobs will only execute on files Without extensions
   sudo chmod +x /usr/local/sbin/notrack          #Make NoTrack Script executable
