@@ -13,7 +13,7 @@ $CurTopMenu = 'upgrade';
 include('topmenu.html');
 echo "<h1>NoTrack Upgrade</h1>\n";
 echo  "<br />\n";
-$Version=0.1;
+$Version=0.2;
 
 if (isset($_GET['u'])) {                        //Check if we are running upgrade or displaying status
   if ($_GET['u'] == '1') {                      //Doing the upgrade
