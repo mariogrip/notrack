@@ -60,7 +60,7 @@ Ask_IPVersion() {
 
 #Ask user for preffered DNS server-----------------------------------
 Ask_DNSServer() {
-  Fun=$(whiptail --title "DNS Server" --radiolist "Choose a DNS server \nThe job of a DNS server is to translate human readable domain names (e.g. google.com) into an  IP address which your computer will understand (e.g. 109.144.113.88) \nBy default your router will forward DNS queries to your Internet Service Provider" $Height $Width 7 --ok-button Select \
+  Fun=$(whiptail --title "DNS Server" --radiolist "The job of a DNS server is to translate human readable domain names (e.g. google.com) into an  IP address which your computer will understand (e.g. 109.144.113.88) \nBy default your router forwards DNS queries to your Internet Service Provider (ISP), however ISP DNS servers are not the best.\nChoose a better DNS server from the list below:" $Height $Width 7 --ok-button Select \
    OpenDNS "OpenDNS" on \
    Google "Google Public DNS" off \
    DNSWatch "DNS.Watch" off \
@@ -160,18 +160,12 @@ Download_NoTrack() {
   if [ -d ~/NoTrack ]; then                      #Check if NoTrack folder exists
     echo "NoTrack folder exists. Skipping download"
   else
-    echo "Downloading NoTrack $Version from github"
-    wget "https://github.com/quidsup/notrack/archive/v$Version.zip" -O /tmp/notrack-master.zip
-  
-    if [ ! -e /tmp/notrack-master.zip ]; then    #Check if download was successful
-      echo "Unable to download https://github.com/quidsup/notrack/archive/v$Version.zip"
-      echo "Falling back to master version instead"
-      wget https://github.com/quidsup/notrack/archive/master.zip -O /tmp/notrack-master.zip
-      if [ ! -e /tmp/notrack-master.zip ]; then  #Check again to see if download was successful
-        echo "Error Download from github has failed"
-        exit 2                                   #Abort we can't go any further without any code from git
-      fi
-    fi
+    echo "Downloading latest version of NoTrack from github"
+    wget https://github.com/quidsup/notrack/archive/master.zip -O /tmp/notrack-master.zip
+    if [ ! -e /tmp/notrack-master.zip ]; then  #Check again to see if download was successful
+      echo "Error Download from github has failed"
+      exit 2                                   #Abort we can't go any further without any code from git
+    fi  
 
     unzip -oq /tmp/notrack-master.zip -d /tmp
     mv /tmp/notrack-master ~/NoTrack
