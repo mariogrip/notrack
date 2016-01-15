@@ -1,1 +1,2 @@
+New in v0.3 alpha 2
 Added Google search and Whois to Stats table 
