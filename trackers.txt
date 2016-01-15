@@ -21,7 +21,7 @@
 4nabs.com
 51.la
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
-a-msedge.net
+a-msedge.net #Markmonitor
 a2dfp.net
 a9.com
 abmr.net
@@ -292,7 +292,7 @@ flite.com
 flexlinks.com
 flx1.com
 followistic.com
-footprint.net
+footprint.net #Markmonitor
 footprintdns.com
 footprintpredict.com
 force.com
