@@ -39,6 +39,9 @@ img {
 img.full {  
   width: 100%;
 }
+img.icon {  
+  width: 0.9em;   
+}
 h1 {
   font-size: 2.1em;
   font-weight: bold;
@@ -224,10 +227,14 @@ table.domain-table {
   text-align: center;  
 }
 .domain-table td:nth-child(2), .domain-table th:nth-child(2) {
-  width: 55%;
+  width: 53%;
 }
-.domain-table td:nth-child(3), .domain-table th:nth-child(3) {
-  width: 25%;  
+.domain-table td:nth-child(3), .domain-table td:nth-child(4), .domain-table th:nth-child(3), .domain-table th:nth-child(4) {
+  width: 6%;  
+  text-align: center;
+}
+.domain-table td:nth-child(5), .domain-table th:nth-child(5) {
+  width: 15%;  
   text-align: center;
 }
 table.dhcp-table {  

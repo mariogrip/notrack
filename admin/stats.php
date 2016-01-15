@@ -16,7 +16,7 @@ echo "<br />\n";
 $DomainList = array();
 $SortedDomainList = array();
 $TLDBlockList = array();
-$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','akamaiedge.com');
+$CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','akamaiedge.com','stackexchange.com');
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 //HTTP GET Variables-------------------------------------------------
 $SortCol = 0;
@@ -44,7 +44,7 @@ if (isset($_GET['start'])) {
   }
 }
 
-$ItemsPerPage = 200;				 //Rows per page
+$ItemsPerPage = 500;				 //Rows per page
 if (isset($_GET['count'])) {
   if (is_numeric($_GET['count'])) {
     if (($_GET['count'] >= 2) && ($_GET['count'] < PHP_INT_MAX)) {
@@ -238,10 +238,10 @@ switch ($View) {                                                //First item is 
     echo '<option value="2">Only requests that were allowed</option>';
   break;
 }
-echo '</select></label></form>';
+echo '</select></label></form>'."\n";
 
 //Draw Table Headers-------------------------------------------------
-echo '<div class="row"><br />';
+echo '<div class="row"><br />'."\n";
 echo '<table class="domain-table">';             //Table Start
 echo "<tr>\n";
 echo "<th>#</th>\n";
@@ -252,6 +252,8 @@ if ($SortCol == 1) {
 else {
   WriteTH(1, $SortDir, 'Domain');
 }
+echo "<th>G</th>\n";
+echo "<th>W</th>\n";
 if ($SortCol == 0) {
   if ($SortDir == 0) WriteTH(0, 1, 'Requests&#x25BE;');
   else WriteTH(0, 0, 'Requests&#x25B4;');
@@ -263,34 +265,35 @@ echo "</tr>\n";
 
 //Draw Table Cells---------------------------------------------------
 $i = 1;
-foreach ($SortedDomainList as $Site => $Value) {
-  if ($i >= $StartPoint) {
-    if ($i >= $StartPoint + $ItemsPerPage) break;
-    $Action = substr($Site,-1,1);                //Last character tells us whether URL was blocked or not
+foreach ($SortedDomainList as $Str => $Value) {
+  if ($i >= $StartPoint) {                       //Start drawing the table when we reach the StartPoint of Pagination
+    if ($i >= $StartPoint + $ItemsPerPage) break;//Exit the loop at end of Pagination + Number of Items per page
+    $Action = substr($Str,-1,1);                 //Last character tells us whether URL was blocked or not
+    $Site = substr($Str, 0, -1);
     if ($Action == '+') {                        //+ = Allowed
-      if ($i & 1) echo '<tr class="odd">';
-      else echo '<tr class="even">';
-      echo '<td>'. $i.'</td><td>'.substr($Site, 0, -1).'</td><td>'.$Value.'</td>';
+      if ($i & 1) echo '<tr class="odd">';       //Light grey row on odd numbers
+      else echo '<tr class="even">';             //White row on even numbers
+      echo '<td>'. $i.'</td><td>'.$Site.'</td>';
     }
     elseif ($Action == '-') {                    //- = Blocked
-      $SplitURL = explode('.', substr($Site, 0, -1));
-      $CountSubDomains = count($SplitURL);      
-      echo '<tr class="blocked">';
-      echo '<td>' . $i . '</td><td>' . substr($Site, 0, -1); 
-      if ($CountSubDomains <= 1) {                 
-        echo '<p class="small">Invalid domain</p>';     
+      $SplitURL = explode('.', $Site);           //Find out wheter site was blocked by TLD or Tracker list
+      $CountSubDomains = count($SplitURL);
+      echo '<tr class="blocked">';               //Red row for blocked
+      if ($CountSubDomains <= 1) {               //No TLD Given, this could be a search via address bar  
+        echo '<td>'.$i.'</td><td>'.$Site.'<p class="small">Invalid domain</p></td>';
       }
       elseif (in_array('.'.$SplitURL[$CountSubDomains-1], $TLDBlockList)) {
-        echo '<p class="small">.'.$SplitURL[$CountSubDomains -1].' Blocked by Top Level Domain List</p>';           
+        echo '<td>'.$i.'</td><td>'.$Site.'<p class="small">.'.$SplitURL[$CountSubDomains -1].' Blocked by Top Level Domain List</p></td>';
       }
-      else echo '<p class="small">Blocked by Tracker List</p>';
-      echo '</td><td>' . $Value . '</td>';
+      else {
+        echo '<td>'.$i.'</td><td>'.$Site.'<p class="small">Blocked by Tracker List</p></td>';
+      }
     }
     elseif ($Action == '1') {                    //1 = Local lookup
       echo '<tr class="local">';
-      echo '<td>'.$i.'</td><td>'.substr($Site, 0, -1).'</td><td>'.$Value.'</td>';
-    }      
-    echo "</tr>\n";
+      echo '<td>'.$i.'</td><td>'.$Site.'</td>';
+    }
+    echo '<td><a target="_blank" href="https://www.google.com/search?q='.$Site.'"><img class="icon" src="./images/search_icon.png" alt=""</a></td><td><a target="_blank" href="https://who.is/whois/'.$Site.'"><img class="icon" src="./images/whois_icon.png" alt=""></a></td><td>'.$Value.'</td></tr>'."\n";    
   }  
   $i++;
 }
