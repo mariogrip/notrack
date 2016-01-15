@@ -72,8 +72,8 @@ Check_Lists() {
     echo
     touch $TrackerWhiteList
     echo "# Use this file to remove files from blocklist, e.g." >> $TrackerWhiteList
-    echo "#doubleclick.net" >> $TrackerWhiteList
-    echo "#googleadservices.com" >> $TrackerWhiteList
+    echo "#.pink" >> $TrackerWhiteList
+    echo "#.xyz" >> $TrackerWhiteList
   fi
 
 
@@ -247,32 +247,36 @@ Web_Upgrade() {
   InstallLoc=$(readlink -f /var/www/html/admin/)
   InstallLoc=${InstallLoc/%\/admin/}             #Trim "/admin" from string
     
-    
-  if [ -d "$InstallLoc" ]; then                  #Check if NoTrack folder exists  
-    if [ -d "$InstallLoc-old" ]; then            #Delete NoTrack-old folder if it exists
-      echo "Removing old NoTrack folder"
+  if [ "$(command -v git)" ]; then               #Utilise Git if its installed
+    echo "Downloading latest version of NoTrack using Git"
+    git clone --depth=1 https://github.com/quidsup/notrack.git
+   "$InstallLoc"
+  else                                           #Git not installed, fallback to wget
+    if [ -d "$InstallLoc" ]; then                  #Check if NoTrack folder exists  
+      if [ -d "$InstallLoc-old" ]; then            #Delete NoTrack-old folder if it exists
+        echo "Removing old NoTrack folder"
+        echo
+        rm -r "$InstallLoc-old"
+      fi
+      echo "Moving $InstallLoc folder to $InstallLoc-old"
       echo
-      rm -r "$InstallLoc-old"
+      mv "$InstallLoc" "$InstallLoc-old"
     fi
-    echo "Moving $InstallLoc folder to $InstallLoc-old"
-    echo
-    mv "$InstallLoc" "$InstallLoc-old"
-  fi
 
-  echo "Downloading latest version of NoTrack from https://github.com/quidsup/notrack/archive/master.zip"
-  wget https://github.com/quidsup/notrack/archive/master.zip -O /tmp/notrack-master.zip
-  if [ ! -e /tmp/notrack-master.zip ]; then    #Check to see if download was successful
-    echo "Error Download from github has failed"
-    exit 2                                     #Abort we can't go any further without any code from git
-  fi
+    echo "Downloading latest version of NoTrack from https://github.com/quidsup/notrack/archive/master.zip"
+    wget https://github.com/quidsup/notrack/archive/master.zip -O /tmp/notrack-master.zip
+    if [ ! -e /tmp/notrack-master.zip ]; then    #Check to see if download was successful
+      echo "Error Download from github has failed"
+      exit 2                                     #Abort we can't go any further without any code from git
+    fi
   
-  echo "Unzipping notrack-master.zip"
-  unzip -oq /tmp/notrack-master.zip -d /tmp
-  echo "Copying folder across to $InstallLoc"
-  mv /tmp/notrack-master "$InstallLoc"
-  echo "Removing temporary files"
-  rm /tmp/notrack-master.zip                  #Cleanup
-
+    echo "Unzipping notrack-master.zip"
+    unzip -oq /tmp/notrack-master.zip -d /tmp
+    echo "Copying folder across to $InstallLoc"
+    mv /tmp/notrack-master "$InstallLoc"
+    echo "Removing temporary files"
+    rm /tmp/notrack-master.zip                  #Cleanup
+  fi
   echo "Upgrade complete"
 }
 

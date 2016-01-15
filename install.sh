@@ -150,8 +150,17 @@ Backup_Conf() {
   echo
 }
 
-#Download------------------------------------------------------------
-Download_NoTrack() {
+#Download With Git---------------------------------------------------
+Download_WithGit() {
+  #Download with Git if the user has it installed on their system
+  echo "Downloading NoTrack using Git"
+  git clone --depth=1 https://github.com/quidsup/notrack.git "$InstallLoc"
+  echo
+}
+
+#Download WithWget---------------------------------------------------
+Download_WithWget() {
+  #Alternative download with wget 
   if [ -d $InstallLoc ]; then                      #Check if NoTrack folder exists
     echo "NoTrack folder exists. Skipping download"
   else
@@ -291,7 +300,11 @@ Install_Apps                                     #Install Applications
 
 Backup_Conf                                      #Backup old config files
 
-Download_NoTrack
+if [ "$(command -v git)" ]; then                 #Utilise Git if its installed
+  Download_WithGit
+else
+  Download_WithWget                              #Git not installed, fallback to wget
+fi
 
 Setup_Dnsmasq
 Setup_Lighttpd
