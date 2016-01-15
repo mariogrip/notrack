@@ -248,18 +248,26 @@ Web_Upgrade() {
   InstallLoc=${InstallLoc/%\/admin/}             #Trim "/admin" from string
     
   if [ "$(command -v git)" ]; then               #Utilise Git if its installed
-    echo "Downloading latest version of NoTrack using Git"
-    git clone --depth=1 https://github.com/quidsup/notrack.git
-   "$InstallLoc"
-  else                                           #Git not installed, fallback to wget
-    if [ -d "$InstallLoc" ]; then                  #Check if NoTrack folder exists  
-      if [ -d "$InstallLoc-old" ]; then            #Delete NoTrack-old folder if it exists
+    echo "Pulling latest updates of NoTrack using Git"
+    cd "$InstallLoc"
+    git pull
+    if [ $? != "0" ]; then                       #Git repository not found
+      if [ -d "$InstallLoc-old" ]; then          #Delete NoTrack-old folder if it exists
         echo "Removing old NoTrack folder"
-        echo
-        rm -r "$InstallLoc-old"
+        rm -rf "$InstallLoc-old"
       fi
       echo "Moving $InstallLoc folder to $InstallLoc-old"
-      echo
+      mv "$InstallLoc" "$InstallLoc-old"
+      echo "Cloning NoTrack to $InstallLoc with Git"
+      git clone --depth=1 https://github.com/quidsup/notrack.git $InstallLoc
+    fi
+  else                                           #Git not installed, fallback to wget
+    if [ -d "$InstallLoc" ]; then                #Check if NoTrack folder exists  
+      if [ -d "$InstallLoc-old" ]; then          #Delete NoTrack-old folder if it exists
+        echo "Removing old NoTrack folder"
+        rm -rf "$InstallLoc-old"
+      fi
+      echo "Moving $InstallLoc folder to $InstallLoc-old"
       mv "$InstallLoc" "$InstallLoc-old"
     fi
 
@@ -366,4 +374,4 @@ else                                             #No arguments means update trac
   Get_IPAddress
   Download_Lists
   Build_Lists
-fi
+fi 
