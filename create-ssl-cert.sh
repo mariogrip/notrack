@@ -2,8 +2,9 @@
 #Title : NoTrack SSL Certificate Creator
 #Description : This script will assist with creating and installing an SSL certificate on Lighttpd web server
 #Author : QuidsUp
-#Date : 2016-01-10
-#Usage : bash create-ssl-cert.sh
+#Date 	: 2016-01-10
+#Version: v0.3
+#Usage 	: bash create-ssl-cert.sh
 
 #Program Settings----------------------------------------------------
 HostName=$(cat /etc/hostname)
@@ -24,7 +25,9 @@ Show_Welcome() {
 #Install Complete----------------------------------------------------
 Show_Finish() {
   whiptail --msgbox --title "Complete" "Your SSL Certificate has been installed and Lighttpd has sucessfully restarted" 10 $Width
-  exit 2
+  echo
+  echo "Install the $HostName-cert.p12 certificate into your web browser"
+  echo
 }
 
 #Root Warning (Incase user executes this script as root)-------------
@@ -48,11 +51,13 @@ Show_Welcome
 
 Check_AppsInstalled                              #Check if required apps are installed
 
+clear
 echo "Enabling SSL Module on Lighttpd"
 sudo lighty-enable-mod ssl
 echo
 
 echo "Creating SSL Certificate"
+echo
 echo "Example details:"
 echo "Country Name (2 letter code) [AU]: GB"
 echo "State or Province Name (full name) [Some-State]: ."
@@ -66,19 +71,24 @@ echo "Two letter Country Codes: https://www.digicert.com/ssl-certificate-country
 echo
 read -n1 -r -p "Press any key to continue..."
 
-openssl req -new -newkey rsa:2048 -nodes -sha256 -x509 -days 365 -keyout ~/server.key -out ~/server.crt
+#openssl req -new -newkey rsa:2048 -nodes -sha256 -x509 -days 365 -keyout ~/server.key -out ~/server.crt
+
+openssl req -sha256 -x509 -newkey rsa:2048 -keyout key.pem -out server.pem -days 365
+#if [ ! -e ~/server.key ] || [ ! -e ~/server.crt ]; then
+  #echo "Error creation of SSL certificate has failed.  Aborting"
+  #exit 2
+#fi
+
+#echo "Merging Crt file and Key file to form Pem"
+#cat ~/server.key ~/server.crt > ~/server.pem
+#echo
+
 echo
+echo "Generating pkcs12 certificate"
+echo "The pass phrase is what you just typed in earlier"
+openssl pkcs12 -export -in server.pem -inkey key.pem -name "$HostName" -out "$HostName-cert.p12"
 
-if [ ! -e ~/server.key ] || [ ! -e ~/server.crt ]; then
-  echo "Error creation of SSL certificate has failed.  Aborting"
-  exit 2
-fi
-
-echo "Merging Crt file and Key file to form Pem"
-cat ~/server.key ~/server.crt > ~/server.pem
-echo
-
-echo "Copying Pem file to /etc/lighttpd/"
+echo "Copying Certificate to /etc/lighttpd/"
 sudo cp ~/server.pem /etc/lighttpd/server.pem
 echo
 
