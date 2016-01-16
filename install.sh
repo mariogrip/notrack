@@ -2,11 +2,11 @@
 #Title : NoTrack Installer
 #Description : This script will install NoTrack and then configure dnsmasq and lighttpd
 #Author : QuidsUp
-#Date : 2016-01-10
+#Date : 2016-01-16
 #Usage : bash install.sh
 
 #Program Settings----------------------------------------------------
-Version="v0.2"
+Version="v0.3"
 NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
 Height=$(tput lines)
 Width=$(tput cols)
@@ -123,7 +123,9 @@ Check_File_Exists() {
 }
 
 #Install Applications------------------------------------------------
-Install_Apps() {
+Install_Deb() {
+  echo "Preparing to Install Deb Packages..."
+  sleep 5s
   sudo apt-get update
   echo
   echo "Installing dependencies"
@@ -139,7 +141,21 @@ Install_Apps() {
   sudo apt-get -y install lighttpd php5-cgi php5-curl
   echo
 }
-
+#--------------------------------------------------------------------
+Install_Pacman() {
+  echo "Pacman package install not implemented yet.  Aborting."
+  exit 2
+}
+#--------------------------------------------------------------------
+Install_Yum() {
+  echo "Yum package install not implemented yet.  Aborting."
+  exit 2
+}
+#--------------------------------------------------------------------
+Install_Zypper() {
+  echo "Zypper package install not implemented yet.  Aborting."
+  exit 2
+}
 #Backup Configs------------------------------------------------------
 Backup_Conf() {
   echo "Backing up old config files"
@@ -166,9 +182,9 @@ Download_WithWget() {
   else
     echo "Downloading latest version of NoTrack from github"
     wget https://github.com/quidsup/notrack/archive/master.zip -O /tmp/notrack-master.zip
-    if [ ! -e /tmp/notrack-master.zip ]; then  #Check again to see if download was successful
+    if [ ! -e /tmp/notrack-master.zip ]; then    #Check again to see if download was successful
       echo "Error Download from github has failed"
-      exit 2                                   #Abort we can't go any further without any code from git
+      exit 2                                     #Abort we can't go any further without any code from git
     fi  
 
     unzip -oq /tmp/notrack-master.zip -d /tmp
@@ -293,10 +309,23 @@ Ask_DNSServer
 echo "Primary DNS Server set to: $DNSChoice1"
 echo "Secondary DNS Server set to: $DNSChoice2"
 echo 
-echo "Preparing to Install..."
-sleep 5s
 
-Install_Apps                                     #Install Applications
+#Install Apps with the appropriate package manager
+if [ $(command -v apt-get) ]; then Install_Deb
+elif [ $(command -v yum) ]; then Install_Yum
+elif [ $(command -v zypper) ]; then Install_Zypper
+elif [ $(command -v pacman) ]; then Install_Pacman
+else 
+  echo "Unable to work out which package manage is being used."
+  echo "Ensure you have the following packages installed:"
+  echo -e "\tdnsmasq"
+  echo -e "\tlighttpd"
+  echo -e "\tphp5-cgi"
+  echo -e "\tphp5-curl"
+  echo -e "\tunzip"
+  echo
+  sleep 10s
+fi
 
 Backup_Conf                                      #Backup old config files
 
