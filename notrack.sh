@@ -7,7 +7,7 @@
 #Usage : sudo bash notrack.sh
 
 #System Variables----------------------------------------------------
-Version="0.2"
+Version="0.3"
 NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
 TrackerSource="http://quidsup.net/trackers.txt" 
 TrackerListFile="/etc/dnsmasq.d/adsites.list" 
@@ -322,7 +322,7 @@ Show_Version() {
 #Main----------------------------------------------------------------
 
 if [ "$1" ]; then                                #Have any arguments been given
-  if ! options=$(getopt -o bhvuc: -l help,version,upgradeclong: -- "$@"); then
+  if ! options=$(getopt -o bhvuc: -l help,version,upgrade,clong: -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
