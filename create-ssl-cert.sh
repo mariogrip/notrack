@@ -73,7 +73,7 @@ read -n1 -r -p "Press any key to continue..."
 
 #openssl req -new -newkey rsa:2048 -nodes -sha256 -x509 -days 365 -keyout ~/server.key -out ~/server.crt
 
-openssl req -sha256 -x509 -newkey rsa:2048 -keyout key.pem -out server.pem -days 365
+openssl req -sha256 -x509 -newkey rsa:2048 -keyout ~/key.pem -out ~/server.pem -days 365
 #if [ ! -e ~/server.key ] || [ ! -e ~/server.crt ]; then
   #echo "Error creation of SSL certificate has failed.  Aborting"
   #exit 2
@@ -86,7 +86,7 @@ openssl req -sha256 -x509 -newkey rsa:2048 -keyout key.pem -out server.pem -days
 echo
 echo "Generating pkcs12 certificate"
 echo "The pass phrase is what you just typed in earlier"
-openssl pkcs12 -export -in server.pem -inkey key.pem -name "$HostName" -out "$HostName-cert.p12"
+openssl pkcs12 -export -in ~/server.pem -inkey ~/key.pem -name "$HostName" -out "$HostName-cert.p12"
 
 echo "Copying Certificate to /etc/lighttpd/"
 sudo cp ~/server.pem /etc/lighttpd/server.pem
