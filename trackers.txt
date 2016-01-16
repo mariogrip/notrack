@@ -1,4 +1,4 @@
-#List of Ad files last updated 07 Jan 2016
+#List of Ad files last updated 16 Jan 2016 .3
 103bees.com
 10cms.com
 206ads.com
@@ -27,6 +27,8 @@ a9.com
 abmr.net
 abtasty.com
 acxiom-online.com
+active-agent.com
+active-agent.net
 acuityplatform.com
 ad-serverparc.nl
 adadvisor.net
@@ -34,6 +36,7 @@ adalyser.com
 adalyser.net
 adap.tv
 adblade.com
+adbrau.com
 adbrn.com
 adbutler-tachyon.com
 addeluxe.jp
@@ -51,6 +54,7 @@ adizio.com
 adjug.com
 adjust.com
 adlooxtracking.com
+admailtiser.com
 admantx.com
 admarketplace.net
 admaym.com
@@ -60,9 +64,11 @@ adlegend.com
 adnxs.com
 adobetag.com
 adobedtm.com
+adoftheyear.com
 adreadytractions.com
 adriver.ru
 adroll.com
+adrotate.se
 adrsp.net
 adrtx.net
 ads-creativesyndicator.com
@@ -101,6 +107,7 @@ akadns.net
 alertbot.co.uk
 aliunicorn.com
 alnisrgroup.com
+amap.com
 amazon-adsystem.com
 amgdgt.com
 amplience.com
@@ -109,6 +116,8 @@ amung.us #TBC
 analytics-egain.com
 and.co.uk
 anrdoezrs.net
+appier.net
+apps-your-ideas.com
 apxlv.com
 atdmt.com
 atemda.com
@@ -123,6 +132,7 @@ aweber.com
 awin1.com
 awltovhc.com
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
+basebanner.com
 baynote.net
 #bazaarvoice.com Reviews on various shopping websites. Not sure if its a tracker
 beanstock.com
@@ -131,6 +141,7 @@ betrad.com
 bevyup.com
 bidr.io
 bidswitch.net
+bidtrk.com
 bing.net
 bizible.com
 bizographics.com
@@ -146,6 +157,7 @@ bluesnapper.com.au
 bombora.com
 boostable.com
 bounceexchange.com
+brand-server.com
 brandcrumb.com
 brightcove.com
 brightedge.com
@@ -167,6 +179,7 @@ captifymedia.com
 carambo.la
 casalemedia.com
 cdngc.net
+cedexis.net
 cedexis-radar.net
 celtra.com
 ceros.com
@@ -177,6 +190,7 @@ channeladvisor.com
 chartbeat.com
 chartbeat.net
 chicdn.net
+chrs-mln-krs.com
 clear-reports.com
 clickfuse.com
 clickshift.com
@@ -199,6 +213,7 @@ contextweb.com
 convertro.com
 conyak.com
 coremetrics.eu
+coveritlive.com
 cq.io
 crazyegg.com
 crealytics.com
@@ -224,6 +239,7 @@ demandbase.com
 demdex.net
 deployads.com
 dianomi.com
+directrev.com
 displaymarketplace.com
 dl-rms.com
 dlqm.net
@@ -263,12 +279,15 @@ en25.com
 engagesciences.com
 ensighten.com
 epmads.com
+eqads.com
+erne.co
 errorception.com
 esearchvision.com
 esomniture.com
 esvdigital.com
 eum-appdynamics.com
 everestjs.net
+everesttech.net
 evyy.net
 exelator.com
 exoclick.com
@@ -281,7 +300,8 @@ ezp.bz
 #F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F
 face3media.com
 fastclick.net
-fastly.net
+fastly.net #Markmonitor
+fastlylb.net #Markmonitor
 feedmagnet.com
 feedsportal.com
 fetchback.com
@@ -409,6 +429,7 @@ linkoffers.net
 linksynergy.com
 listrakbi.com
 liveadexchanger.com
+livefyre.com
 liverail.com
 liveperson.net
 lpsnmedia.net
@@ -8060,6 +8081,7 @@ mkt7709.com
 mkt7710.com
 mktoresp.com
 ml314.com
+mlnadvertising.com
 mlsend2.com
 mmondi.com
 mmstat.com
@@ -8072,7 +8094,6 @@ mouseflow.com
 mrkt.it
 msads.net
 msedge.net
-msftncsi.com
 msgfocus.com
 mxcdn.net
 mxlogic.com
@@ -8103,6 +8124,7 @@ nuggad.net
 #O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O
 oclaserver.com
 octonet.com
+offpageads.com
 ojrq.net
 om.au
 omessage.com
@@ -8143,6 +8165,7 @@ pepperjamnetwork.com
 phicdn.net #Markmonitor
 pingdom.net
 pixfuture.net
+plista.com
 plymedia.com
 pointroll.com
 po.st
@@ -8155,8 +8178,10 @@ pow7.com
 ppchero.com
 ppjol.net
 prnx.net
+primefuse.com
 pro-market.net
 projectwonderful.com
+polar.me
 ptengine.com
 pubmatic.com
 pubmine.com
@@ -8168,6 +8193,9 @@ pump.to
 pwrads.net
 #Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q
 q1mediahydraplatform.com
+q4cdn.com
+q4web.com
+q4websystems.com
 qualtrics.com
 quantcast.com
 quantserve.com
@@ -8177,6 +8205,7 @@ questionmarket.com
 r42tag.com
 raasnet.com
 reactful.com
+radiumone.com
 redirecting2.net
 redeye.international
 redstar.co.uk
@@ -8224,6 +8253,7 @@ scorecardresearch.com
 scoutanalytics.net
 searchmarketing.com
 secretmedia.com
+secureadserver.com
 securepaths.com
 securestudies.com
 sellathon.com
@@ -8234,6 +8264,8 @@ sentifi.com
 servebom.com
 servedby-buysellads.com
 servedbyopenx.com
+servesharp.com
+servesharp.net
 serving-sys.com
 sessioncam.com
 sex-affiliation.com
@@ -8312,6 +8344,7 @@ testanalytics.net
 theadex.com
 thebrighttag.com
 thehut.net
+thetacdn.net #Markmonitor
 tidaltv.com
 tiqcdn.com
 tkqlhce.com
@@ -8321,6 +8354,8 @@ tqn.com
 trackalyzer.com
 trackedlink.net
 track-flow.com
+trackjs.com
+tradeadexchange.com
 tradedoubler.com
 tradefxads.com
 tribalfusion.com
@@ -8346,6 +8381,7 @@ univide.com
 uobsoe.com
 upsellit.com
 upsiloncdn.net #Markmonitor
+userzoom.com
 #V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V
 v0cdn.net #Markmonitor
 v1cdn.net #Markmonitor
@@ -8368,6 +8404,7 @@ verticaltechmedia.de
 verticalscope.com
 vertmarkets.com
 veruta.com
+venturead.com
 viafoura.com
 videoadex.com
 videologygroup.com
@@ -8428,6 +8465,8 @@ znaptag.com
 zqtk.net
 #---------------------------------------------------------
 #Analytics Domains
+dmtracking2.alibaba.com
+stat.alibaba.com
 affiliate-program.amazon.co.uk
 device-metrics-us.amazon.com
 microsoft.akadns.net
