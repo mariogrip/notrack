@@ -57,9 +57,9 @@ Check_Lists() {
   #Check if Blacklist exists-----------------------------------------
   if [ ! -e $TrackerBlackList ]; then
     echo "Creating blacklist"
-    echo
     touch $TrackerBlackList
-    echo "# Use this file to add additional websites to be blocked, e.g." >> $TrackerBlackList
+    echo "#Use this file to add additional websites to be blocked, e.g." >> $TrackerBlackList
+    echo "#Run notrack script (sudo notrack) after you make any changes to this file" >> $TrackerBlackList
     echo "#doubleclick.net" >> $TrackerBlackList
     echo "#google-analytics.com" >> $TrackerBlackList
     echo "#googletagmanager.com" >> $TrackerBlackList
@@ -69,9 +69,9 @@ Check_Lists() {
   #Check if Whitelist exists-----------------------------------------
   if [ ! -e $TrackerWhiteList ]; then
     echo "Creating whitelist"
-    echo
     touch $TrackerWhiteList
     echo "# Use this file to remove files from blocklist, e.g." >> $TrackerWhiteList
+    echo "# Run notrack script (sudo notrack) after you make any changes to this file" >> $TrackerWhiteList
     echo "#.pink" >> $TrackerWhiteList
     echo "#.xyz" >> $TrackerWhiteList
   fi
@@ -81,7 +81,8 @@ Check_Lists() {
   if [ ! -e $DomainBlackList ]; then
     echo "Creating domain blacklist"
     touch $DomainBlackList
-    echo "# Use this file to add additional domains to the blocklist." >> $DomainBlackList
+    echo "#Use this file to add additional domains to the blocklist." >> $DomainBlackList
+    echo "#Run notrack script (sudo notrack) after you make any changes to this file" >> $DomainBlackList
     echo "# I have divided the list info three different classifications:" >> $DomainBlackList
     echo "# 1: Very high risk - Cheap/Free domains whcih attract a high number of scammers. This list gets downloaded from: $DomainSource" >> $DomainBlackList
     echo "# 2: Risky - More of a mixture of legitimate to malicious domains. Consider enabling blocking of these domains, unless you live in one of the countries listed." >> $DomainBlackList
@@ -124,7 +125,21 @@ Check_Lists() {
     echo "Creating Domain whitelist"
     echo
     touch $DomainWhiteList
-    echo "# Use this file to remove files malicious domains from blocklist" >> $DomainWhiteList
+    echo "#Use this file to remove files malicious domains from blocklist" >> $DomainWhiteList
+    echo "#Run notrack script (sudo notrack) after you make any changes to this file" >> $DomainWhiteList
+    echo "#.cc #Cocos Islands" >> $DomainWhiteList
+    echo "#.cf #Central African Republic" >> $DomainWhiteList
+    echo "#.cricket" >> $DomainWhiteList
+    echo "#.country" >> $DomainWhiteList
+    echo "#.gq #Equatorial Guinea" >> $DomainWhiteList
+    echo "#.kim" >> $DomainWhiteList
+    echo "#.link" >> $DomainWhiteList
+    echo "#.party" >> $DomainWhiteList
+    echo "#.pink" >> $DomainWhiteList
+    echo "#.review" >> $DomainWhiteList
+    echo "#.science" >> $DomainWhiteList
+    echo "#.work" >> $DomainWhiteList
+    echo "#.xyz" >> $DomainWhiteList
   fi
 }
 
