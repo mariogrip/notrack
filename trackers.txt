@@ -1,4 +1,4 @@
-#List of Ad files last updated 17 Jan 2016 .2
+#List of Ad files last updated 18 Jan 2016 .1
 103bees.com
 10cms.com
 206ads.com
@@ -41,6 +41,7 @@ adblade.com
 adbrau.com
 adbrn.com
 adbutler-tachyon.com
+adcentriconline.com
 addeluxe.jp
 addnow.com
 addthis.com
@@ -94,6 +95,7 @@ advertising.com
 advertserve.com
 adviva.net
 adxpose.com
+adzerk.com
 adzerk.net
 adzhub.com
 aegdigitalgroup.com
@@ -135,6 +137,7 @@ awin1.com
 awltovhc.com
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
 basebanner.com
+batchgeo.com
 baynote.net
 #bazaarvoice.com Reviews on various shopping websites. Not sure if its a tracker
 beanstock.com
@@ -192,6 +195,7 @@ channeladvisor.com
 chartbeat.com
 chartbeat.net
 chicdn.net
+choicestream.com
 chrs-mln-krs.com
 clear-reports.com
 clickfuse.com
@@ -201,6 +205,7 @@ clicktracks.com
 cloudapp.net #Markmonitor
 cmail2.com
 cmcore.com
+cmmeglobal.com
 cnzz.com
 collective.com
 collective-media.net
@@ -309,6 +314,7 @@ feedmagnet.com
 feedsportal.com
 fetchback.com
 fidelity-media.com
+fimserve.com
 fits.me
 flashtalking.com
 flite.com
@@ -327,6 +333,7 @@ freeskreen.com
 fresh8.co
 frm.li
 froo.com
+fullstory.com
 futureusmedia.com
 fwmrm.net
 fyre.co
@@ -8214,6 +8221,7 @@ r42tag.com
 raasnet.com
 reactful.com
 radiumone.com
+rebelmouse.com
 redirecting2.net
 redeye.international
 redstar.co.uk
@@ -8264,6 +8272,7 @@ secretmedia.com
 secureadserver.com
 securepaths.com
 securestudies.com
+segment.com
 sellathon.com
 semasio.net
 sendgrid.me
@@ -8279,7 +8288,6 @@ sessioncam.com
 sex-affiliation.com
 sharethis.com
 sharethrough.com
-shoppingshadow.com
 sid-ads.com
 silkenthreadiness.info
 silverpop.com
@@ -8470,6 +8478,7 @@ zedo.com
 zemanta.com
 zepteo.com
 ziffdavisinternational.com
+zkcdn.net
 znaptag.com
 zqtk.net
 #---------------------------------------------------------
@@ -8492,6 +8501,7 @@ advertising.bbcworldwide.com
 bat.bing.com
 medals.bizrate.com #TBC
 pixel.brit.co
+pixiedust.buzzfeed.com
 dw.cbsimg.net
 d3ujids68p6xmp.cloudfront.net
 data.coremetrics.com
@@ -8507,6 +8517,7 @@ ad.groupon.co.uk
 partner-ts.groupon.co.uk
 beacon.guim.co.uk
 ads.hearstmags.com
+pixel.honestjohn.co.uk
 metrics.ikea.com
 rad.live.com
 ssw.live.com
@@ -8539,6 +8550,7 @@ h1.msn.com
 live.rads.msn.com
 preview.msn.com
 rad.msn.com
+cp1.news.com.au
 asset.pagefair.com
 stats.pagefair.com
 asset.pagefair.net
