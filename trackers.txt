@@ -1,4 +1,4 @@
-#List of Ad files last updated 18 Jan 2016 .1
+#List of Ad files last updated 19 Jan 2016 .1
 103bees.com
 10cms.com
 206ads.com
@@ -362,7 +362,6 @@ grvcdn.com
 gscontxt.net
 gssprt.jp
 gumgum.com
-gvt1.com
 #H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H
 hanapinmarketing.com
 heapanalytics.com
