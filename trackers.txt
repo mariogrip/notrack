@@ -1,4 +1,4 @@
-#List of Ad files last updated 19 Jan 2016 .1
+#List of Ad files last updated 20 Jan 2016 .1
 103bees.com
 10cms.com
 206ads.com
@@ -338,6 +338,7 @@ futureusmedia.com
 fwmrm.net
 fyre.co
 #G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G
+gaug.es
 gamned.com
 gemius.pl
 georiot.com
@@ -370,6 +371,10 @@ histats.com
 hlserve.com
 hotjar.com
 hs-analytics.net
+hscta.net
+hsstatic.net
+hubspot.com
+hubspot.net #Some CDN stuff provided by this tracker
 hubtraffic.com
 hxtrack.com
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I
@@ -8175,6 +8180,7 @@ passionfruitads.com
 peer39.net
 peerius.com
 pepperjamnetwork.com
+perfectaudience.com
 phicdn.net #Markmonitor
 pingdom.net
 pixfuture.net
