@@ -91,6 +91,7 @@ Check_Lists() {
     echo "# Risky domains----------------------------------------" >> $DomainBlackList
     echo "#.asia #Asia-Pacific" >> $DomainBlackList
     echo "#.biz #Business" >> $DomainBlackList
+    echo "#.cc #Cocos Islands" >> $DomainBlackList
     echo "#.co #Columbia" >> $DomainBlackList
     echo "#.cn #China" >> $DomainBlackList
     echo "#.eu #European Union" >> $DomainBlackList

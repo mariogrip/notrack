@@ -1,5 +1,4 @@
-#Malicious Domains last updated 05 Jan 2015 
-.cc #Cocos Islands 
+#Malicious Domains last updated 21 Jan 2015 
 .cf #Central African Republic
 .cricket
 .country
