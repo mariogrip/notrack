@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <link href="./css/master.css" rel="stylesheet" type="text/css" />    
+    <link href="./css/master.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
     <title>NoTrack Stats</title>
 </head>
 
@@ -18,6 +19,7 @@ $SortedDomainList = array();
 $TLDBlockList = array();
 $CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','akamaiedge.com','stackexchange.com');
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
+
 //HTTP GET Variables-------------------------------------------------
 $SortCol = 0;
 if (isset($_GET['sort'])) {
@@ -59,6 +61,19 @@ if (isset($_GET['v'])) {
     case '1': $View = 1; break;                 //Show All
     case '2': $View = 2; break;                 //Allowed only
     case '3': $View = 3; break;                 //Blocked only
+  }  
+}
+
+$Earliest = 0;
+$EarliestStr = "";
+if (isset($_GET['earliest'])) {
+  $EarliestStr = strtolower($_GET['earliest']);
+  if ($EarliestStr != "today") {
+    if (($Earliest = strtotime($EarliestStr)) === false) {
+      $Earliest = 0;
+      $EarliestStr = "today";
+      echo "Invalid Time\n";
+    }
   }  
 }
 
@@ -104,6 +119,7 @@ function ReturnURL($Str) {
   }
   return 'Error in URL String';
 }
+
 //WriteLI Function for Pagination Boxes-------------------------------
 function WriteLI($Character, $Start, $Active) {
   global $ItemsPerPage, $SortCol, $SortDir, $View;
@@ -116,6 +132,7 @@ function WriteLI($Character, $Start, $Active) {
   echo "$Character</a></li>\n";  
   return null;
 }
+
 //WriteTH Function for Table Header----------------------------------- 
 function WriteTH($Sort, $Dir, $Str) {
   global $ItemsPerPage, $StartPoint, $View;
@@ -123,22 +140,9 @@ function WriteTH($Sort, $Dir, $Str) {
   return null;
 }
 
-//Main---------------------------------------------------------------
-
-//Open Log File------------------------------------------------------
-//Dnsmasq log line consists of:
-//0 - Month
-//1 - Day
-//2 - Time
-//3 - dnsmasq[pid]
-//4 - Function (query, forwarded, reply, cached, config)
-//5 - Website Requested
-//6 - "is"
-//7 - IP Returned
-$Dedup = "";                                     //To prevent duplication
-$FileHandle= fopen('/var/log/notrack.log', 'r') or die('Error unable to open /var/log/notrack.log');
-//These while loops are replicated to reduce the number of if statements inside the loop, as this section is very CPU intensive and RPi struggles
-if ($View == 1) {				 //Read both Allow & Block
+//Read Day All--------------------------------------------------------
+function Read_Day_All($FileHandle) {
+  global $DomainList;
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
@@ -160,8 +164,11 @@ if ($View == 1) {				 //Read both Allow & Block
       //$Dedup = $Seg[5];
     }    
   }
+  return null;
 }
-elseif ($View == 2) {				 //Read both Allowed only
+//Read Day Allowed---------------------------------------------------
+function Read_Day_Allowed($FileHandle) {
+  global $DomainList;
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
@@ -174,8 +181,11 @@ elseif ($View == 2) {				 //Read both Allowed only
       $Dedup = $Seg[5];
     }    
   }
+  return null;
 }
-if ($View == 3) {				 //Read both Blocked only
+//Read Day Allowed---------------------------------------------------
+function Read_Day_Blocked($FileHandle) {
+  global $DomainList;
   while (!feof($FileHandle)) {
     $Line = fgets($FileHandle);                  //Read Line of LogFile
     if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
@@ -188,9 +198,100 @@ if ($View == 3) {				 //Read both Blocked only
       $Dedup = $Seg[5];
     }
   }
+  return null;
 }
+//Read Time All--------------------------------------------------------
+function Read_Time_All($FileHandle) {
+  global $DomainList, $Earliest;
+  while (!feof($FileHandle)) {
+    $Line = fgets($FileHandle);                  //Read Line of LogFile
+    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
+      $Seg = explode(' ', str_replace('  ', ' ', $Line));
+    }
+    else $Seg = explode(' ', $Line);             //Split Line into segments
+    
+    if (strtotime($Seg[2]) >= $Earliest) {       //Check if time in log > Earliest required
+      if (($Seg[4] == 'reply') && ($Seg[5] != $Dedup)) {
+        $DomainList[] = ReturnURL($Seg[5]) . '+';
+        $Dedup = $Seg[5];
+      }
+      elseif (($Seg[4] == 'config') && ($Seg[5] != $Dedup)) {
+        $DomainList[] = ReturnURL($Seg[5]) . '-';
+        $Dedup = $Seg[5];
+      }
+      elseif (($Seg[4] == '/etc/localhosts.list') && (substr($Seg[5], 0, 1) != '1')) {
+        //!= "1" negates Reverse DNS calls. If RFC 1918 is obeyed 10.0.0.0, 172.31, 192.168 all start with "1"
+        $DomainList[] = ReturnURL($Seg[5]) . '1';
+      //$Dedup = $Seg[5];
+      }    
+    }
+  }
+  return null;
+}
+//Read Day Allowed---------------------------------------------------
+function Read_Time_Allowed($FileHandle) {
+  global $DomainList, $Earliest;
+  while (!feof($FileHandle)) {
+    $Line = fgets($FileHandle);                  //Read Line of LogFile
+    
+    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
+      $Seg = explode(' ', str_replace('  ', ' ', $Line));
+    }
+    else $Seg = explode(' ', $Line);             //Split Line into segments
+    
+    if (strtotime($Seg[2]) >= $Earliest) {       //Check if time in log > Earliest required
+      if ($Seg[4] == 'reply' && $Seg[5] != $Dedup) {
+        $DomainList[] = ReturnURL($Seg[5]) . '+';
+        $Dedup = $Seg[5];
+      }
+    }    
+  }
+  return null;
+}
+//Read Day Allowed---------------------------------------------------
+function Read_Time_Blocked($FileHandle) {
+  global $DomainList, $Earliest;
+  while (!feof($FileHandle)) {
+    $Line = fgets($FileHandle);                  //Read Line of LogFile
+    if (substr($Line, 4, 1) == ' ') {            //dnsmasq puts a double space for single digit dates
+      $Seg = explode(' ', str_replace('  ', ' ', $Line));
+    }
+    else $Seg = explode(' ', $Line);             //Split Line into segments
+    
+    if (strtotime($Seg[2]) >= $Earliest) {       //Check if time in log > Earliest required
+      if ($Seg[4] == 'config' && $Seg[5] != $Dedup) {
+        $DomainList[] = ReturnURL($Seg[5]) . '-';
+        $Dedup = $Seg[5];
+      }
+    }
+  }
+  return null;
+}
+//Main---------------------------------------------------------------
 
-
+//Open Log File------------------------------------------------------
+//Dnsmasq log line consists of:
+//0 - Month
+//1 - Day
+//2 - Time
+//3 - dnsmasq[pid]
+//4 - Function (query, forwarded, reply, cached, config)
+//5 - Website Requested
+//6 - "is"
+//7 - IP Returned
+$Dedup = "";                                     //To prevent duplication
+$FileHandle= fopen('/var/log/notrack.log', 'r') or die('Error unable to open /var/log/notrack.log');
+//These while loops are replicated to reduce the number of if statements inside the loop, as this section is very CPU intensive and RPi struggles
+if ($Earliest == 0) {
+  if ($View == 1) Read_Day_All($FileHandle);     //Read both Allow & Block
+  elseif ($View == 2) Read_Day_Allowed($FileHandle);  //Read Allowed only
+  elseif ($View == 3) Read_Day_Blocked($FileHandle);  //Read Blocked only
+}
+else {
+  if ($View == 1) Read_Time_All($FileHandle);    //Read both Allow & Block
+  elseif ($View == 2) Read_Time_Allowed($FileHandle);  //Read Allowed only
+  elseif ($View == 3) Read_Time_Blocked($FileHandle);  //Read Blocked only
+}
 fclose($FileHandle);
 
 //Read Malicious TLD List--------------------------------------------
@@ -207,22 +308,23 @@ if ($SortCol == 1) {
   else krsort($SortedDomainList);
 }
 else {
-  if ($SortDir == 0) arsort($SortedDomainList);			 //Sort array by highest number of hits
+  if ($SortDir == 0) arsort($SortedDomainList);  //Sort array by highest number of hits
   else asort($SortedDomainList);
 }
 
 $ListSize = count($SortedDomainList);
-if ($StartPoint >= $ListSize) $StartPoint = 1;
-//$SortedDomainList = array_slice($SortedDomainList, $StartPoint, $ItemsPerPage);
+if ($StartPoint >= $ListSize) $StartPoint = 1;   //Start point can't be greater than the list size
+
 //Draw Filter Dropdown list------------------------------------------
 echo '<form action="?" method="get">';
 echo '<input type="hidden" name="sort" value="'.$SortCol.'" />'; //Parse other GET variables as hidden form values
 echo '<input type="hidden" name="dir" value="'.$SortDir.'" />';  
 echo '<input type="hidden" name="start" value="'.$StartPoint.'" />';
 echo '<input type="hidden" name="count" value="'.$ItemsPerPage.'" />';
+echo '<input type="hidden" name="earliest" value="'.$EarliestStr.'" />';
 echo '<Label><b>Filter:</b> View  <select name="v" onchange="submit()">';
-switch ($View) {                                                //First item is unselectable, therefore we need to
-  case 1:                                                       //give a different selection for each value of $View
+switch ($View) {                                 //First item is unselectable, therefore we need to
+  case 1:                                        //give a different selection for each value of $View
     echo '<option value="1">All Requests</option>';
     echo '<option value="2">Only requests that were allowed</option>';
     echo '<option value="3">Only requests that were blocked</option>';
@@ -236,6 +338,49 @@ switch ($View) {                                                //First item is 
     echo '<option value="3">Only requests that were blocked</option>';
     echo '<option value="1">All Requests</option>';
     echo '<option value="2">Only requests that were allowed</option>';
+  break;
+}
+echo '</select></label></form>'."\n";
+
+//Draw Time Dropdown list------------------------------------------
+echo '<form action="?" method="get">';
+echo '<input type="hidden" name="sort" value="'.$SortCol.'" />'; //Parse other GET variables as hidden form values
+echo '<input type="hidden" name="dir" value="'.$SortDir.'" />';  
+echo '<input type="hidden" name="start" value="'.$StartPoint.'" />';
+echo '<input type="hidden" name="count" value="'.$ItemsPerPage.'" />';
+echo '<input type="hidden" name="v" value="'.$View.'" />';
+echo '<Label><b>Time:</b> Show  <select name="earliest" onchange="submit()">';
+switch ($EarliestStr) {                          //First item is unselectable
+  case "today": case "":
+    echo '<option value="today">Today</option>';
+    echo '<option value="-5minutes">5 Minutes</option>';
+    echo '<option value="-1hours">1 Hour</option>';
+    echo '<option value="-8hours">8 Hours</option>';
+  break;
+  case "-5minutes":
+    echo '<option value="-5minutes">5 Minutes</option>';
+    echo '<option value="today">Today</option>';
+    echo '<option value="-1hours">1 Hour</option>';
+    echo '<option value="-8hours">8 Hours</option>';
+  break;
+  case "-1hours":
+    echo '<option value="-1hours">1 Hour</option>';
+    echo '<option value="today">Today</option>';
+    echo '<option value="-5minutes">5 Minutes</option>';
+    echo '<option value="-8hours">8 Hours</option>';
+  break;
+  case "-8hours":
+    echo '<option value="-8hours">8 Hours</option>';
+    echo '<option value="today">Today</option>';
+    echo '<option value="-5minutes">5 Minutes</option>';
+    echo '<option value="-1hours">1 Hour</option>';
+  break;
+  default:
+    echo '<option value="'.$EarliestStr.'">Other</option>';
+    echo '<option value="today">Today</option>';
+    echo '<option value="-5minutes">5 Minutes</option>';
+    echo '<option value="-1hours">1 Hour</option>';
+    echo '<option value="-8hours">8 Hours</option>';
   break;
 }
 echo '</select></label></form>'."\n";
