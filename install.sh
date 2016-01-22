@@ -2,11 +2,10 @@
 #Title : NoTrack Installer
 #Description : This script will install NoTrack and then configure dnsmasq and lighttpd
 #Author : QuidsUp
-#Date : 2016-01-16
 #Usage : bash install.sh
 
 #Program Settings----------------------------------------------------
-Version="v0.3"
+Version="v0.4"
 NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
 Height=$(tput lines)
 Width=$(tput cols)
@@ -143,8 +142,22 @@ Install_Deb() {
 }
 #--------------------------------------------------------------------
 Install_Pacman() {
-  echo "Pacman package install not implemented yet.  Aborting."
-  exit 2
+  echo "Preparing to Install Arch Packages..."
+  sleep 3s
+  echo
+  echo "Installing dependencies"
+  sleep 2s
+  sudo pacman -S --noconfirm unzip
+  echo
+  echo "Installing Dnsmasq"
+  sleep 2s
+  sudo pacman -S --noconfirm dnsmasq
+  echo
+  echo "Installing Lighttpd and PHP"
+  sleep 2s
+  sudo pacman -S --noconfirm lighttpd php php-cgi
+  #Possible Bugfix - Need CURL package
+  echo  
 }
 #--------------------------------------------------------------------
 Install_Yum() {
