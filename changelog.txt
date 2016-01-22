@@ -1,3 +1,8 @@
+New in v0.4 alpha 3
+Added Time selector to Domain Stats
+Added favicon
+Moved upgrade notification from Github to trackers.txt file
+
 New in v0.3 alpha 2
 Added Google search and Whois to Stats table 
 Started making NoTrack compatible with other Linux Distros.
