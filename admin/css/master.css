@@ -54,7 +54,8 @@ h1 {
   letter-spacing: 0.2rem;
 }
 h2 {
-  font-size: 1.9em;  
+  font-size: 1.9em;
+  color: #00000A;  
   text-align: center;
   margin: 0.1em 0 0.4em 0;
   letter-spacing: 0.15rem;
@@ -71,13 +72,15 @@ h4 {
   margin: 0.5em 1em;
 }
 h3.home-nav {
-  font-size: 2.3em;  
+  font-size: 2.3em;
+  color: #00000A;  
   letter-spacing: 0.2rem;
   text-align: center;
   margin: 0.5rem 0;
 }
 h4.home-nav { 
   font-size: 1.6em;
+  color: #00000A;
   text-align: center;
   margin: 0;  
 }
@@ -292,6 +295,11 @@ table.dhcp-table {
   left: 7em;
   height: 1em;   
 }
+#main-menu-line img {
+  margin: 0 5px;
+  width: 2rem;
+  height: 2rem;
+}
 #main-menu-line h3 {
   margin: 0;  
 }
@@ -417,10 +425,10 @@ table.dhcp-table {
     width: 43%;	
   }
 }
-@media only screen and (max-width: 640px), only screen and (max-device-width: 480px) {
+@media only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
   .home-nav-r, .home-nav-g ,.home-nav-b, .home-nav-y {
     width: 90%;	
-	margin: 2px;
+    margin: 1em;
   }
 }
 
