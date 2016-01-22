@@ -7,7 +7,7 @@
 #Usage : sudo bash notrack.sh
 
 #System Variables----------------------------------------------------
-Version="0.3"
+Version="0.4"
 NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
 TrackerSource="http://quidsup.net/trackers.txt" 
 TrackerListFile="/etc/dnsmasq.d/adsites.list" 
@@ -21,39 +21,66 @@ DomainWhiteList="/etc/notrack/domain-whitelist.txt"
 DomainQuickList="/etc/notrack/domain-quick.list"
 ConfigFile="/etc/notrack/notrack.conf"
 IPVersion=""
+OldLatestVersion=""
+
+
+#Error_Exit----------------------------------------------------------
+Error_Exit() {
+  echo "$1"
+  echo "Aborting"
+  exit 2
+}
 
 #Check File Exists---------------------------------------------------
 Check_File_Exists() {
-  if [ ! -e $1 ]; then
+  if [ ! -e "$1" ]; then
     echo "Error file $1 is missing.  Aborting."
     exit 2
   fi
 }
 
-Check_Lists() {
-  #Check /etc/notrack folder exists----------------------------------
-  if [ ! -d "/etc/notrack" ]; then
+#Read Config File----------------------------------------------------
+Read_Config_File() {
+  if [ ! -d "/etc/notrack" ]; then               #Check /etc/notrack folder exists
     echo "Creating notrack folder under /etc"
     echo
     mkdir "/etc/notrack"
+    if [ ! -d "/etc/notrack" ]; then             #Check again
+      Error_Exit "Error Unable to create folder /etc/notrack"      
+    fi
   fi
 
-  #Read IP Version from config---------------------------------------
   if [ ! -e $ConfigFile ]; then
     echo "Creating config file"
-    touch $ConfigFile                              #Create Config file
-    IPVersion="IPv4"                               #Default to IPv4
-    echo "IPVersion = IPv4" >> $ConfigFile
-    echo
-  else 
-    IPVersion=$(cat $ConfigFile | grep "IPVersion" | cut -d "=" -f 2 | tr -d [[:space:]])
-    if [ $IPVersion == "" ]; then                  #Check If Config is line missing
-      IPVersion="IPv4"                             #default to IPv4
+    touch $ConfigFile                            #Create Config file
+    IPVersion="IPv4"                             #Set default values
+    OldLatestVersion=$Version
+    if [ ! -e $ConfigFile ]; then                #Check again
+      echo "Warning Unable to create config file. Continuing with default settings"      
+    else                                         #successful, lets write the values
       echo "IPVersion = IPv4" >> $ConfigFile
-    fi  
+      echo "LatestVersion = $Version" >> $ConfigFile
+    fi
+  else 
+    IPVersion=$(cat "$ConfigFile" | grep "IPVersion" | cut -d "=" -f 2 | tr -d [[:space:]])
+    OldLatestVersion=$(cat $ConfigFile | grep "LatestVersion" | cut -d "=" -f 2 | tr -d [[:space:]])
+    
+    #Verify variables have been loaded successfully
+    if [ "$IPVersion" == "" ]; then              #Check If Config is line missing
+      IPVersion="IPv4"                           #default to IPv4
+      echo "IPVersion = IPv4" >> $ConfigFile
+    fi
+    
+    if [[ $OldLatestVersion == "" ]]; then       #Check If OldLatestVersion is line missing
+      echo "LatestVersion = $Version" >> $ConfigFile
+      OldLatestVersion=$Version                  #Default to script version for now
+    fi
   fi
-  echo "IP Version: $IPVersion"
+  
+}
 
+#Check Lists---------------------------------------------------------
+Check_Lists() {  
   #Check if Blacklist exists-----------------------------------------
   if [ ! -e $TrackerBlackList ]; then
     echo "Creating blacklist"
@@ -127,8 +154,7 @@ Check_Lists() {
     echo
     touch $DomainWhiteList
     echo "#Use this file to remove files malicious domains from blocklist" >> $DomainWhiteList
-    echo "#Run notrack script (sudo notrack) after you make any changes to this file" >> $DomainWhiteList
-    echo "#.cc #Cocos Islands" >> $DomainWhiteList
+    echo "#Run notrack script (sudo notrack) after you make any changes to this file" >> $DomainWhiteList    
     echo "#.cf #Central African Republic" >> $DomainWhiteList
     echo "#.cricket" >> $DomainWhiteList
     echo "#.country" >> $DomainWhiteList
@@ -146,6 +172,8 @@ Check_Lists() {
 
 #Get IP Address of System--------------------------------------------
 Get_IPAddress() {
+  echo "IP Version: $IPVersion"
+  
   if [ "$IPVersion" == "IPv4" ]; then
     echo "Reading IPv4 Address from $NetDev."
     IPAddr=$( ip addr list "$NetDev" |grep "inet " |cut -d' ' -f6|cut -d/ -f1 )
@@ -155,8 +183,7 @@ Get_IPAddress() {
     IPAddr=$( ip addr list "$NetDev" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1 )
     echo "System IP Address $IPAddr"
   else
-    echo "Unknown IP Version" 1>&2
-    exit 1
+    Error_Exit "Unknown IP Version"    
   fi
   echo
 }
@@ -172,13 +199,11 @@ Download_Lists() {
   wget -O /etc/notrack/domains.txt $DomainSource
 
   if [ ! -e /etc/notrack/trackers.txt ]; then     #Check if lists have been downloaded successfully 
-    echo "Error Ad Site List not downloaded"
-    exit 2
+    Error_Exit "Error Ad Site List not downloaded"    
   fi
 
   if [ ! -e /etc/notrack/domains.txt ]; then
-    echo "Error Domain List not downloaded"
-    exit 2
+    Error_Exit "Error Domain List not downloaded"    
   fi
 }
 
@@ -207,8 +232,8 @@ Build_Lists() {
   echo "#Don't make any changes to this file, use $TrackerBlackList and $TrackerWhiteList instead" >> $TrackerListFile
   cat /dev/null > $TrackerQuickList
 
-  awk 'NR==FNR{A[$1]; next}!($1 in A)' $TrackerWhiteList /tmp/combined.txt | while read Line; do
-    if [ $i == 100 ]; then                         #Display some progress ..
+  awk 'NR==FNR{A[$1]; next}!($1 in A)' $TrackerWhiteList /tmp/combined.txt | while read -r Line; do
+    if [ $i == 100 ]; then                       #Display some progress ..
       echo -n .
       i=0
     fi
@@ -216,7 +241,13 @@ Build_Lists() {
       Line="${Line%%\#*}"                        #Delete comments
       Line="${Line%%*( )}"                       #Delete trailing spaces
       echo "address=/$Line/$IPAddr" >> $TrackerListFile
-      echo "$Line" >> $TrackerQuickList
+      echo "$Line" >> $TrackerQuickList    
+    elif [[ "${Line:0:14}" == "#LatestVersion" ]]; then
+      LatestVersion="${Line:15}"                 #Substr version number only
+      if [[ $OldLatestVersion != "$LatestVersion" ]]; then
+        echo "New version of NoTrack available v$LatestVersion"
+        sed -i "s/^\(LatestVersion *= *\).*/\1$LatestVersion/" $ConfigFile      
+      fi
     fi
     ((i++))
   done
@@ -234,7 +265,7 @@ Build_Lists() {
   echo "#Don't make any changes to this file, use $DomainBlackList and $DomainWhiteList instead" >> $DomainListFile
   cat /dev/null > $DomainQuickList
 
-  awk 'NR==FNR{A[$1]; next}!($1 in A)' $DomainWhiteList /tmp/combined.txt | while read Line; do
+  awk 'NR==FNR{A[$1]; next}!($1 in A)' $DomainWhiteList /tmp/combined.txt | while read -r Line; do
     if [[ ! $Line =~ ^\ *# && -n $Line ]]; then 
       Line="${Line%%\#*}"  # Del in line right comments
       Line="${Line%%*( )}" # Del trailing spaces 
@@ -255,8 +286,7 @@ Build_Lists() {
 Web_Upgrade() {
   if [ "$(id -u)" == "0" ]; then                 #Check if running as root
      echo "Error do not run the upgrader as root"
-     echo "Execute with: bash notrack -b / notrack -u"
-     exit 2
+     Error_Exit "Execute with: bash notrack -b / notrack -u"     
   fi
   
   Check_File_Exists "/var/www/html/admin"
@@ -265,7 +295,7 @@ Web_Upgrade() {
     
   if [ "$(command -v git)" ]; then               #Utilise Git if its installed
     echo "Pulling latest updates of NoTrack using Git"
-    cd "$InstallLoc"
+    cd "$InstallLoc" || Error_Exit "Unable to cd to $InstallLoc"
     git pull
     if [ $? != "0" ]; then                       #Git repository not found
       if [ -d "$InstallLoc-old" ]; then          #Delete NoTrack-old folder if it exists
@@ -275,7 +305,7 @@ Web_Upgrade() {
       echo "Moving $InstallLoc folder to $InstallLoc-old"
       mv "$InstallLoc" "$InstallLoc-old"
       echo "Cloning NoTrack to $InstallLoc with Git"
-      git clone --depth=1 https://github.com/quidsup/notrack.git $InstallLoc
+      git clone --depth=1 https://github.com/quidsup/notrack.git "$InstallLoc"
     fi
   else                                           #Git not installed, fallback to wget
     if [ -d "$InstallLoc" ]; then                #Check if NoTrack folder exists  
@@ -290,8 +320,8 @@ Web_Upgrade() {
     echo "Downloading latest version of NoTrack from https://github.com/quidsup/notrack/archive/master.zip"
     wget https://github.com/quidsup/notrack/archive/master.zip -O /tmp/notrack-master.zip
     if [ ! -e /tmp/notrack-master.zip ]; then    #Check to see if download was successful
-      echo "Error Download from github has failed"
-      exit 2                                     #Abort we can't go any further without any code from git
+      #Abort we can't go any further without any code from git
+      Error_Exit "Error Download from github has failed"      
     fi
   
     echo "Unzipping notrack-master.zip"
@@ -333,12 +363,18 @@ Show_Help() {
 
 #Show Version--------------------------------------------------------
 Show_Version() {
-  echo "NoTrack Version $Version"  
+  echo "NoTrack Version v$Version"
+  if [[ $Version != "$OldLatestVersion" ]]; then
+    echo "New version available v$OldLatestVersion"
+  fi
+  echo
 }
+
 #Main----------------------------------------------------------------
+Read_Config_File                                 #Load saved variables
 
 if [ "$1" ]; then                                #Have any arguments been given
-  if ! options=$(getopt -o bhvuc: -l help,version,upgrade,clong: -- "$@"); then
+  if ! options=$(getopt -o bhvu: -l help,version,upgrade: -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
@@ -360,19 +396,13 @@ if [ "$1" ]; then                                #Have any arguments been given
       -u|--upgrade)
         Web_Upgrade
         Full_Upgrade
-      ;;
-      # for options with required arguments, an additional shift is required
-      -c|--clong) 
-        echo "$2" 
-        shift
-      ;;
+      ;;      
       (--) 
         shift
         break
       ;;
-      (-*) 
-        echo "$0: error - unrecognized option $1" 1>&2
-        exit 1
+      (-*)         
+        Error_Exit "$0: error - unrecognized option $1"
       ;;
       (*) 
         break
@@ -382,8 +412,7 @@ if [ "$1" ]; then                                #Have any arguments been given
   done
 else                                             #No arguments means update trackers
   if [ "$(id -u)" != "0" ]; then                 #Check if running as root
-    echo "Error this script must be run as root.  Aborting"
-    exit 2
+    Error_Exit "Error this script must be run as root"    
   fi
   
   Check_Lists
