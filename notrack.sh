@@ -374,7 +374,7 @@ Show_Version() {
 Read_Config_File                                 #Load saved variables
 
 if [ "$1" ]; then                                #Have any arguments been given
-  if ! options=$(getopt -o bhvu: -l help,version,upgrade: -- "$@"); then
+  if ! options=$(getopt -o bhvu -l help,version,upgrade -- "$@"); then
     # something went wrong, getopt will put out an error message for us
     exit 1
   fi
