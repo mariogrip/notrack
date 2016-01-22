@@ -85,7 +85,7 @@ Check_Lists() {
   if [ ! -e $TrackerBlackList ]; then
     echo "Creating blacklist"
     touch $TrackerBlackList
-    echo "#Use this file to add additional websites to be blocked, e.g." >> $TrackerBlackList
+    echo "#Use this file to add additional websites to be blocked" >> $TrackerBlackList
     echo "#Run notrack script (sudo notrack) after you make any changes to this file" >> $TrackerBlackList
     echo "#doubleclick.net" >> $TrackerBlackList
     echo "#google-analytics.com" >> $TrackerBlackList
@@ -97,10 +97,10 @@ Check_Lists() {
   if [ ! -e $TrackerWhiteList ]; then
     echo "Creating whitelist"
     touch $TrackerWhiteList
-    echo "# Use this file to remove files from blocklist, e.g." >> $TrackerWhiteList
+    echo "# Use this file to remove files from blocklist" >> $TrackerWhiteList
     echo "# Run notrack script (sudo notrack) after you make any changes to this file" >> $TrackerWhiteList
-    echo "#.pink" >> $TrackerWhiteList
-    echo "#.xyz" >> $TrackerWhiteList
+    echo "#doubleclick.net" >> $TrackerWhiteList
+    echo "#google-analytics.com" >> $TrackerWhiteList
   fi
 
 
@@ -111,7 +111,7 @@ Check_Lists() {
     echo "#Use this file to add additional domains to the blocklist." >> $DomainBlackList
     echo "#Run notrack script (sudo notrack) after you make any changes to this file" >> $DomainBlackList
     echo "# I have divided the list info three different classifications:" >> $DomainBlackList
-    echo "# 1: Very high risk - Cheap/Free domains whcih attract a high number of scammers. This list gets downloaded from: $DomainSource" >> $DomainBlackList
+    echo "# 1: Very high risk - Cheap/Free domains which attract a high number of scammers. This list gets downloaded from: $DomainSource" >> $DomainBlackList
     echo "# 2: Risky - More of a mixture of legitimate to malicious domains. Consider enabling blocking of these domains, unless you live in one of the countries listed." >> $DomainBlackList
     echo "# 3: Low risk - Malicious sites do appear in these domains, but they are well in the minority." >> $DomainBlackList
 
