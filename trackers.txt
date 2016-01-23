@@ -1,4 +1,4 @@
-#List of Ad files last updated 22 Jan 2016 .1
+#List of Ad files last updated 23 Jan 2016 .2
 #LatestVersion 0.4
 103bees.com
 10cms.com
@@ -27,6 +27,10 @@
 a-msedge.net #Markmonitor
 a2dfp.net
 a9.com
+abetterweb.info #instartlogic
+abetterweb.mobi #instartlogic
+abetterweb.org #instartlogic
+abetterweb.us #instartlogic
 abmr.net
 abtasty.com
 acxiom-online.com
@@ -38,6 +42,9 @@ adadvisor.net
 adalyser.com
 adalyser.net
 adap.tv
+adagencyonline.biz
+adagencyonline.net
+adagencyonlineautomotiveadvertising.com
 adblade.com
 adbrau.com
 adbrn.com
@@ -93,6 +100,7 @@ advanced-web-analytics.com
 adventori.com
 adversal.com
 advertising.com
+advertisers-openx.com #OpenX
 advertserve.com
 adviva.net
 adxpose.com
@@ -121,8 +129,19 @@ amung.us #TBC
 analytics-egain.com
 and.co.uk
 anrdoezrs.net
+apester.com
 appier.net
+applicationstreamingnetwork.com #instartlogic
+applicationstreamingnetwork.info #instartlogic
+applicationstreamingnetwork.net #instartlogic
+applicationstreamingnetwork.org #instartlogic
 apps-your-ideas.com
+appsequencer.com #instartlogic
+appsequencer.net #instartlogic
+appstreamingnetwork.com #instartlogic
+appstreamingnetwork.info #instartlogic
+appstreamingnetwork.net #instartlogic
+appstreamingnetwork.org #instartlogic
 apxlv.com
 atdmt.com
 atemda.com
@@ -141,6 +160,7 @@ basebanner.com
 batchgeo.com
 baynote.net
 #bazaarvoice.com Reviews on various shopping websites. Not sure if its a tracker
+bcplayer.net
 beanstock.com
 begun.ru
 betrad.com
@@ -160,15 +180,24 @@ bluelithium.com
 bluesnapper.au
 bluesnapper.com
 bluesnapper.com.au
+bluevoice.biz
+bluevoice.us
 bombora.com
 boostable.com
 bounceexchange.com
 brand-server.com
 brandcrumb.com
+bright-cove.com
+bright-cove.net
+brightcove.biz
 brightcove.com
+brightcove.net
+brightcovemedia.com
+brightcovetv.com
 brightedge.com
 brighteroption.com
 brilig.com
+britecove.biz
 btrll.com
 btstatic.com
 bugherd.com
@@ -180,6 +209,7 @@ buysellads.com
 bz.io
 bzgint.com  #?TBC
 #C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C
+c3tag.com
 cap-mii.net
 captifymedia.com
 carambo.la
@@ -208,6 +238,8 @@ cmail2.com
 cmcore.com
 cmmeglobal.com
 cnzz.com
+codinginadtech.com #OpenX
+codinginadtech.net #OpenX
 collective.com
 collective-media.net
 compete.com
@@ -221,6 +253,7 @@ contextweb.com
 convertro.com
 conyak.com
 coremetrics.eu
+corporate-ir.net
 coveritlive.com
 cq.io
 crazyegg.com
@@ -231,6 +264,7 @@ criteo.com
 crowdignite.com
 crtracklink.com
 crwdcntrl.net
+cspbuilder.info
 ctasnet.com
 ctnsnet.com
 ctscdn.com
@@ -279,6 +313,7 @@ edigitalresearch.com
 edigitalsurvey.com
 edgekey.net
 effectivemeasure.net
+elasticbeanstalk.com
 emailretargeting.com
 embed.ly
 emediate.dk
@@ -356,6 +391,7 @@ godatafeed.com
 #googlesyndication.com
 #googletagservices.com
 gorillanation.com
+goroost.com
 gosquared.com
 gpwebsolutions.co.uk
 grapeshot.co.uk
@@ -366,26 +402,44 @@ gssprt.jp
 gumgum.com
 #H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H
 hanapinmarketing.com
+hardofhearing.org
 heapanalytics.com
 heias.com
 histats.com
 hlserve.com
+hochmoor.com
 hotjar.com
 hs-analytics.net
 hscta.net
 hsstatic.net
+html5nano-visor.biz #instartlogic
+html5nano-visor.com #instartlogic
+html5nano-visor.info #instartlogic
+html5nano-visor.mobi #instartlogic
+html5nano-visor.net #instartlogic
+html5nano-visor.org #instartlogic
+html5nano-visor.us #instartlogic
+html5nanovisor.biz #instartlogic
+html5nanovisor.com #instartlogic
+html5nanovisor.info #instartlogic
+html5nanovisor.mobi #instartlogic
+html5nanovisor.net #instartlogic
+html5nanovisor.org #instartlogic
+html5nanovisor.us #instartlogic
 hubspot.com
 hubspot.net #Some CDN stuff provided by this tracker
 hubtraffic.com
 hxtrack.com
 #I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I-I
 i-transactads.com
+i10c.net #instartlogic
 iasds01.com
 ib-ibi.com
 icandi.de
 idg.com
 idgknowledgehub.com
 idgpublishing.com
+iframes.us
 igsonar.com
 imiclk.com
 impact-ad.com
@@ -395,10 +449,23 @@ impdesk.com
 impressiondesk.com
 imrworldwide.com
 industrybrains.com
+inetwork.directory
 infinity-tracking.net
 infolinks.com
+inscname.net #instartlogic
+inscname2.net #instartlogic
+insdns.net #instartlogic
 insightexpressai.com
 inskinad.com
+insnw.net #instartlogic
+instartcloud.com #instartlogic
+instartlogic.biz #instartlogic
+instartlogic.com #instartlogic
+instartlogic.info #instartlogic
+instartlogic.mobi #instartlogic
+instartlogic.net #instartlogic
+instartlogic.org #instartlogic
+instartlogic.us #instartlogic
 integrousmarketing.com
 intellectuk.info
 intelligencefocus.com
@@ -420,6 +487,7 @@ iu16wmye.com
 jisusaiche.com
 jmxded110.net
 justpremium.com
+jumptime.com #OpenX
 jwpltx.com
 #K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K
 kastatic.com
@@ -439,7 +507,8 @@ leadformix.com
 legolas-media.com
 levexis.com
 liadm.com
-liftdna.com
+liftdna.com #OpenX
+liftdna.net #OpenX
 lijit.com
 linkbucks.com 
 linkoffers.net
@@ -449,6 +518,7 @@ liveadexchanger.com
 livefyre.com
 liverail.com
 liveperson.net
+lognormal.net
 lpsnmedia.net
 lucidmedia.com
 lypn.com
@@ -8117,7 +8187,7 @@ msgfocus.com
 mxcdn.net
 mxlogic.com
 mxptint.net
-mxpnl.com #? Not sure
+mxpnl.com
 mybuys.com
 mydas.mobi
 myswitchads.com
@@ -8125,6 +8195,17 @@ mythings.com
 mytrafficvalue.commsedge.net
 #N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N-N
 nanigans.com
+nano-visor.biz #instartlogic
+nano-visor.com #instartlogic
+nano-visor.info #instartlogic
+nano-visor.net #instartlogic
+nano-visor.org #instartlogic
+nano-visor.us #instartlogic
+nanovisor.biz #instartlogic
+nanovisor.info #instartlogic
+nanovisor.net #instartlogic
+nanovisor.org #instartlogic
+nanovisor.us #instartlogic
 netcommunities.com
 netdna-cdn.com #Markmonitor
 netmng.com
@@ -8153,17 +8234,24 @@ omtrdc.net
 onclasrv.com
 onclickads.net
 onestat.com
+olark.com
 online-metrix.net
 onscroll.com
 ontoplist.com
-openx.net
-openx.org
+openx.com #OpenX
+openx.net #OpenX
+openx.org #OpenX
+openxadexchange.com #OpenX
+openxenterprise.com #OpenX
+openxenterprise.net #OpenX
+openxenterprise.org #OpenX
 ophan.co.uk
 optilead.co.uk
 optinmonster.com
 optimizely.com
 optnmnstr.com
 outbrain.com
+owneriq.net
 #P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P-P
 p-td.com
 pages01.net
@@ -8183,6 +8271,8 @@ peer39.net
 peerius.com
 pepperjamnetwork.com
 perfectaudience.com
+personalizedappsequencer.com #instartlogic
+personalizedappsequencer.net #instartlogic
 phicdn.net #Markmonitor
 pingdom.net
 pixfuture.net
@@ -8218,6 +8308,8 @@ q1mediahydraplatform.com
 q4cdn.com
 q4web.com
 q4websystems.com
+qmerce.com
+qsubmit.com
 qualtrics.com
 quantcast.com
 quantserve.com
@@ -8257,6 +8349,7 @@ rm0008.net
 rm0009.net
 rm0010.net
 roia.biz
+roost.me
 route.to
 routecdn.com
 rsvpgenius.com
@@ -8274,6 +8367,12 @@ sayutracking.co.uk
 scarabresearch.com
 scorecardresearch.com
 scoutanalytics.net
+sd-ad.net #instartlogic
+sd-ad.org #instartlogic
+sdad.biz #instartlogic
+sdad.guru #instartlogic
+sdad.mobi #instartlogic
+sdad.technology #instartlogic
 searchmarketing.com
 secretmedia.com
 secureadserver.com
@@ -8287,7 +8386,9 @@ sensic.net
 sentifi.com
 servebom.com
 servedby-buysellads.com
-servedbyopenx.com
+servedbyopenx.com #OpenX
+servedbyopenx.net #OpenX
+servedbyopenx.org #OpenX
 servesharp.com
 servesharp.net
 serving-sys.com
@@ -8312,6 +8413,28 @@ smarterclick.co.uk
 smartstream.tv
 smct.co
 snapsurveys.com
+softwaredefined.guru #instartlogic
+softwaredefined.us #instartlogic
+softwaredefinedappdelivery.com #instartlogic
+softwaredefinedappdelivery.info #instartlogic
+softwaredefinedappdelivery.net #instartlogic
+softwaredefinedappdelivery.org #instartlogic
+softwaredefinedappdelivery.us #instartlogic
+softwaredefinedapplicationdelivery.com #instartlogic
+softwaredefinedapplicationdelivery.info #instartlogic
+softwaredefinedapplicationdelivery.net #instartlogic
+softwaredefinedapplicationdelivery.org #instartlogic
+softwaredefinedapplicationdelivery.us #instartlogic
+softwaredefinedcdn.com #instartlogic
+softwaredefinedcdn.info #instartlogic
+softwaredefinedcdn.net #instartlogic
+softwaredefinedcdn.org #instartlogic
+softwaredefinedcdn.us #instartlogic
+softwaredefineddelivery.com #instartlogic
+softwaredefineddelivery.info #instartlogic
+softwaredefineddelivery.net #instartlogic
+softwaredefineddelivery.org #instartlogic
+softwaredefineddelivery.us #instartlogic
 solvemedia.com
 sonobi.com
 sophus3.com
@@ -8430,12 +8553,17 @@ vertmarkets.com
 veruta.com
 venturead.com
 viafoura.com
+viazza.com
+viazza.info
 videoadex.com
 videologygroup.com
 vidyard.com
 viglink.com
+vidlux.com
+vidmark.com
 vindicosuite.com
 visitortracklog.com
+visistat.com
 visualrevenue.com
 visualwebsiteoptimizer.com
 vizu.com
@@ -8443,6 +8571,14 @@ voicefive.com
 #W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W
 w55c.net
 walkme.com
+wci-fl.com
+webapplicationstreamingnetwork.com #instartlogic
+webapplicationstreamingnetwork.info #instartlogic
+webapplicationstreamingnetwork.net #instartlogic
+webappstreamingnetwork.com #instartlogic
+webappstreamingnetwork.info #instartlogic
+webappstreamingnetwork.net #instartlogic
+webappstreamingnetwork.org #instartlogic
 webgains.com
 webmd.com
 webtrekk.com
