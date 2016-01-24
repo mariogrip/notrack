@@ -1,0 +1,24 @@
+<input type="text" class="form-control" placeholder="Search" ng-model="searchInputStr" ng-keypress="search()">
+<br>
+<ul class="list-group">
+
+</ul>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Date of request</th>
+      <th>Device Name</th>
+      <th>MAC Address</th>
+      <th>IP Allocated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="site in blocklist | filter:searchStr track by $index">
+        <td>{{site.TimeStamp | date:'medium'}}</td>
+        <td>{{site.DeviceName}}</td>
+        <td>{{site.Mac}}</td>
+        <td>{{site.IP}}</td>
+    </tr>
+  </tbody>
+</table>

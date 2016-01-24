@@ -1,0 +1,5 @@
+<input type="text" class="form-control" placeholder="Search" ng-model="searchInputStr" ng-keypress="search()">
+<br>
+<ul class="list-group">
+  <li ng-repeat="site in blocklist | filter:searchStr track by $index" if="site != ''" class="list-group-item">{{site}}</li>
+</ul>

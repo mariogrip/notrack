@@ -1,4 +1,3 @@
- 
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,10 +23,10 @@ if (isset($_GET['show'])) {
   if ($_GET['show'] == 'num') {
     $SingleNumber = true;
   }
-  if (in_array($_GET['show'], $Letters)) { 
+  if (in_array($_GET['show'], $Letters)) {
     $Show = $_GET['show'];
     $SingleLetter = true;
-  } 
+  }
 }
 
 //WriteLI Function for Pagination Boxes-------------------------------
@@ -37,8 +36,8 @@ function WriteLI($Character, $Active) {
   }
   else {
     echo '<li><a href="?show='.strtolower($Character).'">';
-  }  
-  echo "$Character</a></li>\n";  
+  }
+  echo "$Character</a></li>\n";
   return null;
 }
 
@@ -81,7 +80,7 @@ foreach ($TrackerBlockList as $Site) {
   }
 }
 echo "</div>\n";
-?> 
+?>
 </div>
 </body>
 </html>
