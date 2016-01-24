@@ -231,7 +231,18 @@ Setup_Dnsmasq() {
   
   Check_File_Exists "$InstallLoc/conf/lighttpd.conf"
   sudo cp "$InstallLoc/conf/lighttpd.conf" /etc/lighttpd/lighttpd.conf
-    
+  
+  #Configure FirewallD to Work With Dnsmasq
+  if [ $(command -v firewall-cmd) ]; then
+    echo "Creating Firewall Rules Using FirewallD"
+    if [ $(sudo firewall-cmd --query-service=dns) == "yes" ]; then
+      echo "Firewall rule DNS already exists! Skipping..."
+    else
+      echo "Firewall rule DNS has been added"
+      sudo firewall-cmd --permanent --add-service=dns    #Add firewall rule for dns connections
+    fi
+  fi
+
   #Finish configuration of dnsmasq config
   echo "Setting DNS Servers in /etc/dnsmasq.conf"
   sudo sed -i "s/server=changeme1/server=$DNSChoice1/" /etc/dnsmasq.conf
@@ -263,6 +274,24 @@ Setup_Lighttpd() {
   echo "Configuring Lighttpd"
   sudo usermod -a -G www-data "$(whoami)"        #Add www-data group rights to current user
   sudo lighty-enable-mod fastcgi fastcgi-php
+  
+  #Configure FirewallD to Work With Lighttpd
+  if [ $(command -v firewall-cmd) ]; then
+    echo "Creating Firewall Rules Using FirewallD"
+    if [ $(sudo firewall-cmd --query-service=http) == "yes" ]; then
+      echo "Firewall rule HTTP already exists! Skipping..."
+    else
+      echo "Firewall rule HTTP has been added"
+      sudo firewall-cmd --permanent --add-service=http    #Add firewall rule for http connections
+    fi
+
+    if [ $(sudo firewall-cmd --query-service=https) == "yes" ]; then
+      echo "Firewall rule HTTPS already exists! Skipping..."
+    else
+      echo "Firewall rule HTTPS has been added"
+      sudo firewall-cmd --permanent --add-service=https   #Add firewall rule for https connections
+    fi
+  fi
   
   if [ ! -d /var/www/html ]; then                #www/html folder will get created by Lighttpd install
     echo "Creating Web folder: /var/www/html"
@@ -365,6 +394,12 @@ fi
 Setup_Dnsmasq
 Setup_Lighttpd
 Setup_NoTrack
+
+# Reload FirewallD to ensure new rules are functional
+if [ $(command -v firewall-cmd) ]; then
+  echo "Reloading FirewallD..."
+  sudo firewall-cmd --reload
+fi
 
 echo "Downloading List of Trackers"
 sudo /usr/local/sbin/notrack
