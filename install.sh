@@ -161,8 +161,22 @@ Install_Pacman() {
 }
 #--------------------------------------------------------------------
 Install_Yum() {
-  echo "Yum package install not implemented yet.  Aborting."
-  exit 2
+  echo "Preparing to Install RPM packages..."
+  sleep 5s
+  sudo yum update
+  echo
+  echo "Installing dependencies"
+  sleep 2s
+  sudo yum -y install unzip
+  echo
+  echo "Installing Dnsmasq"
+  sleep 2s
+  sudo yum -y install dnsmasq
+  echo
+  echo "Installing Lighttpd and PHP5"
+  sleep 2s
+  sudo yum -y install lighttpd php
+  echo
 }
 #--------------------------------------------------------------------
 Install_Zypper() {
