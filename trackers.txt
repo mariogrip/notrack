@@ -1,12 +1,14 @@
-#List of Ad files last updated 23 Jan 2016 .2
+#List of Ad files last updated 24 Jan 2016 .2
 #LatestVersion 0.4
 103bees.com
 10cms.com
 206ads.com
-247realmedia.com
+247realmedia.com #AppNexus Inc
+247realmedia.org #AppNexus Inc
 254a.com
 #2mdn.net
-2o7.net
+2cobrowse.com #eGain Corporation
+2o7.net #Adobe
 302br.net
 303br.net
 304br.net
@@ -23,6 +25,7 @@
 51.la
 5gl1x9qc.com
 5min.com
+7eer.net #Impact Radius
 #A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A-A
 a-msedge.net #Markmonitor
 a2dfp.net
@@ -33,24 +36,29 @@ abetterweb.org #instartlogic
 abetterweb.us #instartlogic
 abmr.net
 abtasty.com
-acxiom-online.com
 active-agent.com
 active-agent.net
 acuityplatform.com
+acxiom-online.com
 ad-serverparc.nl
 adadvisor.net
-adalyser.com
-adalyser.net
-adap.tv
 adagencyonline.biz
 adagencyonline.net
 adagencyonlineautomotiveadvertising.com
+adalyser.com
+adalyser.net
+adap.tv
 adblade.com
 adbrau.com
 adbrn.com
 adbutler-tachyon.com
 adcentriconline.com
 addeluxe.jp
+addmediaclick.com #AppNexus Inc
+addnexus.com #AppNexus Inc
+addnexus.info #AppNexus Inc
+addnexus.net #AppNexus Inc
+addnexus.org #AppNexus Inc
 addnow.com
 addthis.com
 adform.net
@@ -64,17 +72,32 @@ adixo.com
 adizio.com
 adjug.com
 adjust.com
+adlegend.com
+adlibrary.org #AppNexus Inc
 adlooxtracking.com
 admailtiser.com
 admantx.com
 admarketplace.net
 admaym.com
+admediaclick.com #AppNexus Inc
 admedo.com
 admized.com
-adlegend.com
-adnxs.com
-adobetag.com
-adobedtm.com
+adnexus.com #AppNexus Inc
+adnexus.net #AppNexus Inc
+adnexus.nyc #AppNexus Inc
+adnexus.org #AppNexus Inc
+adnexus.us #AppNexus Inc
+adnxs.biz #AppNexus Inc
+adnxs.com #AppNexus Inc
+adnxs.info #AppNexus Inc
+adnxs.mobi #AppNexus Inc
+adnxs.net #AppNexus Inc
+adnxs.nyc #AppNexus Inc
+adnxs.org #AppNexus Inc
+adnxs.us #AppNexus Inc
+adnxus.com #AppNexus Inc
+adobedtm.com #Adobe
+adobetag.com #Adobe
 adoftheyear.com
 adreadytractions.com
 adriver.ru
@@ -87,9 +110,9 @@ adsafeprotected.com
 adscale.de
 adsensecustomsearchads.com
 adsfac.eu
+adsonar.com
 adspdbl.com
 adspeed.net
-adsonar.com
 adsrvr.org
 adsymptotic.com
 adtarget.me
@@ -99,8 +122,8 @@ adupclickfilter.com
 advanced-web-analytics.com
 adventori.com
 adversal.com
-advertising.com
 advertisers-openx.com #OpenX
+advertising.com
 advertserve.com
 adviva.net
 adxpose.com
@@ -109,9 +132,24 @@ adzerk.net
 adzhub.com
 aegdigitalgroup.com
 affec.tv
-affiliatewindow.com
+affiliate-window.com #Digital Window
+affiliateswindow.com #Digital Window
+affiliatewindow.adult #Digital Window
+affiliatewindow.com #Digital Window
+affiliatewindow.net #Digital Window
+affiliatewindow.porn #Digital Window
+affiliatewindows.com #Digital Window
+affilliatewindow.com #Digital Window
+affluencemedia.com #AppNexus Inc
 afy11.net
+agil1.biz
+agil1.info
+agil1.us
+agileradius.com #Impact Radius
+agilone.biz
 agilone.com
+agilone.info
+agilone.us
 agkn.net
 agm1.us
 ahalogy.com
@@ -126,15 +164,40 @@ amgdgt.com
 amplience.com
 amplitude.com
 amung.us #TBC
-analytics-egain.com
+analytics-egain.com #eGain Corporation
 and.co.uk
 anrdoezrs.net
 apester.com
+apnex.us #AppNexus Inc
+apnx.us #AppNexus Inc
+appenstance.com #AppNexus Inc
 appier.net
+appinstance.com #AppNexus Inc
+appliances2compare.com #Digital Window
 applicationstreamingnetwork.com #instartlogic
 applicationstreamingnetwork.info #instartlogic
 applicationstreamingnetwork.net #instartlogic
 applicationstreamingnetwork.org #instartlogic
+appnex.us #AppNexus Inc
+appnexis.com #AppNexus Inc
+appnexus.asia #AppNexus Inc
+appnexus.biz #AppNexus Inc
+appnexus.com #AppNexus Inc
+appnexus.info #AppNexus Inc
+appnexus.london #AppNexus Inc
+appnexus.net #AppNexus Inc
+appnexus.nyc #AppNexus Inc
+appnexus.org #AppNexus Inc
+appnexus.paris #AppNexus Inc
+appnexus.us #AppNexus Inc
+appnexuscloud.biz #AppNexus Inc
+appnexuscloud.com #AppNexus Inc
+appnexuscloud.info #AppNexus Inc
+appnexuscloud.mobi #AppNexus Inc
+appnexuscloud.net #AppNexus Inc
+appnexuscloud.org #AppNexus Inc
+appnexuscloud.us #AppNexus Inc
+appnexusconsole.com #AppNexus Inc
 apps-your-ideas.com
 appsequencer.com #instartlogic
 appsequencer.net #instartlogic
@@ -150,11 +213,16 @@ ati-host.net
 attraqt.com
 atwola.com
 audienceiq.com
+audiencesharing.com #Adobe
 auditude.com
 authorisationimprint.com
 aweber.com
-awin1.com
+awin1.com #Digital Window
+awin2.com #Digital Window
+awin3.com #Digital Window
+awinanalytics.com #Digital Window
 awltovhc.com
+awmetrics.com #Digital Window
 #B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B-B
 basebanner.com
 batchgeo.com
@@ -164,6 +232,14 @@ bcplayer.net
 beanstock.com
 begun.ru
 betrad.com
+betteradserving.com #AppNexus Inc
+betterbrandsafety.com #AppNexus Inc
+bettercreatives.com #AppNexus Inc
+betterliquidity.com #AppNexus Inc
+bettermarketplaces.com #AppNexus Inc
+betterprogrammatic.com #AppNexus Inc
+bettertargeting.com #AppNexus Inc
+bettertradingsolutions.com #AppNexus Inc
 bevyup.com
 bidr.io
 bidswitch.net
@@ -198,22 +274,33 @@ brightedge.com
 brighteroption.com
 brilig.com
 britecove.biz
+broadband2compare.com #Digital Window
 btrll.com
 btstatic.com
 bugherd.com
 builfico.de
 burstnet.com
 burt.io
+buyat.com #Digital Window
 buyerappreciation.com
 buysellads.com
+buysub.com
 bz.io
 bzgint.com  #?TBC
 #C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C-C
 c3tag.com
+callwindow.com #Digital Window
+callwindow.net #Digital Window
 cap-mii.net
 captifymedia.com
 carambo.la
 casalemedia.com
+cash4charities.com #Digital Window
+cash4charity.com #Digital Window
+cash4clubs.com #Digital Window
+cash4fundraising.com #Digital Window
+cashbackwindow.com #Digital Window
+cashforfundraising.com #Digital Window
 cdngc.net
 cedexis.net
 cedexis-radar.net
@@ -227,13 +314,20 @@ chartbeat.com
 chartbeat.net
 chicdn.net
 choicestream.com
+choosealoan.com #Digital Window
+christmasalready.com #Digital Window
 chrs-mln-krs.com
 clear-reports.com
 clickfuse.com
 clickshift.com
 clicktale.net
 clicktracks.com
+clickwindow.com #Digital Window
+clickwindow.net #Digital Window
+clixengine.com #Digital Window
 cloudapp.net #Markmonitor
+clusteredcloud.com #AppNexus Inc
+clusteredcloud.net #AppNexus Inc
 cmail2.com
 cmcore.com
 cmmeglobal.com
@@ -242,13 +336,17 @@ codinginadtech.com #OpenX
 codinginadtech.net #OpenX
 collective.com
 collective-media.net
+comparingmobiles.com #Digital Window
 compete.com
+concertbreaks.com #Digital Window
+concerthospitality.com #Digital Window
 connexity.net
 content-square.net
 content.ad
 contentclick.co.uk
 contentfeed.net
 contentquery.net
+contentwindow.com #Digital Window
 contextweb.com
 convertro.com
 conyak.com
@@ -258,7 +356,9 @@ coveritlive.com
 cq.io
 crazyegg.com
 crealytics.com
+createabetterinternet.com #AppNexus Inc
 creative-serving.com
+creativelibrary.org #AppNexus Inc
 creatormail.co.uk
 criteo.com
 crowdignite.com
@@ -268,6 +368,7 @@ cspbuilder.info
 ctasnet.com
 ctnsnet.com
 ctscdn.com
+customerjourney.com #eGain Corporation
 cxense.com
 #D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D-D
 da-ads.com
@@ -281,9 +382,18 @@ deltacdn.net #Markmonitor
 demandbase.com
 demdex.net
 deployads.com
+devnexus.net #AppNexus Inc
+devnxs.net #AppNexus Inc
 dianomi.com
+dianalytics.com #Adobe
+digital-window.com #Digital Window
+digitalwindow.com #Digital Window
+direct-serve.com #Digital Window
 directrev.com
+directserve.com #Digital Window
 displaymarketplace.com
+displaywords.com #AppNexus Inc
+displaywords.net #AppNexus Inc
 dl-rms.com
 dlqm.net
 dmtracker.com
@@ -295,12 +405,13 @@ doubleverify.com
 dowjoneson.com
 dpmsrv.com
 dqna.net
-dressipi.com #Style website that offers analytics for other retailers
+dressipi.com #Style website which offers analytics for other retailers
 dsply.com
 dtscout.com
 duba.com
 duba.net
-dwin1.com
+dwin1.com #Digital Window
+dwin2.com #Digital Window
 dynamicyield.com
 dyncdn.me
 #E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E-E
@@ -308,12 +419,18 @@ ebayadvertising.com
 ebayenterprise.com
 ebaypartnernetwork.com
 ebz.io
+ecopute.com #AppNexus Inc
 ecustomeropinions.com
 edigitalresearch.com
 edigitalsurvey.com
 edgekey.net
 effectivemeasure.net
 elasticbeanstalk.com
+egaintraining.com #eGain Corporation
+egdemo.info #eGain Corporation
+egeng.info #eGain Corporation
+electricals2compare.com #Digital Window
+electronics2compare.com #Digital Window
 emailretargeting.com
 embed.ly
 emediate.dk
@@ -321,18 +438,23 @@ emltrk.com
 emv3.com
 en25.com
 engagesciences.com
+engine54.com #AppNexus Inc
 ensighten.com
+envnexus.com #AppNexus Inc
+envnexus.net #AppNexus Inc
+envnxs.com #AppNexus Inc
+envnxs.net #AppNexus Inc
 epmads.com
 eqads.com
 erne.co
 errorception.com
 esearchvision.com
-esomniture.com
+esomniture.com #Adobe
 esvdigital.com
 eum-appdynamics.com
 everestjs.net
 everesttech.net
-evyy.net
+evyy.net #Impact Radius
 exelator.com
 exoclick.com
 exovueplatform.com
@@ -343,6 +465,8 @@ eyeota.net
 ezp.bz
 #F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F-F
 face3media.com
+fashiona-z.com #Digital Window
+fantuition.com #AppNexus Inc
 fastclick.net
 fastly.net #Markmonitor
 fastlylb.net #Markmonitor
@@ -351,6 +475,7 @@ feedsportal.com
 fetchback.com
 fidelity-media.com
 fimserve.com
+findingflowers.com #Digital Window
 fits.me
 flashtalking.com
 flite.com
@@ -367,6 +492,7 @@ formalyzer.com
 frantro.de
 freeskreen.com
 fresh8.co
+freewall.com #AppNexus Inc
 frm.li
 froo.com
 fullstory.com
@@ -374,9 +500,15 @@ futureusmedia.com
 fwmrm.net
 fyre.co
 #G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G-G
+gardendiscount.com #Digital Window
 gaug.es
 gamned.com
 gemius.pl
+geoadnxs.com #AppNexus Inc
+geoadnxs.net #AppNexus Inc
+geoadnxs.org #AppNexus Inc
+geogslb.com #AppNexus Inc
+geogslb.net #AppNexus Inc
 georiot.com
 getclicky.com
 getdrip.com
@@ -386,7 +518,7 @@ gldsta-02-or.com
 go-mpulse.net
 goadservices.com
 godatafeed.com
-#google-analytics.com
+google-analytics.com
 #googleadservices.com
 #googlesyndication.com
 #googletagservices.com
@@ -396,8 +528,18 @@ gosquared.com
 gpwebsolutions.co.uk
 grapeshot.co.uk
 gravity.com
+grfyti.com #eGain Corporation
+groovygifts.com #Digital Window
 grvcdn.com
 gscontxt.net
+gslb-ns.com #AppNexus Inc
+gslb-ns.net #AppNexus Inc
+gslb-ns.org #AppNexus Inc
+gslb.com #AppNexus Inc
+gslb.nyc #AppNexus Inc
+gslbns.com #AppNexus Inc
+gslbns.net #AppNexus Inc
+gslbns.org #AppNexus Inc
 gssprt.jp
 gumgum.com
 #H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H-H
@@ -445,6 +587,9 @@ imiclk.com
 impact-ad.com
 impact-ad.jp
 impact-ad.net
+impb.org #AppNexus Inc
+impb.us #AppNexus Inc
+impactradius.com #Impact Radius
 impdesk.com
 impressiondesk.com
 imrworldwide.com
@@ -456,7 +601,12 @@ inscname.net #instartlogic
 inscname2.net #instartlogic
 insdns.net #instartlogic
 insightexpressai.com
-inskinad.com
+insightfirst.com #AppNexus Inc
+insightfirst.net #AppNexus Inc
+inskinad.com #Inskinad
+inskindemo.com #Inskinad
+inskinmedia.com #Inskinad
+inskinads.com #Inskinad
 insnw.net #instartlogic
 instartcloud.com #instartlogic
 instartlogic.biz #instartlogic
@@ -488,6 +638,9 @@ jisusaiche.com
 jmxded110.net
 justpremium.com
 jumptime.com #OpenX
+justappliances.com #Digital Window
+justbroadband.com #Digital Window
+justnavigators.com #Digital Window
 jwpltx.com
 #K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K-K
 kastatic.com
@@ -501,6 +654,9 @@ krxd.net
 ksmobile.com
 #kxcdn.com
 #L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L-L
+laptops2compare.com #Digital Window
+latestprizes.com #Digital Window
+latestprizes.net #Digital Window
 lduhtrp.net
 leadforensics.com
 leadformix.com
@@ -510,7 +666,8 @@ liadm.com
 liftdna.com #OpenX
 liftdna.net #OpenX
 lijit.com
-linkbucks.com 
+linkbucks.com
+linkednexus.com #AppNexus Inc
 linkoffers.net
 linksynergy.com
 listrakbi.com
@@ -519,11 +676,14 @@ livefyre.com
 liverail.com
 liveperson.net
 lognormal.net
+loyaltywindow.com #Digital Window
 lpsnmedia.net
 lucidmedia.com
 lypn.com
 #M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M-M
 madisonlogic.com
+madnxs.com #AppNexus Inc
+madnxs.net #AppNexus Inc
 mailadvertising.co.uk
 mailchimp.com
 mailmunch.co
@@ -543,6 +703,7 @@ metalyzer.com
 meteora.co
 meteora.us
 metrics.nt.vc
+metricswindow.com #Digital Window
 mgid.com
 mgsvc.com
 micpn.com
@@ -8176,6 +8337,9 @@ mmondi.com
 mmstat.com
 mplxtms.com
 moatads.com
+mobiles2compare.com #Digital Window
+mobilesource.net #Digital Window
+mobiletracking.com #Impact Radius
 mobytrks.com
 mookie1.com
 monetate.net
@@ -8214,6 +8378,9 @@ netshelter.net
 newrelic.com
 nexac.com
 nextplatform.com
+nexusapi.com #AppNexus Inc
+nexusapp.com #AppNexus Inc
+nexusapps.com #AppNexus Inc
 nmgcdn.com
 nsatc.net #Markmonitor
 nster.net
@@ -8222,10 +8389,20 @@ nsatc.net
 nster.net
 nuggad.net
 #O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O
+oas-central.com #AppNexus Inc
+oas-central.net #AppNexus Inc
+oas-network.com #AppNexus Inc
+oas-network.net #AppNexus Inc
+oascentral.com #AppNexus Inc
+oascentral.net #AppNexus Inc
+oasnetwork.com #AppNexus Inc
+oasnetwork.net #AppNexus Inc
+oasnexus.com #AppNexus Inc
+oasnexus.net #AppNexus Inc
 oclaserver.com
 octonet.com
 offpageads.com
-ojrq.net
+ojrq.net #Impact Radius
 oileddaintiessunset.info
 om.au
 omessage.com
@@ -8238,6 +8415,14 @@ olark.com
 online-metrix.net
 onscroll.com
 ontoplist.com
+openad.com #AppNexus Inc
+openadstream.com #AppNexus Inc
+openadstream.mobi #AppNexus Inc
+openadstreamcentral.com #AppNexus Inc
+openadstreamcentral.net #AppNexus Inc
+openadsystem.com #AppNexus Inc
+openadsystems.com #AppNexus Inc
+openadsystems.net #AppNexus Inc
 openx.com #OpenX
 openx.net #OpenX
 openx.org #OpenX
@@ -8264,18 +8449,23 @@ pages07.net
 pages08.net
 pages09.net
 paidonresults.net
+panachetech.com #AppNexus Inc
 pardot.com
 parsely.com
 passionfruitads.com
 peer39.net
 peerius.com
 pepperjamnetwork.com
+perfb.com #Digital Window
 perfectaudience.com
+perfiliate.com #Digital Window
 personalizedappsequencer.com #instartlogic
 personalizedappsequencer.net #instartlogic
 phicdn.net #Markmonitor
+pimpb.us #AppNexus Inc
 pingdom.net
 pixfuture.net
+playforprizes.net #Digital Window
 plista.com
 plugerr.com
 plymedia.com
@@ -8292,8 +8482,13 @@ ppjol.net
 prnx.net
 primefuse.com
 pro-market.net
+productserve.com #Digital Window
 projectwonderful.com
 polar.me
+powertheads.com #AppNexus Inc
+powertheinternet.com #AppNexus Inc
+privatescale.com #AppNexus Inc
+privatescale.net #AppNexus Inc
 ptengine.com
 pubmatic.com
 pubmine.com
@@ -8302,7 +8497,11 @@ pubsqrd.com
 pubexchange.com
 pulsemgr.com
 pump.to
+purplenile.com #eGain Corporation
 pwrads.net
+pxlsrv.com #AppNexus Inc
+pxlsrv.net #AppNexus Inc
+pxlsrv.us #AppNexus Inc
 #Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q-Q
 q1mediahydraplatform.com
 q4cdn.com
@@ -8318,14 +8517,22 @@ questionmarket.com
 #R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R-R
 r42tag.com
 raasnet.com
+razzle.nyc #AppNexus Inc
+razzledazzle.nyc #AppNexus Inc
 reactful.com
 radiumone.com
+realads.com #AppNexus Inc
+realmedia.com #AppNexus Inc
+realtimerelationship.com #AppNexus Inc
 rebelmouse.com
 redirecting2.net
 redeye.international
 redstar.co.uk
 refinedads.com
 relestar.com
+rename.com #Digital Window
+rename.net #Digital Window
+reportwindow.com #Digital Window
 res-x.com
 research-int.com
 reson8.com.au
@@ -8333,6 +8540,7 @@ responsetap.com
 revcontent.com
 revenue-tracker.com
 revsci.net
+rewardwindow.com #Digital Window
 rfihub.com
 rfihub.net
 rhythmxchange.com
@@ -8353,7 +8561,23 @@ roost.me
 route.to
 routecdn.com
 rsvpgenius.com
+rtbc.info #AppNexus Inc
+rtbc.mobi #AppNexus Inc
+rtbc.us #AppNexus Inc
+rtbconnect.biz #AppNexus Inc
+rtbconnect.com #AppNexus Inc
+rtbconnect.info #AppNexus Inc
+rtbconnect.mobi #AppNexus Inc
+rtbconnect.net #AppNexus Inc
+rtbconnect.org #AppNexus Inc
+rtbconnect.us #AppNexus Inc
 rtbidder.net
+rtbx.biz #AppNexus Inc
+rtbx.info #AppNexus Inc
+rtbx.mobi #AppNexus Inc
+rtbx.net #AppNexus Inc
+rtbx.org #AppNexus Inc
+rtbx.us #AppNexus Inc
 ru4.com
 rubiconproject.com
 runadtag.com
@@ -8373,6 +8597,7 @@ sdad.biz #instartlogic
 sdad.guru #instartlogic
 sdad.mobi #instartlogic
 sdad.technology #instartlogic
+search2shop.com #Digital Window
 searchmarketing.com
 secretmedia.com
 secureadserver.com
@@ -8396,7 +8621,10 @@ sessioncam.com
 sex-affiliation.com
 sharethis.com
 sharethrough.com
+shopwindow.com #Digital Window
+shopwindowforum.com #Digital Window
 sid-ads.com
+siftscience.com 
 silkenthreadiness.info
 silverpop.com
 simplereach.com
@@ -8412,7 +8640,9 @@ smartadserver.com
 smarterclick.co.uk
 smartstream.tv
 smct.co
+snapsitemap.com
 snapsurveys.com
+snorkletech.com #AppNexus Inc
 softwaredefined.guru #instartlogic
 softwaredefined.us #instartlogic
 softwaredefinedappdelivery.com #instartlogic
@@ -8442,6 +8672,8 @@ sortable.com
 sovrn.com
 specificclick.net
 speedshiftmedia.com
+spendandraise.org #Digital Window
+spendnraise.org #Digital Window
 spongecell.com
 spopessentials3.com
 spoteffects.com
@@ -8466,8 +8698,8 @@ sumome.com
 switchadhub.com
 switchads.com
 swoop.com
-symcb.com
-symcd.com
+symcb.com #Symantec
+symcd.com #Symantec
 #T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T-T
 taboola.com
 taboolasyndication.com
@@ -8483,14 +8715,20 @@ teads.tv
 tealiumiq.com
 techhive.com
 technoratimedia.com
+teaserroll.com #Inskinad
+testorion.com #eGain Corporation
+telegraphbags.com
+televisions2compare.com #Digital Window
 telize.com
 tellapart.com
 terraclicks.com
 testanalytics.net
 theadex.com
+theatre-breaks.com #Digital Window
 thebrighttag.com
 thehut.net
 thetacdn.net #Markmonitor
+ticket-genie.com #Digital Window
 tidaltv.com
 tiqcdn.com
 tkqlhce.com
@@ -8501,15 +8739,20 @@ trackalyzer.com
 trackedlink.net
 track-flow.com
 trackjs.com
+trackwindow.com #Digital Window
 tradeadexchange.com
 tradedoubler.com
 tradefxads.com
 trafficjunky.net 
+travel-options.com #Digital Window
+traveloffer-uk.com #Digital Window
 tribalfusion.com
 triggit.com
 trkme.net
 truste.com
 truste-svc.net
+trusted.site
+trustedsite.com
 ttxm.co.uk
 tubemogul.com
 tumri.net
@@ -8523,6 +8766,10 @@ tynt.com
 uadx.com
 udmserve.net
 umbel.com
+umhali.com #AppNexus Inc
+umhali.net #AppNexus Inc
+umhali.org #AppNexus Inc
+umhalilabs.com #AppNexus Inc
 uniqodo.com
 univide.com
 uobsoe.com
@@ -8544,6 +8791,7 @@ v10cdn.net #Markmonitor
 v11cdn.net #Markmonitor
 v12cdn.net #Markmonitor
 v13cdn.net #Markmonitor
+valdelabs.com #AppNexus Inc
 vdna-assets.com
 veille-referencement.com
 veoxa.com
@@ -8568,6 +8816,11 @@ visualrevenue.com
 visualwebsiteoptimizer.com
 vizu.com
 voicefive.com
+voucher-club.com #Digital Window
+voucheralley.com #Digital Window
+vouchercodeclub.com #Digital Window
+voucherwindow.com #Digital Window
+voycme.com #eGain Corporation
 #W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W-W
 w55c.net
 walkme.com
@@ -8596,6 +8849,7 @@ wt-eu02.net
 wt-safetag.com
 wtp101.com
 wunderloop.net
+wwpxl.com #AppNexus Inc
 wywy.com
 #X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X-X
 xg4ken.com
@@ -8614,11 +8868,13 @@ yjtag.jp
 yldbt.com
 yldmgrimg.net
 yuq.me
+ywxi.net
 #Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z-Z
 zanox.ws
 zbuckz.com
 zedo.com
 zemanta.com
+zenaps.com #Digital Window
 zepteo.com
 ziffdavisinternational.com
 zkcdn.net
@@ -8698,6 +8954,8 @@ asset.pagefair.com
 stats.pagefair.com
 asset.pagefair.net
 stats.pagefair.net
+pixel.reddit.com
+pixel.redditmedia.com
 analytics.faw.sky.com
 smetrics.sky.com
 pricelist.skype.com
