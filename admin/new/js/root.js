@@ -1,11 +1,11 @@
 var app = angular.module("notrack", ["ngRoute"]);
 
 app.controller("rootCtrl", function ($scope) {
-  $scope
+  //
 });
 
 app.controller("tldblocklistCtrl", ["$scope", "$http", function ($scope, $http) {
-  var blocklist = $http.get("/api/tldblocklist.php").then(function (i) {
+  var blocklist = $http.get("/admin/api/tldblocklist.php").then(function (i) {
     $scope.blocklist = i.data;
   });
 
@@ -18,7 +18,6 @@ app.controller("tldblocklistCtrl", ["$scope", "$http", function ($scope, $http) 
   }
 
   var bounce = _.debounce(updateSearchStr, 150);
-
   $scope.$watch("searchInputStr", function () {
     bounce();
   });
@@ -26,7 +25,7 @@ app.controller("tldblocklistCtrl", ["$scope", "$http", function ($scope, $http) 
 }]);
 
 app.controller("blocklistCtrl", ["$scope", "$http", function ($scope, $http) {
-  var blocklist = $http.get("/api/blocklist.php").then(function (i) {
+  var blocklist = $http.get("/admin/api/blocklist.php").then(function (i) {
     $scope.blocklist = i.data;
   });
 
@@ -51,8 +50,8 @@ app.controller("statsCtrl", ["$scope", "$http", function ($scope, $http) {
 }]);
 
 app.controller("dhcpleasesCtrl", ["$scope", "$http", function ($scope, $http) {
-  var blocklist = $http.get("/api/dhcpleases.php").then(function (i) {
-    $scope.blocklist = i.data;
+  var dhcpleases = $http.get("/admin/api/dhcpleases.php").then(function (i) {
+    $scope.dhcpleases = i.data;
   });
 
   $scope.searchStr = "";
@@ -73,23 +72,23 @@ app.controller("dhcpleasesCtrl", ["$scope", "$http", function ($scope, $http) {
 app.config(["$routeProvider", function ($routeProvider) {
   $routeProvider.
     when("/blocklist", {
-      templateUrl: "/new/partials/blocklist.html",
+      templateUrl: "/admin/new/partials/blocklist.html",
       controller: "blocklistCtrl"
     }).
     when("/tldblocklist", {
-      templateUrl: "/new/partials/tldblocklist.html",
+      templateUrl: "/admin/new/partials/tldblocklist.html",
       controller: "tldblocklistCtrl"
     }).
     when("/stats", {
-      templateUrl: "/new/partials/stats.html",
+      templateUrl: "/admin/new/partials/stats.html",
       controller: "statsCtrl"
     }).
     when("/dhcpleases", {
-      templateUrl: "/new/partials/dhcpleases.html",
+      templateUrl: "/admin/new/partials/dhcpleases.html",
       controller: "dhcpleasesCtrl"
     }).
     when("/upgrade", {
-      templateUrl: "/new/partials/upgrade.html",
+      templateUrl: "/admin/new/partials/upgrade.html",
       controller: "upgradeCtrl"
     }).
     otherwise({redirectTo: "/blocklist"})

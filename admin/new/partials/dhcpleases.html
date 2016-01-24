@@ -14,7 +14,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="site in blocklist | filter:searchStr track by $index">
+    <tr ng-repeat="site in dhcpleases | filter:searchStr track by $index">
         <td>{{site.TimeStamp | date:'medium'}}</td>
         <td>{{site.DeviceName}}</td>
         <td>{{site.Mac}}</td>
