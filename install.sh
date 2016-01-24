@@ -180,7 +180,7 @@ Install_Deb() {
   echo
   echo "Installing Lighttpd and PHP5"
   sleep 2s
-  sudo apt-get -y install lighttpd php5-cgi php5-curl php5-xcache
+  sudo apt-get -y install lighttpd php5-cgi php5-curl
   echo
 }
 #--------------------------------------------------------------------
@@ -199,7 +199,7 @@ Install_Dnf() {
   echo
   echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo dnf -y install lighttpd php php-xcache
+  sudo dnf -y install lighttpd php
   echo
 }
 #--------------------------------------------------------------------
