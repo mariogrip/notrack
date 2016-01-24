@@ -18,9 +18,9 @@ InstallLoc="${HOME}/NoTrack"
 
 #Welcome Dialog------------------------------------------------------
 Show_Welcome() {
-  whiptail --msgbox --title "Welcome to NoTrack $Version" "This installer will transform your Raspberry Pi into a network-wide Tracker Blocker!" $Height $Width
+  whiptail --msgbox --title "Welcome to NoTrack $Version" "This installer will transform your Raspberry Pi into a network-wide Tracker Blocker!\n\nInstall Guide: https://youtu.be/MHsrdGT5DzE" $Height $Width
 
-  whiptail --title "Initating Network Interface" --yesno "NoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly." --yes-button "Ok" --no-button "Abort" $Height $Width
+  whiptail --title "Initating Network Interface" --yesno "NoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly.\n\nHow to set a Static IP on Linux Server: https://youtu.be/vIgTmFu-puo" --yes-button "Ok" --no-button "Abort" $Height $Width
   if (( $? == 1)) ; then                           #Abort install if user selected no
     echo "Aborting Install"
     exit 1
@@ -161,8 +161,22 @@ Install_Pacman() {
 }
 #--------------------------------------------------------------------
 Install_Yum() {
-  echo "Yum package install not implemented yet.  Aborting."
-  exit 2
+  echo "Preparing to Install RPM packages..."
+  sleep 5s
+  sudo yum update
+  echo
+  echo "Installing dependencies"
+  sleep 2s
+  sudo yum -y install unzip
+  echo
+  echo "Installing Dnsmasq"
+  sleep 2s
+  sudo yum -y install dnsmasq
+  echo
+  echo "Installing Lighttpd and PHP5"
+  sleep 2s
+  sudo yum -y install lighttpd php
+  echo
 }
 #--------------------------------------------------------------------
 Install_Zypper() {
