@@ -8,7 +8,7 @@ NoTrack currently works in Debian and Ubuntu.
 You can use on a Raspberry Pi with a fresh install of Raspbian Jessie Lite
   
 # To Install:  
-Download install.sh  
+wget https://raw.githubusercontent.com/quidsup/notrack/master/install.sh  
 bash install.sh
 
 Point the DNS IP of all your systems to your NoTrack device.
