@@ -164,7 +164,7 @@ Check_File_Exists() {
   fi
 }
 
-#Install Applications------------------------------------------------
+#Install Packages----------------------------------------------------
 Install_Deb() {
   echo "Preparing to Install Deb Packages..."
   sleep 5s
@@ -180,8 +180,10 @@ Install_Deb() {
   echo
   echo "Installing Lighttpd and PHP5"
   sleep 2s
-  sudo apt-get -y install lighttpd php5-cgi php5-curl
+  sudo apt-get -y install lighttpd memcached php5-memcache php5-cgi php5-curl 
   echo
+  echo "Restarting Lighttpd"
+  sudo service lighttpd restart
 }
 #--------------------------------------------------------------------
 Install_Dnf() {
@@ -199,7 +201,7 @@ Install_Dnf() {
   echo
   echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo dnf -y install lighttpd php
+  sudo dnf -y install lighttpd memcached php-pecl-memcached php
   echo
 }
 #--------------------------------------------------------------------
@@ -217,7 +219,7 @@ Install_Pacman() {
   echo
   echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo pacman -S --noconfirm lighttpd php php-cgi
+  sudo pacman -S --noconfirm lighttpd php memcached php-memcache php-cgi 
   #Possible Bugfix - Need CURL package
   echo  
 }
@@ -235,9 +237,9 @@ Install_Yum() {
   sleep 2s
   sudo yum -y install dnsmasq
   echo
-  echo "Installing Lighttpd and PHP5"
+  echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo yum -y install lighttpd php php-xcache
+  sudo yum -y install lighttpd php memcached php-pecl-memcached
   echo
 }
 #--------------------------------------------------------------------
@@ -394,12 +396,18 @@ Setup_NoTrack() {
     sudo mkdir "/etc/notrack"
   fi
   
+  if [ -e /etc/notrack/notrack.conf ]; then      #Remove old config file
+    echo "Removing old file: /etc/notrack/notrack.conf"
+    sudo rm /etc/notrack/notrack.conf
+  fi
   echo "Creating NoTrack config file: /etc/notrack/notrack.conf"
   sudo touch /etc/notrack/notrack.conf          #Create Config file
   echo "IPVersion = $IPVersion" | sudo tee /etc/notrack/notrack.conf
   echo "NetDev = $NetDev" | sudo tee /etc/notrack/notrack.conf
   
+  echo
   echo "Setup of NoTrack complete"
+  echo
   echo
 }
 

@@ -60,6 +60,18 @@ else {                                           //Config line missing
   echo "<br /></div>\n";    
 }
 
+//Temp warning about Memcache
+echo '<div class="row">'."\n";
+echo '<h3>Please Note: NoTrack is now using memcache to improve page loading performance.</h4>';
+echo '<p>Ubuntu / Debian users install memcached and php5-memcache:</p>';
+echo '<pre>sudo apt-get install memcached php5-memcache<br />sudo service lighttpd restart</pre><br />';
+echo '<p>Arch users install memcached and php-memcache:</p>';
+echo '<pre>pacman -S memcached php-memcache</pre><br />';
+echo '<p>Fedora users install memcached and php-pecl-memcached:</p>';
+echo '<pre>dnf install memcached php-pecl-memcached<br />sudo service lighttpd restart</pre>';
+echo '</div>';
+
+
 ?>
 </div>
 </body>

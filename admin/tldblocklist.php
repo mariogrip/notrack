@@ -16,12 +16,27 @@ echo "<h1>Top Level Domain Blocklist</h1>\n";
 
 $TLDBlockList = array();
 
-//Read Malicious TLD List--------------------------------------------
-$FileHandle = fopen('/etc/notrack/domain-quick.list', 'r') or die('Error unable to open /etc/notrack/domain-quick.list');
-while (!feof($FileHandle)) {
-  $TLDBlockList[]= trim(fgets($FileHandle));  
+$Mem = new Memcache;                             //Initiate Memcache
+$Mem->connect('localhost');
+
+//Load TLD Block List------------------------------------------------
+function Load_TLDBlockList() {
+//Blocklist is held in Memcache for 10 minutes
+  global $TLDBlockList, $Mem;
+  $TLDBlockList=$Mem->get('TLDBlockList');
+  if (! $TLDBlockList) {    
+    $FileHandle = fopen('/etc/notrack/domain-quick.list', 'r') or die('Error unable to open /etc/notrack/domain-quick.list');
+    while (!feof($FileHandle)) {
+      $TLDBlockList[] = trim(fgets($FileHandle));
+    }
+    fclose($FileHandle);
+    $Mem->set('TLDBlockList', $TLDBlockList, 0, 600);
+  }
+  return null;
 }
-fclose($FileHandle);
+
+//Main---------------------------------------------------------------
+Load_TLDBlockList();
 asort($TLDBlockList);
 
 //Display List-------------------------------------------------------

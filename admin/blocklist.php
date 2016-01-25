@@ -20,6 +20,10 @@ $SingleLetter=false;
 $SingleNumber=false;
 $Letters = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
 $Numbers = array('0','1','2','3','4','5','6','7','8','9');
+
+$Mem = new Memcache;                             //Initiate Memcache
+$Mem->connect('localhost');
+
 if (isset($_GET['show'])) {
   if ($_GET['show'] == 'num') {
     $SingleNumber = true;
@@ -41,11 +45,25 @@ function WriteLI($Character, $Active) {
   echo "$Character</a></li>\n";  
   return null;
 }
+//Load Blocklist------------------------------------------------------
+function Load_BlockList() {
+//Blocklist is held in Memcache for 10 minutes
+  global $TrackerBlockList, $Mem;
+  
+  if (!file_exists('/etc/notrack/tracker-quick.list')) die("Error unable to open /etc/notrack/tracker-quick.list");
 
-//Check Quick List exists--------------------------------------------
-if (!file_exists('/etc/notrack/tracker-quick.list')) die("Error unable to open /etc/notrack/tracker-quick.list");
+  $TrackerBlockList = $Mem->get('TrackerBlockList');
+  if (! $TrackerBlockList) {    
+    $TrackerBlockList = file('/etc/notrack/tracker-quick.list');
+    $Mem->set('TrackerBlockList', $TrackerBlockList, 0, 600);
+  }
+  return null;
+}
 
-//Character Select----------------------------------------------------
+//Main---------------------------------------------------------------
+Load_BlockList();
+
+//Character Select---------------------------------------------------
 echo '<div class="pag-nav">';
 echo "<br /><ul>\n";
 if ($Show=='all') WriteLI('All', true);
@@ -58,9 +76,7 @@ foreach($Letters as $Val) {
 echo "</ul></div>\n";
 echo '<div class="row"><br /></div>';
 
-//Load Blocklist------------------------------------------------------
-$TrackerBlockList = file('/etc/notrack/tracker-quick.list');
-
+//Draw List----------------------------------------------------------
 echo '<div class="row-padded">'."\n";
 foreach ($TrackerBlockList as $Site) {
   if (($SingleLetter) || ($SingleNumber)) {
