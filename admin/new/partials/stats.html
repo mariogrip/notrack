@@ -1,1 +1,30 @@
-Work in progress
+<input type="text" class="form-control" placeholder="Search" ng-model="searchInputStr" ng-keypress="search()">
+<br>
+<ul class="list-group">
+
+</ul>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <td style="width:5%;">#</td>
+      <th ng-click="setOrder('url')">Domain <span ng-if="order.endsWith('url')" class="glyphicon glyphicon-chevron-{{order.startsWith('-') ? 'down':'up'}}" aria-hidden="true"></span></th>
+      <td>G</td>
+      <td>W</td>
+      <th style="width:15%;" ng-click="setOrder('num')">Requests <span ng-if="order.endsWith('num')" class="glyphicon glyphicon-chevron-{{order.startsWith('-') ? 'down':'up'}}" aria-hidden="true"></span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="(num, domain) in domains | filter:searchStr | orderBy:order track by $index" style="{{domain.blocked ? 'background-color: #EB5D66':''  }}">
+        <td>{{num}}</td>
+        <td>{{domain.url}}</td>
+        <td>
+          <a target="_blank" href="https://www.google.com/search?q={{domain.url}}">
+            <img class="icon" src="/admin/images/search_icon.png" alt="" <="" a="">
+          </a>
+        </td>
+        <td><a target="_blank" href="https://who.is/whois/{{domain.url}}"><img class="icon" src="/admin/images/whois_icon.png" alt=""></a></td>
+        <td>{{domain.num}}</td>
+    </tr>
+  </tbody>
+</table>

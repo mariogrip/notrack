@@ -1,3 +1,4 @@
+<div ng-if="!notInUse">
 <input type="text" class="form-control" placeholder="Search" ng-model="searchInputStr" ng-keypress="search()">
 <br>
 <ul class="list-group">
@@ -22,3 +23,7 @@
     </tr>
   </tbody>
 </table>
+</div>
+<div style="text-align: center;" ng-if="notInUse">
+  <p>DHCP Functionality not in use</p>
+</div>

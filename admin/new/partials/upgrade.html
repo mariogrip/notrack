@@ -1,1 +1,12 @@
-Work in progress
+<div class="panel panel-default">
+  <div class="panel-body" ng-if="upgradeAvailable">
+    <p>Currently running version: v{{versionData.version}}</p>
+    <p>Latest version available: v{{versionData.latestVersion}}</p>
+  </div>
+  <div class="panel-body" ng-if="!upgradeAvailable">
+    <p>
+      <span class="glyphicon glyphicon-ok" style="color: green; font-size: 40px;" aria-hidden="true"></span>
+      You're running the latest version: v{{versionData.version}}
+    <p>
+  </div>
+</div>

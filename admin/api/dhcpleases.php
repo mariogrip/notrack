@@ -1,18 +1,15 @@
 <?php
 
-if (file_exists('/var/lib/misc/dnsmasq.leases')) {
-  $FileHandle= file('/var/lib/misc/dnsmasq.leases');
+if (!file_exists('/var/lib/misc/dnsmasq.leases')) die(http_response_code(404));
 
-  foreach ($FileHandle as $key => $value) {
-    $Seg = explode(' ', str_replace("\n", "", $value));
-    $arr = array('TimeStamp' => $Seg[0], 'Mac' => $Seg[1], 'IP' => $Seg[2], 'DeviceName' => $Seg[3], 'MacS' => $Seg[4],);
-    $dhcpLeases[] = $arr;
-  }
+$FileHandle= file('/var/lib/misc/dnsmasq.leases');
 
-  print(json_encode($dhcpLeases));
+foreach ($FileHandle as $key => $value) {
+  $Seg = explode(' ', str_replace("\n", "", $value));
+  $arr = array('TimeStamp' => $Seg[0], 'Mac' => $Seg[1], 'IP' => $Seg[2], 'DeviceName' => $Seg[3], 'MacS' => $Seg[4],);
+  $dhcpLeases[] = $arr;
 }
-else {
-  echo "null";
-}
+
+print(json_encode($dhcpLeases));
 
 ?>
