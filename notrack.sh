@@ -6,9 +6,12 @@
 #Date : 2015-01-14
 #Usage : sudo bash notrack.sh
 
+#User Configerable Variables incase config file is missing
+DefaultIPVersion="IPv4"
+DefaultNetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1) #Set this to the name of network device e.g. "eth0" if you have multiple network cards
+
 #System Variables----------------------------------------------------
 Version="0.4"
-NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
 TrackerSource="http://quidsup.net/trackers.txt" 
 TrackerListFile="/etc/dnsmasq.d/adsites.list" 
 TrackerQuickList="/etc/notrack/tracker-quick.list"
@@ -20,9 +23,9 @@ DomainBlackList="/etc/notrack/domain-blacklist.txt"
 DomainWhiteList="/etc/notrack/domain-whitelist.txt"
 DomainQuickList="/etc/notrack/domain-quick.list"
 ConfigFile="/etc/notrack/notrack.conf"
+NetDev=""
 IPVersion=""
 OldLatestVersion=""
-
 
 #Error_Exit----------------------------------------------------------
 Error_Exit() {
@@ -50,33 +53,40 @@ Read_Config_File() {
     fi
   fi
 
-  if [ ! -e $ConfigFile ]; then
+  if [ ! -e $ConfigFile ]; then                  #No Config File
     echo "Creating config file"
     touch $ConfigFile                            #Create Config file
-    IPVersion="IPv4"                             #Set default values
+    IPVersion=$DefaultIPVersion                  #Set default values
+    NetDev=$DefaultNetDev
     OldLatestVersion=$Version
-    if [ ! -e $ConfigFile ]; then                #Check again
+    if [ ! -e $ConfigFile ]; then                #Check again. Warning if file is missing
       echo "Warning Unable to create config file. Continuing with default settings"      
-    else                                         #successful, lets write the values
-      echo "IPVersion = IPv4" >> $ConfigFile
+    else                                         #Successful, lets write the values
+      echo "IPVersion = $IPVersion" >> $ConfigFile
+      echo "NetDev = $NetDev" >> $ConfigFile
       echo "LatestVersion = $Version" >> $ConfigFile
     fi
-  else 
+  else                                           #File exists, load variables 
     IPVersion=$(cat "$ConfigFile" | grep "IPVersion" | cut -d "=" -f 2 | tr -d [[:space:]])
+    NetDev=$(cat "$ConfigFile" | grep "NetDev" | cut -d "=" -f 2 | tr -d [[:space:]])
     OldLatestVersion=$(cat $ConfigFile | grep "LatestVersion" | cut -d "=" -f 2 | tr -d [[:space:]])
     
     #Verify variables have been loaded successfully
-    if [ "$IPVersion" == "" ]; then              #Check If Config is line missing
-      IPVersion="IPv4"                           #default to IPv4
-      echo "IPVersion = IPv4" >> $ConfigFile
+    if [ "$IPVersion" == "" ]; then              #Check IPVersion
+      IPVersion=$DefaultIPVersion                #Set to default
+      echo "IPVersion = $IPVersion" >> $ConfigFile
     fi
     
-    if [[ $OldLatestVersion == "" ]]; then       #Check If OldLatestVersion is line missing
-      echo "LatestVersion = $Version" >> $ConfigFile
+    if [ "$NetDev" == "" ]; then                 #Check NetDev
+      NetDev=$DefaultNetDev
+      echo "NetDev = $NetDev" >> $ConfigFile
+    fi    
+    
+    if [[ $OldLatestVersion == "" ]]; then       #Check OldLatestVersion
       OldLatestVersion=$Version                  #Default to script version for now
+      echo "LatestVersion = $Version" >> $ConfigFile       
     fi
-  fi
-  
+  fi  
 }
 
 #Check Lists---------------------------------------------------------
@@ -176,15 +186,15 @@ Get_IPAddress() {
   
   if [ "$IPVersion" == "IPv4" ]; then
     echo "Reading IPv4 Address from $NetDev."
-    IPAddr=$( ip addr list "$NetDev" |grep "inet " |cut -d' ' -f6|cut -d/ -f1 )
-    echo "System IP Address $IPAddr"
+    IPAddr=$(ip addr list "$NetDev" |grep "inet " |cut -d' ' -f6|cut -d/ -f1)
+    
   elif [ "$IPVersion" == "IPv6" ]; then
     echo "Reading IPv6 Address"
-    IPAddr=$( ip addr list "$NetDev" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1 )
-    echo "System IP Address $IPAddr"
+    IPAddr=$(ip addr list "$NetDev" |grep "inet6 " |cut -d' ' -f6|cut -d/ -f1)    
   else
     Error_Exit "Unknown IP Version"    
   fi
+  echo "System IP Address $IPAddr"
   echo
 }
 
@@ -355,24 +365,19 @@ Show_Help() {
   echo "Downloads and Installs updated tracker lists"
   echo
   echo "The following options can be specified:"
-  echo -e "  -b\t\tbasic upgrade launched from web browser"
-  echo -e "  -h, --help\tdisplay this help and exit"
-  echo -e "  -v, --version\tdisplay version information and exit"
-  echo -e "  -u, --upgrade\trun a full upgrade"
+  echo -e "  -b\t\tUpgrade web pages only"
+  echo -e "  -h, --help\tDisplay this help and exit"
+  echo -e "  -v, --version\tDisplay version information and exit"
+  echo -e "  -u, --upgrade\tRun a full upgrade"
 }
 
 #Show Version--------------------------------------------------------
 Show_Version() {
-  echo "NoTrack Version v$Version"
-  if [[ $Version != "$OldLatestVersion" ]]; then
-    echo "New version available v$OldLatestVersion"
-  fi
+  echo "NoTrack Version v$Version"  
   echo
 }
 
 #Main----------------------------------------------------------------
-Read_Config_File                                 #Load saved variables
-
 if [ "$1" ]; then                                #Have any arguments been given
   if ! options=$(getopt -o bhvu -l help,version,upgrade -- "$@"); then
     # something went wrong, getopt will put out an error message for us
@@ -415,6 +420,7 @@ else                                             #No arguments means update trac
     Error_Exit "Error this script must be run as root"    
   fi
   
+  Read_Config_File                               #Load saved variables  
   Check_Lists
   Get_IPAddress
   Download_Lists

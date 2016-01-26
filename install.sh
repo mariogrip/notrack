@@ -5,8 +5,9 @@
 #Usage : bash install.sh
 
 #Program Settings----------------------------------------------------
-Version="v0.4"
-NetDev=$( ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1 )
+Version="0.5"
+NetDev=$(ip -o link show | awk '{print $2,$9}' | grep ": UP" | cut -d ":" -f 1)
+CountNetDev=$(wc -w <<< "$NetDev")
 Height=$(tput lines)
 Width=$(tput cols)
 Height=$((Height / 2))
@@ -18,9 +19,9 @@ InstallLoc="${HOME}/NoTrack"
 
 #Welcome Dialog------------------------------------------------------
 Show_Welcome() {
-  whiptail --msgbox --title "Welcome to NoTrack $Version" "This installer will transform your Raspberry Pi into a network-wide Tracker Blocker!\n\nInstall Guide: https://youtu.be/MHsrdGT5DzE" $Height $Width
+  whiptail --msgbox --title "Welcome to NoTrack v$Version" "This installer will transform your system into a network-wide Tracker Blocker!\n\nInstall Guide: https://youtu.be/MHsrdGT5DzE" 20 $Width
 
-  whiptail --title "Initating Network Interface" --yesno "NoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly.\n\nHow to set a Static IP on Linux Server: https://youtu.be/vIgTmFu-puo" --yes-button "Ok" --no-button "Abort" $Height $Width
+  whiptail --title "Initating Network Interface" --yesno "NoTrack is a SERVER, therefore it needs a STATIC IP ADDRESS to function properly.\n\nHow to set a Static IP on Linux Server: https://youtu.be/vIgTmFu-puo" --yes-button "Ok" --no-button "Abort" 20 $Width
   if (( $? == 1)) ; then                           #Abort install if user selected no
     echo "Aborting Install"
     exit 1
@@ -29,7 +30,49 @@ Show_Welcome() {
 
 #Finish Dialog-------------------------------------------------------
 Show_Finish() {
-  whiptail --msgbox --title "Install Complete" "NoTrack has been installed\nAccess the admin console at http://$(hostname)/admin" 10 $Width
+  whiptail --msgbox --title "Install Complete" "NoTrack has been installed\nAccess the admin console at http://$(hostname)/admin" 15 $Width
+}
+
+#Ask User Which Network device to use for DNS lookups----------------
+#Needed if user has more than one network device active on their system
+#Whiptail method here is a bit crude, perhaps it could be improved?
+Ask_NetDev() {
+  if [[ $CountNetDev == 2 ]]; then               #Whiptail dialog for 2 choices
+    ListDev=($NetDev)
+    Fun=$(whiptail --title "Network Device" --radiolist "Select Network Device to use for DNS Queries" $Height $Width 2 --ok-button Select \
+    "1" ${ListDev[0]} on \
+    "2" ${ListDev[1]} off \
+     3>&1 1>&2 2>&3) 
+    Ret=$?  
+    if [[ $Ret == 1 ]]; then
+      echo "Aborting Install"
+      exit 1
+    elif [[ $Ret == 0 ]]; then
+      NetDev=${ListDev[$Fun-1]}    
+    fi 
+  elif [[ $CountNetDev == 3 ]]; then             #Whiptail dialog for 3 devices
+    ListDev=($NetDev)
+    Fun=$(whiptail --title "Network Device" --radiolist "Select Network Device for DNS Queries" $Height $Width 3 --ok-button Select \
+    "1" ${ListDev[0]} on \
+    "2" ${ListDev[1]} off \
+    "3" ${ListDev[2]} off \
+     3>&1 1>&2 2>&3) 
+    Ret=$?  
+    if [[ $Ret == 1 ]]; then
+    echo "Aborting Install"
+    exit 1
+    elif [[ $Ret == 0 ]]; then
+      NetDev=${ListDev[$Fun-1]}    
+    fi
+  elif [[ $CountNetDev > 3 ]]; then              #4 or more use bash prompt
+    echo
+    echo "Network Devices detected:"
+    echo "$NetDev" | tr -s " " "\012"
+    echo -n "Type Network Device to use for DNS queries: "
+    read Choice
+    NetDev=$Choice
+    echo
+  fi
 }
 
 #Ask user which IP Version they are using on their network-----------
@@ -121,7 +164,7 @@ Check_File_Exists() {
   fi
 }
 
-#Install Applications------------------------------------------------
+#Install Packages----------------------------------------------------
 Install_Deb() {
   echo "Preparing to Install Deb Packages..."
   sleep 5s
@@ -137,7 +180,28 @@ Install_Deb() {
   echo
   echo "Installing Lighttpd and PHP5"
   sleep 2s
-  sudo apt-get -y install lighttpd php5-cgi php5-curl
+  sudo apt-get -y install lighttpd memcached php5-memcache php5-cgi php5-curl 
+  echo
+  echo "Restarting Lighttpd"
+  sudo service lighttpd restart
+}
+#--------------------------------------------------------------------
+Install_Dnf() {
+  echo "Preparing to Install RPM packages using Dnf..."
+  sleep 5s
+  sudo dnf update
+  echo
+  echo "Installing dependencies"
+  sleep 2s
+  sudo dnf -y install unzip
+  echo
+  echo "Installing Dnsmasq"
+  sleep 2s
+  sudo dnf -y install dnsmasq
+  echo
+  echo "Installing Lighttpd and PHP"
+  sleep 2s
+  sudo dnf -y install lighttpd memcached php-pecl-memcached php
   echo
 }
 #--------------------------------------------------------------------
@@ -155,13 +219,13 @@ Install_Pacman() {
   echo
   echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo pacman -S --noconfirm lighttpd php php-cgi
+  sudo pacman -S --noconfirm lighttpd php memcached php-memcache php-cgi 
   #Possible Bugfix - Need CURL package
   echo  
 }
 #--------------------------------------------------------------------
 Install_Yum() {
-  echo "Preparing to Install RPM packages..."
+  echo "Preparing to Install RPM packages using Yum..."
   sleep 5s
   sudo yum update
   echo
@@ -173,15 +237,35 @@ Install_Yum() {
   sleep 2s
   sudo yum -y install dnsmasq
   echo
-  echo "Installing Lighttpd and PHP5"
+  echo "Installing Lighttpd and PHP"
   sleep 2s
-  sudo yum -y install lighttpd php
+  sudo yum -y install lighttpd php memcached php-pecl-memcached
   echo
 }
 #--------------------------------------------------------------------
 Install_Zypper() {
   echo "Zypper package install not implemented yet.  Aborting."
   exit 2
+}
+#--------------------------------------------------------------------
+Install_Packages() {
+  if [ $(command -v apt-get) ]; then Install_Deb
+  elif [ $(command -v dnf) ]; then Install_Dnf
+  elif [ $(command -v yum) ]; then Install_Yum
+  elif [ $(command -v zypper) ]; then Install_Zypper
+  elif [ $(command -v pacman) ]; then Install_Pacman
+  else 
+    echo "Unable to work out which package manage is being used."
+    echo "Ensure you have the following packages installed:"
+    echo -e "\tdnsmasq"
+    echo -e "\tlighttpd"
+    echo -e "\tphp-cgi"
+    echo -e "\tphp-curl"
+    echo -e "\tphp-xcache"
+    echo -e "\tunzip"
+    echo
+    sleep 10s
+  fi
 }
 #Backup Configs------------------------------------------------------
 Backup_Conf() {
@@ -221,7 +305,6 @@ Download_WithWget() {
   
   sudo chown "$(whoami)":"$(whoami)" -hR "$InstallLoc"
 }
-
 #Setup Dnsmasq-------------------------------------------------------
 Setup_Dnsmasq() {
   #Copy config files modified for NoTrack
@@ -231,7 +314,18 @@ Setup_Dnsmasq() {
   
   Check_File_Exists "$InstallLoc/conf/lighttpd.conf"
   sudo cp "$InstallLoc/conf/lighttpd.conf" /etc/lighttpd/lighttpd.conf
-    
+  
+  #Configure FirewallD to Work With Dnsmasq
+  if [ $(command -v firewall-cmd) ]; then
+    echo "Creating Firewall Rules Using FirewallD"
+    if [ $(sudo firewall-cmd --query-service=dns) == "yes" ]; then
+      echo "Firewall rule DNS already exists! Skipping..."
+    else
+      echo "Firewall rule DNS has been added"
+      sudo firewall-cmd --permanent --add-service=dns    #Add firewall rule for dns connections
+    fi
+  fi
+
   #Finish configuration of dnsmasq config
   echo "Setting DNS Servers in /etc/dnsmasq.conf"
   sudo sed -i "s/server=changeme1/server=$DNSChoice1/" /etc/dnsmasq.conf
@@ -263,6 +357,24 @@ Setup_Lighttpd() {
   echo "Configuring Lighttpd"
   sudo usermod -a -G www-data "$(whoami)"        #Add www-data group rights to current user
   sudo lighty-enable-mod fastcgi fastcgi-php
+  
+  #Configure FirewallD to Work With Lighttpd
+  if [ $(command -v firewall-cmd) ]; then
+    echo "Creating Firewall Rules Using FirewallD"
+    if [ $(sudo firewall-cmd --query-service=http) == "yes" ]; then
+      echo "Firewall rule HTTP already exists! Skipping..."
+    else
+      echo "Firewall rule HTTP has been added"
+      sudo firewall-cmd --permanent --add-service=http    #Add firewall rule for http connections
+    fi
+
+    if [ $(sudo firewall-cmd --query-service=https) == "yes" ]; then
+      echo "Firewall rule HTTPS already exists! Skipping..."
+    else
+      echo "Firewall rule HTTPS has been added"
+      sudo firewall-cmd --permanent --add-service=https   #Add firewall rule for https connections
+    fi
+  fi
   
   if [ ! -d /var/www/html ]; then                #www/html folder will get created by Lighttpd install
     echo "Creating Web folder: /var/www/html"
@@ -313,11 +425,18 @@ Setup_NoTrack() {
     sudo mkdir "/etc/notrack"
   fi
   
+  if [ -e /etc/notrack/notrack.conf ]; then      #Remove old config file
+    echo "Removing old file: /etc/notrack/notrack.conf"
+    sudo rm /etc/notrack/notrack.conf
+  fi
   echo "Creating NoTrack config file: /etc/notrack/notrack.conf"
   sudo touch /etc/notrack/notrack.conf          #Create Config file
   echo "IPVersion = $IPVersion" | sudo tee /etc/notrack/notrack.conf
+  echo "NetDev = $NetDev" | sudo tee /etc/notrack/notrack.conf
   
+  echo
   echo "Setup of NoTrack complete"
+  echo
   echo
 }
 
@@ -326,7 +445,14 @@ if [ $InstallLoc == "/root/NoTrack" ]; then      #Change root folder to users fo
   InstallLoc="$(getent passwd $SUDO_USER | cut -d: -f6)/NoTrack"
 fi
 
+echo "NoTrack Install version: v$Version"
+echo
+
 Show_Welcome
+
+Ask_NetDev
+echo "Network Device set to: $NetDev"
+echo
 
 Ask_IPVersion
 echo "IPVersion set to: $IPVersion"
@@ -337,22 +463,7 @@ echo "Primary DNS Server set to: $DNSChoice1"
 echo "Secondary DNS Server set to: $DNSChoice2"
 echo 
 
-#Install Apps with the appropriate package manager
-if [ $(command -v apt-get) ]; then Install_Deb
-elif [ $(command -v yum) ]; then Install_Yum
-elif [ $(command -v zypper) ]; then Install_Zypper
-elif [ $(command -v pacman) ]; then Install_Pacman
-else 
-  echo "Unable to work out which package manage is being used."
-  echo "Ensure you have the following packages installed:"
-  echo -e "\tdnsmasq"
-  echo -e "\tlighttpd"
-  echo -e "\tphp5-cgi"
-  echo -e "\tphp5-curl"
-  echo -e "\tunzip"
-  echo
-  sleep 10s
-fi
+Install_Packages                                 #Install Apps with the appropriate package manager
 
 Backup_Conf                                      #Backup old config files
 
@@ -365,6 +476,12 @@ fi
 Setup_Dnsmasq
 Setup_Lighttpd
 Setup_NoTrack
+
+# Reload FirewallD to ensure new rules are functional
+if [ $(command -v firewall-cmd) ]; then
+  echo "Reloading FirewallD..."
+  sudo firewall-cmd --reload
+fi
 
 echo "Downloading List of Trackers"
 sudo /usr/local/sbin/notrack

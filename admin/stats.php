@@ -20,6 +20,9 @@ $TLDBlockList = array();
 $CommonSites = array('cloudfront.net','googleusercontent.com','googlevideo.com','akamaiedge.com','stackexchange.com');
 //CommonSites referres to websites that have a lot of subdomains which aren't necessarily relivent. In order to improve user experience we'll replace the subdomain of these sites with "*"
 
+$Mem = new Memcache;                             //Initiate Memcache
+$Mem->connect('localhost');
+
 //HTTP GET Variables-------------------------------------------------
 $SortCol = 0;
 if (isset($_GET['sort'])) {
@@ -137,6 +140,22 @@ function WriteLI($Character, $Start, $Active) {
 function WriteTH($Sort, $Dir, $Str) {
   global $ItemsPerPage, $StartPoint, $View;
   echo '<th><a href="?start='.$StartPoint.'&amp;count='.$ItemsPerPage.'&amp;sort='.$Sort.'&amp;dir='.$Dir.'&amp;v='.$View.'">'.$Str.'</a></th>';
+  return null;
+}
+
+//Load TLD Block List------------------------------------------------
+function Load_TLDBlockList() {
+//Blocklist is held in Memcache for 10 minutes
+  global $TLDBlockList, $Mem;
+  $TLDBlockList=$Mem->get('TLDBlockList');
+  if (! $TLDBlockList) {    
+    $FileHandle = fopen('/etc/notrack/domain-quick.list', 'r') or die('Error unable to open /etc/notrack/domain-quick.list');
+    while (!feof($FileHandle)) {
+      $TLDBlockList[] = trim(fgets($FileHandle));
+    }
+    fclose($FileHandle);
+    $Mem->set('TLDBlockList', $TLDBlockList, 0, 600);
+  }
   return null;
 }
 
@@ -268,6 +287,7 @@ function Read_Time_Blocked($FileHandle) {
   return null;
 }
 //Main---------------------------------------------------------------
+Load_TLDBlockList();                             //Load TLD Blocklist from memory or file
 
 //Open Log File------------------------------------------------------
 //Dnsmasq log line consists of:
@@ -294,12 +314,7 @@ else {
 }
 fclose($FileHandle);
 
-//Read Malicious TLD List--------------------------------------------
-$FileHandle = fopen('/etc/notrack/domain-quick.list', 'r') or die('Error unable to open /etc/notrack/domain-quick.list');
-while (!feof($FileHandle)) {
-  $TLDBlockList[] = trim(fgets($FileHandle));
-}
-fclose($FileHandle);
+
 
 //Sort Array of Domains from log file--------------------------------
 $SortedDomainList = array_count_values($DomainList);//Take a count of number of hits
